@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import axios from '@/lib/axios';
@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 
-export default function CheckoutSuccessPage() {
+function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const { clearCart } = useCartStore();
 
@@ -72,5 +72,19 @@ export default function CheckoutSuccessPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="max-w-3xl mx-auto px-6 py-16 text-center text-muted">
+          Finalizing your order...
+        </div>
+      }
+    >
+      <CheckoutSuccessContent />
+    </Suspense>
   );
 }
