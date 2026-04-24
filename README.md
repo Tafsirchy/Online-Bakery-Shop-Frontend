@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Project Environment Setup
+
+Create a `.env.local` in the client project using `.env.example` as reference:
+
+```bash
+NEXT_PUBLIC_API_URL=https://your-backend-domain.com/api
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_replace_with_your_key
+```
+
+## Deployment Checklist (Client + Server)
+
+1. In the server deployment environment, configure:
+	- `MONGO_URI`
+	- `STRIPE_SECRET_KEY`
+	- `CLIENT_URL` (frontend production URL)
+2. In the client deployment environment, configure:
+	- `NEXT_PUBLIC_API_URL`
+	- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+3. Seed your production database so product data exists for Best Sellers.
+4. Redeploy both server and client after environment updates.

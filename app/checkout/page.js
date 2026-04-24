@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { loadStripe } from '@stripe/stripe-js';
 import { useCartStore } from '@/store/useCartStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import axios from '@/lib/axios';
@@ -12,6 +13,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CreditCard, Truck, Tag, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null;
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -70,18 +75,31 @@ export default function CheckoutPage() {
         finalPrice: finalTotal
       };
 
-      const response = await axios.post('/orders', orderData);
-      
       if (paymentMethod === 'Stripe') {
-        // In a real app, redirect to Stripe checkout here
-        // For this demo, we'll just simulate success
-        alert('Redirecting to Stripe... (Simulated)');
+        if (!stripePromise) {
+          throw new Error('Stripe publishable key is missing');
+        }
+
+        const sessionResponse = await axios.post('/orders/checkout-session', orderData);
+        const stripe = await stripePromise;
+
+        if (!stripe) {
+          throw new Error('Failed to initialize Stripe');
+        }
+
+        const result = await stripe.redirectToCheckout({ sessionId: sessionResponse.data.sessionId });
+        if (result.error) {
+          throw new Error(result.error.message || 'Stripe checkout redirect failed');
+        }
+        return;
       }
+
+      const response = await axios.post('/orders', orderData);
 
       clearCart();
       router.push(`/customer/orders/${response.data.data._id}`);
     } catch (err) {
-      alert(err.response?.data?.message || 'Order placement failed');
+      alert(err.response?.data?.message || err.message || 'Order placement failed');
     } finally {
       setLoading(false);
     }
@@ -254,7 +272,7 @@ export default function CheckoutPage() {
           <div className="p-6 bg-sage/5 rounded-2xl border border-sage/20 flex gap-4">
             <Tag className="w-6 h-6 text-sage" />
             <p className="text-sm text-muted italic">
-              "Every order is baked fresh just for you. Thank you for supporting our artisanal bakery!"
+              &quot;Every order is baked fresh just for you. Thank you for supporting our artisanal bakery!&quot;
             </p>
           </div>
         </aside>

@@ -1,8 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5000/api/auth';
+import axios from '@/lib/axios';
 
 export const useAuthStore = create(
   persist(
@@ -15,7 +13,7 @@ export const useAuthStore = create(
       register: async (userData) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await axios.post(`${API_URL}/register`, userData);
+          const response = await axios.post('/auth/register', userData);
           set({ user: response.data.user, token: response.data.token, isLoading: false });
           return response.data;
         } catch (err) {
@@ -27,7 +25,7 @@ export const useAuthStore = create(
       login: async (userData) => {
         set({ isLoading: true, error: null });
         try {
-          const response = await axios.post(`${API_URL}/login`, userData);
+          const response = await axios.post('/auth/login', userData);
           set({ user: response.data.user, token: response.data.token, isLoading: false });
           return response.data;
         } catch (err) {
