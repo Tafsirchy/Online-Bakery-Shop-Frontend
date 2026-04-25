@@ -37,7 +37,7 @@ export default function HomeSweetBakery() {
           <div className="absolute top-10 right-10 w-16 h-16 bg-caramel rounded-full shadow-2xl opacity-80" />
 
           <div className="space-y-6">
-            <h2 className="text-5xl font-serif text-brown leading-tight">
+            <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">
               Home Sweet <br /> Bakery
             </h2>
             <p className="text-muted leading-relaxed text-lg max-w-md">

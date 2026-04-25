@@ -66,7 +66,7 @@ export default function ContactUs() {
           className="space-y-8"
         >
           <div className="space-y-4">
-            <h2 className="text-5xl font-serif text-brown">Get In Touch</h2>
+            <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Get In Touch</h2>
             <p className="text-muted leading-relaxed">
               Have a question or want to place a custom order? Drop us a message 
               and we'll get back to you as soon as our bread is out of the oven.

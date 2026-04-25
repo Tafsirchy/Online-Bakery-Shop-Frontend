@@ -7,13 +7,14 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { ShoppingBasket, User, LogOut, Menu } from 'lucide-react';
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -32,7 +33,10 @@ export default function Navbar() {
     if (role === 'manager') return '/management';
     return '/customer';
   };
-
+  const handleLogout = () => {
+    logout();
+    toast.info('Logged out. See you soon!', { icon: '👋' });
+  };
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop', path: '/shop' },
@@ -51,8 +55,8 @@ export default function Navbar() {
         {/* Desktop Links */}
         <div className="hidden md:flex gap-8 items-center text-muted font-medium">
           {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
+            <Link
+              key={link.path}
               href={link.path}
               className={`hover:text-brown transition-colors ${pathname === link.path ? 'text-brown font-bold' : ''}`}
             >
@@ -69,10 +73,10 @@ export default function Navbar() {
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 0.3 }}
           >
-            <Link href="/cart" className="relative p-2 text-brown hover:bg-cream-highlight rounded-xl transition-colors">
-              <ShoppingBasket className="w-6 h-6" />
+            <Link href="/cart" className="relative w-10 h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
+              <ShoppingBasket className="w-6 h-6 group-hover:scale-110 transition-transform" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-caramel text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-background">
+                <span className="absolute -top-1 -right-1 bg-caramel text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-background animate-in fade-in zoom-in duration-300">
                   {cartCount}
                 </span>
               )}
@@ -91,8 +95,8 @@ export default function Navbar() {
                 <DropdownMenuItem className="p-3 cursor-pointer">
                   <Link href="/profile" className="w-full">Profile Settings</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={logout}
+                <DropdownMenuItem
+                  onClick={handleLogout}
                   className="p-3 cursor-pointer text-red-500 focus:text-red-600 flex items-center gap-2"
                 >
                   <LogOut className="w-4 h-4" />
@@ -102,7 +106,7 @@ export default function Navbar() {
             </DropdownMenu>
           ) : (
             <Link href="/login">
-              <Button className="bg-sage hover:bg-brown-hover text-white rounded-xl px-6">
+              <Button className="bg-brown hover:bg-caramel text-white rounded-full px-8 h-11 font-bold shadow-soft transition-all active:scale-95 border-none">
                 Login
               </Button>
             </Link>

@@ -22,7 +22,7 @@ export default function ShopPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([0, 2000]);
   const [sortBy, setSortBy] = useState('-createdAt');
 
   const categories = ['all', 'Cakes', 'Pastries', 'Cookies', 'Bread', 'Offers'];
@@ -86,12 +86,12 @@ export default function ShopPage() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <Label className="text-sm font-bold uppercase tracking-wider text-muted">Price Range</Label>
-                  <span className="text-sm text-brown font-medium">${priceRange[1]}</span>
+                  <span className="text-sm text-brown font-medium">৳{priceRange[1]}</span>
                 </div>
                 <Slider 
                   value={priceRange} 
-                  max={100} 
-                  step={1} 
+                  max={5000} 
+                  step={10} 
                   onValueChange={setPriceRange}
                   className="[&>span:first-child]:bg-sage"
                 />
@@ -121,7 +121,7 @@ export default function ShopPage() {
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent className="bg-cream-highlight border-border-light rounded-xl">
-                  <SelectItem value="-createdAt">Newest First</SelectItem>
+                  <SelectItem value="-createdAt">Newest Arrival</SelectItem>
                   <SelectItem value="price">Price: Low to High</SelectItem>
                   <SelectItem value="-price">Price: High to Low</SelectItem>
                   <SelectItem value="-averageRating">Top Rated</SelectItem>
@@ -155,7 +155,7 @@ export default function ShopPage() {
                 onClick={() => {
                   setSearch('');
                   setCategory('all');
-                  setPriceRange([0, 100]);
+                  setPriceRange([0, 2000]);
                 }}
               >
                 Clear all filters

@@ -61,7 +61,7 @@ export default function Newsletter() {
               </div>
               <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">
                 Bread for the <br /> 
-                <span className="italic font-normal">curious soul.</span>
+                <span className="text-caramel">curious soul.</span>
               </h2>
               <p className="text-muted text-lg leading-relaxed max-w-md">
                 Get the baker's secret techniques, early access to workshops, 

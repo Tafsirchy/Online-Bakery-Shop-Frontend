@@ -27,8 +27,8 @@ export default function Home() {
         <FreshBakes />
         <BreadBanner />
         <Testimonials />
-        <ContactUs />
         <DeliveryMap />
+        <ContactUs />
         <Newsletter />
       </div>
     </PageWrapper>

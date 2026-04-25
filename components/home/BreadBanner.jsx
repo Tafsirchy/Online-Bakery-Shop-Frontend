@@ -9,25 +9,25 @@ export default function BreadBanner() {
     <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden my-24">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=1600" 
-          alt="Multiple Tastes" 
+        <img
+          src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=1600"
+          alt="Multiple Tastes"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-brown/40 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-cream-highlight/0 backdrop-blur-[1px]" />
       </div>
 
-      <div className="relative z-10 text-center text-white px-6 max-w-3xl space-y-8">
+      <div className="relative z-10 text-center px-6 max-w-3xl space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="space-y-4"
         >
-          <h2 className="text-5xl md:text-6xl font-serif leading-tight">One Bread, <br /> Multiple Taste</h2>
-          <p className="text-lg text-cream/90 leading-relaxed max-w-2xl mx-auto">
-            From sweet honey to rich chocolate and tangy jams—our artisanal loaves 
-            are the perfect canvas for your every craving. Discover the endless 
+          <h2 className="text-5xl md:text-6xl font-serif leading-tight text-white">One Bread, <br /> Multiple Taste</h2>
+          <p className="text-lg text-white leading-relaxed max-w-2xl mx-auto">
+            From sweet honey to rich chocolate and tangy jams—our artisanal loaves
+            are the perfect canvas for your every craving. Discover the endless
             possibilities of a single slice.
           </p>
         </motion.div>

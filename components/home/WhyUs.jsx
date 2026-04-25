@@ -69,7 +69,7 @@ export default function WhyUs() {
             <span className="text-caramel font-bold tracking-[0.3em] uppercase text-xs">Our Commitment</span>
             <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">
               Why our bakery <br /> 
-              <span className="italic font-normal">feels like home</span>
+              <span className="text-caramel">feels like home</span>
             </h2>
             <p className="text-muted text-lg max-w-md leading-relaxed">
               We don't just bake; we craft memories. From the first spark of dawn 

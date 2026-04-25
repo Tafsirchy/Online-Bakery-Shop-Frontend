@@ -18,7 +18,7 @@ export default function BreadBenefits() {
   return (
     <section className="py-24 px-6 max-w-7xl mx-auto overflow-hidden">
       <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
-        <h2 className="text-5xl font-serif text-brown">Benefits Of Breads</h2>
+        <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Benefits Of Breads</h2>
         <p className="text-muted leading-relaxed">
           More than just a staple, our artisanal bread is a powerhouse of nutrition and flavor. 
           Discover why our community loves our daily bakes.

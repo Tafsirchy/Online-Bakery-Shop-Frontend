@@ -1,39 +1,64 @@
 'use client';
 
+// Force Reload Stamp: 2026-04-25T21:33:00
 import Link from 'next/link';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Mail, MapPin, Phone, ArrowRight, Clock } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 export default function Footer() {
+  const quickLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Shop', path: '/shop' },
+    { name: 'Our Story', path: '/story' },
+    { name: 'Categories', path: '/categories' },
+    { name: 'Special Offers', path: '/offers' }
+  ];
+
+  // The specific cream color used in the logo "The Cozy"
+  const cozyColor = '#FFFBF2';
+
   return (
-    <footer className="bg-brown text-cream pt-20 pb-10">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="bg-brown text-cream pt-24 pb-12 overflow-hidden relative">
+      {/* Decorative background element */}
+      <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-caramel/10 rounded-full blur-[100px] pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
         {/* Brand Section */}
-        <div className="space-y-6">
-          <Link href="/" className="text-3xl font-serif font-bold tracking-tight">
-            The Cozy <span className="text-caramel">Bakery</span>
-          </Link>
-          <p className="text-cream/70 leading-relaxed">
-            Crafting artisanal delights with organic ingredients and traditional techniques. 
-            Bringing the warmth of our oven to your doorstep.
-          </p>
+        <div className="space-y-8">
+          <div className="space-y-4">
+            <Link href="/" style={{ color: cozyColor }} className="text-3xl font-serif font-bold tracking-tight inline-block">
+              The Cozy <span className="text-caramel">Bakery</span>
+            </Link>
+            <p className="text-cream/60 leading-relaxed text-sm max-w-xs">
+              Crafting artisanal delights with organic ingredients and traditional techniques. 
+              Bringing the warmth of our oven to your doorstep every single morning.
+            </p>
+          </div>
+          
           <div className="flex gap-4">
             {[FaFacebook, FaInstagram, FaTwitter].map((Icon, i) => (
-              <a key={i} href="#" className="p-2 bg-white/5 hover:bg-caramel rounded-full transition-colors group">
-                <Icon className="w-5 h-5 text-cream group-hover:scale-110 transition-transform" />
+              <a key={i} href="#" className="w-10 h-10 bg-white/5 hover:bg-caramel rounded-xl flex items-center justify-center transition-all duration-300 group shadow-sm">
+                <Icon className="w-5 h-5 text-cream/80 group-hover:text-white group-hover:scale-110 transition-transform" />
               </a>
             ))}
           </div>
         </div>
 
         {/* Quick Links */}
-        <div className="space-y-6">
-          <h4 className="text-xl font-serif font-bold">Quick Links</h4>
-          <ul className="space-y-3 text-cream/70">
-            {['Home', 'Shop', 'Our Story', 'Categories', 'Special Offers'].map((item) => (
-              <li key={item}>
-                <Link href={`/${item.toLowerCase().replace(' ', '-')}`} className="hover:text-caramel transition-colors">
-                  {item}
+        <div className="space-y-8">
+          <div className="relative">
+            <h4 style={{ color: cozyColor }} className="text-lg font-serif font-bold tracking-wide">Explore</h4>
+            <div className="absolute -bottom-2 left-0 w-8 h-[2px] bg-caramel" />
+          </div>
+          <ul className="space-y-4">
+            {quickLinks.map((link) => (
+              <li key={link.name}>
+                <Link 
+                  href={link.path} 
+                  className="text-cream/60 hover:text-caramel transition-all duration-300 flex items-center gap-2 group text-sm"
+                >
+                  <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  {link.name}
                 </Link>
               </li>
             ))}
@@ -41,54 +66,76 @@ export default function Footer() {
         </div>
 
         {/* Contact Info */}
-        <div className="space-y-6">
-          <h4 className="text-xl font-serif font-bold">Visit Us</h4>
-          <ul className="space-y-4 text-cream/70">
-            <li className="flex gap-3">
-              <MapPin className="w-5 h-5 text-caramel flex-shrink-0" />
-              <span>123 Baker Street, Artisanal District,<br />Dhaka, Bangladesh</span>
+        <div className="space-y-8">
+          <div className="relative">
+            <h4 style={{ color: cozyColor }} className="text-lg font-serif font-bold tracking-wide">Visit Us</h4>
+            <div className="absolute -bottom-2 left-0 w-8 h-[2px] bg-caramel" />
+          </div>
+          <ul className="space-y-6">
+            <li className="flex gap-4 items-start group cursor-default">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-caramel/20 transition-colors">
+                <MapPin className="w-5 h-5 text-caramel" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs font-bold uppercase tracking-widest text-cream/40">Location</p>
+                <p className="text-sm text-cream/70 leading-relaxed">123 Baker Street, Artisanal District,<br />Dhaka, Bangladesh</p>
+              </div>
             </li>
-            <li className="flex gap-3">
-              <Phone className="w-5 h-5 text-caramel flex-shrink-0" />
-              <span>+880 1234 567890</span>
+            <li className="flex gap-4 items-center group cursor-default">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-caramel/20 transition-colors">
+                <Phone className="w-5 h-5 text-caramel" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs font-bold uppercase tracking-widest text-cream/40">Phone</p>
+                <p className="text-sm text-cream/70">+880 1234 567890</p>
+              </div>
             </li>
-            <li className="flex gap-3">
-              <Mail className="w-5 h-5 text-caramel flex-shrink-0" />
-              <span>hello@cozybakery.com</span>
+            <li className="flex gap-4 items-center group cursor-default">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-caramel/20 transition-colors">
+                <Mail className="w-5 h-5 text-caramel" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs font-bold uppercase tracking-widest text-cream/40">Email</p>
+                <p className="text-sm text-cream/70">hello@cozybakery.com</p>
+              </div>
             </li>
           </ul>
         </div>
 
-        {/* Opening Hours */}
-        <div className="space-y-6">
-          <h4 className="text-xl font-serif font-bold">Baking Hours</h4>
-          <ul className="space-y-3 text-cream/70">
-            <li className="flex justify-between">
-              <span>Mon - Fri</span>
-              <span className="text-cream font-medium">8 AM - 9 PM</span>
-            </li>
-            <li className="flex justify-between">
-              <span>Saturday</span>
-              <span className="text-cream font-medium">9 AM - 10 PM</span>
-            </li>
-            <li className="flex justify-between">
-              <span>Sunday</span>
-              <span className="text-cream font-medium">10 AM - 6 PM</span>
-            </li>
-          </ul>
-          <div className="pt-4 p-4 bg-white/5 rounded-2xl border border-white/10 text-xs italic text-center">
-            "Fresh batches out every hour!"
+        {/* Baking Hours */}
+        <div className="space-y-8">
+          <div className="relative">
+            <h4 style={{ color: cozyColor }} className="text-lg font-serif font-bold tracking-wide">Baking Hours</h4>
+            <div className="absolute -bottom-2 left-0 w-8 h-[2px] bg-caramel" />
+          </div>
+          <div className="space-y-4 bg-white/5 p-6 rounded-3xl border border-white/5 relative overflow-hidden group">
+            <ul className="space-y-3 relative z-10">
+              {[
+                { day: 'Mon - Fri', time: '8 AM - 9 PM' },
+                { day: 'Sat - Sun', time: '9 AM - 10 PM' }
+              ].map((item) => (
+                <li key={item.day} className="flex justify-between items-center text-sm">
+                  <span className="text-cream/50">{item.day}</span>
+                  <span className="font-bold text-cream/90">{item.time}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="pt-4 border-t border-white/10 mt-4">
+              <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-caramel text-center">
+                Fresh out of the oven!
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-cream/40">
-        <p>© 2024 The Cozy Bakery. All rights reserved.</p>
-        <div className="flex gap-8">
-          <a href="#" className="hover:text-cream transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-cream transition-colors">Terms of Service</a>
-          <a href="#" className="hover:text-cream transition-colors">Cookie Policy</a>
+      <div className="max-w-7xl mx-auto px-6 mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-cream/30 tracking-widest">
+        <p className="uppercase">© 2024 The Cozy Bakery. Dhaka's Finest Artisanal Spot.</p>
+        <div className="flex gap-8 uppercase">
+          <a href="#" className="hover:text-caramel transition-colors">Privacy</a>
+          <a href="#" className="hover:text-caramel transition-colors">Terms</a>
+          <a href="#" className="hover:text-caramel transition-colors">Cookies</a>
         </div>
       </div>
     </footer>

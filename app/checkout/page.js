@@ -34,7 +34,7 @@ export default function CheckoutPage() {
   const [couponMessage, setCouponMessage] = useState({ type: '', text: '' });
 
   const subtotal = getTotalPrice();
-  const shippingFee = 5; // Flat fee for demo
+  const shippingFee = 60; // Flat fee for BD delivery
   const discountAmount = (subtotal * discount) / 100;
   const finalTotal = subtotal + shippingFee - discountAmount;
 
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
                         <p className="text-xs text-muted">Qty: {item.quantity}</p>
                       </div>
                     </div>
-                    <p className="text-sm font-bold text-brown">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-sm font-bold text-brown">৳{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
@@ -249,21 +249,21 @@ export default function CheckoutPage() {
               <div className="space-y-3 pt-6 border-t border-border-light">
                 <div className="flex justify-between text-muted">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>৳{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-muted">
                   <span>Shipping Fee</span>
-                  <span>${shippingFee.toFixed(2)}</span>
+                  <span>৳{shippingFee.toFixed(2)}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-sage font-medium">
                     <span>Discount ({discount}%)</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
+                    <span>-৳{discountAmount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-2xl font-serif text-brown pt-4 border-t-2 border-border-light">
                   <span>Total</span>
-                  <span>${finalTotal.toFixed(2)}</span>
+                  <span>৳{finalTotal.toFixed(2)}</span>
                 </div>
               </div>
             </CardContent>

@@ -20,8 +20,8 @@ export default function FreshBakes() {
           <div className="absolute top-0 left-0 w-12 h-12 bg-caramel rounded-full blur-xl opacity-60" />
           
           <div className="space-y-4 relative z-10">
-            <h2 className="text-5xl font-serif text-brown leading-tight">
-              Freshly Baked Bread <br /> Every Morning
+            <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">
+              Freshly Baked Bread <br /> <span className="text-caramel">Every Morning</span>
             </h2>
             <div className="w-4 h-4 bg-caramel rounded-full ml-auto mr-20 opacity-80" />
             <p className="text-muted leading-relaxed text-lg max-w-md">

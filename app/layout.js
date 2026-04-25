@@ -16,8 +16,7 @@ export const metadata = {
   description: "Freshly baked bread, pastries, and cakes delivered to your door.",
 };
 
-import Navbar from "@/components/shared/Navbar";
-import Footer from "@/components/shared/Footer";
+import AppChrome from "@/components/shared/AppChrome";
 
 export default function RootLayout({ children }) {
   return (
@@ -26,11 +25,7 @@ export default function RootLayout({ children }) {
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );

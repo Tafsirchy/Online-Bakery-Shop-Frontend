@@ -16,7 +16,7 @@ export default function Categories() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-end mb-12">
           <div className="space-y-2">
-            <h2 className="text-4xl font-serif text-brown">Browse by Category</h2>
+            <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Browse by Category</h2>
             <p className="text-muted">Find your favorite treat from our curated collections</p>
           </div>
           <Link href="/shop" className="text-caramel font-bold hover:underline">View All</Link>

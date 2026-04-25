@@ -37,9 +37,9 @@ export const generateInvoice = (order) => {
   order.products.forEach(item => {
     const productData = [
       item.name,
-      `$${item.price}`,
+      `TK ${item.price}`,
       item.quantity,
-      `$${(item.price * item.quantity).toFixed(2)}`
+      `TK ${(item.price * item.quantity).toFixed(2)}`
     ];
     tableRows.push(productData);
   });
@@ -55,15 +55,15 @@ export const generateInvoice = (order) => {
 
   // Totals
   const finalY = doc.lastAutoTable.finalY + 10;
-  doc.text(`Subtotal: $${order.totalPrice.toFixed(2)}`, 150, finalY);
+  doc.text(`Subtotal: TK ${order.totalPrice.toFixed(2)}`, 150, finalY);
   if (order.discount > 0) {
-    doc.text(`Discount: -$${order.discount.toFixed(2)}`, 150, finalY + 5);
+    doc.text(`Discount: -TK ${order.discount.toFixed(2)}`, 150, finalY + 5);
   }
-  doc.text(`Shipping: $5.00`, 150, finalY + 10);
+  doc.text(`Shipping: TK 60.00`, 150, finalY + 10);
   
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
-  doc.text(`Final Total: $${order.finalPrice.toFixed(2)}`, 150, finalY + 18);
+  doc.text(`Final Total: TK ${order.finalPrice.toFixed(2)}`, 150, finalY + 18);
 
   // Footer
   doc.setFontSize(10);
