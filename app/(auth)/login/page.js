@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '@/components/ui/button';
@@ -12,21 +12,42 @@ import { motion } from 'framer-motion';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formError, setFormError] = useState('');
   const { login, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const getDashboardPath = (role) => {
+    if (role === 'admin') return '/admin/products';
+    if (role === 'manager') return '/management';
+    return '/customer';
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formError) setFormError('');
     if (error) clearError();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(formData);
-      router.push('/');
+      const payload = {
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      };
+
+      const response = await login(payload);
+      const redirectTo = searchParams.get('redirect');
+
+      if (redirectTo) {
+        router.push(`/${redirectTo.replace(/^\/+/, '')}`);
+        return;
+      }
+
+      router.push(getDashboardPath(response?.user?.role));
     } catch (err) {
-      console.error(err);
+      setFormError(err.response?.data?.message || err.message || 'Login failed');
     }
   };
 
@@ -47,9 +68,9 @@ export default function LoginPage() {
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
-              {error && (
+              {(formError || error) && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg border border-red-100">
-                  {error}
+                  {formError || error}
                 </div>
               )}
               <div className="space-y-2">
@@ -89,7 +110,7 @@ export default function LoginPage() {
                 {isLoading ? 'Signing in...' : 'Sign In'}
               </Button>
               <p className="text-center text-muted">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/register" className="text-caramel hover:underline font-medium">
                   Register
                 </Link>

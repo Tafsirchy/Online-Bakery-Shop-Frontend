@@ -11,22 +11,47 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { motion } from 'framer-motion';
 
 export default function RegisterPage() {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [formError, setFormError] = useState('');
   const { register, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
 
+  const getDashboardPath = (role) => {
+    if (role === 'admin') return '/admin/products';
+    if (role === 'manager') return '/management';
+    return '/customer';
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (formError) setFormError('');
     if (error) clearError();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password.length < 6) {
+      setFormError('Password must be at least 6 characters long');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setFormError('Passwords do not match');
+      return;
+    }
+
     try {
-      await register(formData);
-      router.push('/');
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      };
+
+      const response = await register(payload);
+      router.push(getDashboardPath(response?.user?.role));
     } catch (err) {
-      console.error(err);
+      setFormError(err.response?.data?.message || err.message || 'Registration failed');
     }
   };
 
@@ -47,9 +72,9 @@ export default function RegisterPage() {
           </CardHeader>
           <form onSubmit={handleSubmit}>
             <CardContent className="space-y-4">
-              {error && (
+              {(formError || error) && (
                 <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg border border-red-100">
-                  {error}
+                  {formError || error}
                 </div>
               )}
               <div className="space-y-2">
@@ -84,8 +109,22 @@ export default function RegisterPage() {
                   id="password"
                   name="password"
                   type="password"
+                  minLength={6}
                   required
                   value={formData.password}
+                  onChange={handleChange}
+                  className="rounded-xl border-border-light focus-visible:ring-sage"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  minLength={6}
+                  required
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   className="rounded-xl border-border-light focus-visible:ring-sage"
                 />

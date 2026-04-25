@@ -8,7 +8,10 @@ export const useAuthStore = create(
       user: null,
       token: null,
       isLoading: false,
+      hasHydrated: false,
       error: null,
+
+      setHasHydrated: (value) => set({ hasHydrated: value }),
 
       register: async (userData) => {
         set({ isLoading: true, error: null });
@@ -34,6 +37,27 @@ export const useAuthStore = create(
         }
       },
 
+      checkAuth: async () => {
+        const { token } = get();
+
+        if (!token) {
+          set({ user: null, isLoading: false });
+          return null;
+        }
+
+        set({ isLoading: true, error: null });
+
+        try {
+          const response = await axios.get('/auth/me');
+          const currentUser = response.data.user || response.data.data || null;
+          set({ user: currentUser, isLoading: false });
+          return currentUser;
+        } catch (err) {
+          set({ user: null, token: null, isLoading: false, error: null });
+          return null;
+        }
+      },
+
       logout: () => {
         set({ user: null, token: null, error: null });
       },
@@ -42,6 +66,13 @@ export const useAuthStore = create(
     }),
     {
       name: 'auth-storage',
+      partialize: (state) => ({
+        user: state.user,
+        token: state.token,
+      }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

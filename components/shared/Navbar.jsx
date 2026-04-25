@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -16,9 +17,21 @@ import { motion } from 'framer-motion';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { user, logout } = useAuthStore();
+  const { user, logout, hasHydrated, checkAuth } = useAuthStore();
   const { getTotalItems } = useCartStore();
   const cartCount = getTotalItems();
+
+  useEffect(() => {
+    if (hasHydrated) {
+      checkAuth();
+    }
+  }, [hasHydrated, checkAuth]);
+
+  const getDashboardPath = (role) => {
+    if (role === 'admin') return '/admin/products';
+    if (role === 'manager') return '/management';
+    return '/customer';
+  };
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -73,7 +86,7 @@ export default function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 bg-cream-highlight border-border-light rounded-xl shadow-soft">
                 <DropdownMenuItem className="p-3 cursor-pointer">
-                  <Link href={`/${user.role}`} className="w-full">Dashboard</Link>
+                  <Link href={getDashboardPath(user.role)} className="w-full">Dashboard</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="p-3 cursor-pointer">
                   <Link href="/profile" className="w-full">Profile Settings</Link>

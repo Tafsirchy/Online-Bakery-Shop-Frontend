@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import { Star, Quote, Sparkles } from 'lucide-react';
 
 const reviews = [
   {
@@ -26,44 +26,75 @@ const reviews = [
 
 export default function Testimonials() {
   return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <div className="text-center mb-16 space-y-4">
-        <h2 className="text-5xl font-serif text-brown">Customers Testimonial</h2>
+    <section className="relative py-24 px-6 overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-12 h-80 w-80 -translate-x-1/2 rounded-full bg-caramel/12 blur-3xl" />
+        <div className="absolute -left-16 bottom-10 h-72 w-72 rounded-full bg-sage/14 blur-3xl" />
+        <div className="absolute -right-10 top-1/3 h-64 w-64 rounded-full bg-brown/8 blur-3xl" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {reviews.map((review, i) => (
-          <motion.div
-            key={review.name}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            viewport={{ once: true }}
-            className="bg-[#FFF8F0] p-10 rounded-[2.5rem] shadow-soft border border-brown/5 flex flex-col items-center text-center space-y-6 relative group hover:shadow-warm transition-shadow"
-          >
-            <div className="absolute top-6 left-6 text-caramel/20">
-              <Quote className="w-12 h-12 fill-current" />
-            </div>
-            
-            <p className="text-muted leading-relaxed italic relative z-10">
-              "{review.text}"
-            </p>
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center mb-14 space-y-5"
+        >
+          <p className="inline-flex items-center gap-2 rounded-full border border-caramel/30 bg-cream-highlight/80 px-4 py-1.5 text-[11px] tracking-[0.2em] uppercase text-brown/80">
+            <Sparkles className="h-3.5 w-3.5 text-caramel" />
+            Freshly Shared Stories
+          </p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl leading-tight text-brown">
+            Customer
+            <span className="mx-2 text-caramel">Love Notes</span>
+            From Our Oven
+          </h2>
+          <p className="max-w-2xl mx-auto text-sm sm:text-base text-muted leading-relaxed">
+            Every loaf and pastry carries a little joy. Here is what our regulars say
+            about the taste, warmth, and moments we bake into every order.
+          </p>
+        </motion.div>
 
-            <div className="flex gap-1 text-caramel">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-9">
+          {reviews.map((review, i) => (
+            <motion.div
+              key={review.name}
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.12, duration: 0.45 }}
+              viewport={{ once: true }}
+              className="relative rounded-[2rem] border border-brown/10 bg-gradient-to-br from-[#fffaf2] via-[#fff3de] to-[#fdf2df] p-8 sm:p-9 shadow-soft group"
+            >
+              <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_20%_20%,rgba(212,163,115,0.18),transparent_45%)] opacity-70" />
+              <div className="absolute right-5 top-5 text-caramel/25">
+                <Quote className="h-10 w-10 fill-current" />
+              </div>
 
-            <div className="pt-4 space-y-3">
-              <div className="w-16 h-16 rounded-full border-4 border-white shadow-md overflow-hidden mx-auto">
-                <img src={review.img} alt={review.name} className="w-full h-full object-cover" />
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="mb-6 flex gap-1.5 text-caramel">
+                  {[...Array(5)].map((_, starIndex) => (
+                    <Star key={starIndex} className="h-4 w-4 fill-current" />
+                  ))}
+                </div>
+
+                <p className="text-[15px] text-brown/85 leading-relaxed italic flex-1">
+                  &ldquo;{review.text}&rdquo;
+                </p>
+
+                <div className="mt-8 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full border-2 border-white shadow-md overflow-hidden shrink-0">
+                    <img src={review.img} alt={review.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-brown leading-none">{review.name}</h4>
+                    <p className="mt-1 text-[11px] text-muted uppercase tracking-[0.16em]">{review.role}</p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <h4 className="text-lg font-bold text-brown">{review.name}</h4>
-                <p className="text-xs text-muted uppercase tracking-widest">{review.role}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
