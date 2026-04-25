@@ -8,39 +8,40 @@ import Link from 'next/link';
 
 const FALLBACK_FEATURED_PRODUCTS = [
   {
-    _id: 'fallback-1',
+    _id: '64f1a2b3c4d5e6f7a8b9c0d1', // Valid-looking ObjectId
     name: 'Classic Sourdough',
-    price: 8.5,
+    price: 180,
     category: 'Bread',
     images: ['https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800'],
     averageRating: 4.8,
   },
   {
-    _id: 'fallback-2',
+    _id: '64f1a2b3c4d5e6f7a8b9c0d2',
     name: 'Velvet Chocolate Cake',
-    price: 35,
-    discountPrice: 28,
+    price: 2800,
+    discountPrice: 2200,
     category: 'Cakes',
     images: ['https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800'],
     averageRating: 4.9,
   },
   {
-    _id: 'fallback-3',
+    _id: '64f1a2b3c4d5e6f7a8b9c0d3',
     name: 'Almond Croissant',
-    price: 4.75,
+    price: 150,
     category: 'Pastries',
     images: ['https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800'],
     averageRating: 4.7,
   },
   {
-    _id: 'fallback-4',
+    _id: '64f1a2b3c4d5e6f7a8b9c0d4',
     name: 'Blueberry Muffin',
-    price: 3.5,
+    price: 120,
     category: 'Pastries',
     images: ['https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=800'],
     averageRating: 4.6,
   },
 ];
+
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState([]);
@@ -66,7 +67,7 @@ export default function FeaturedProducts() {
     <section className="py-24 px-6 max-w-7xl mx-auto">
       <div className="flex justify-between items-end mb-12">
         <div className="space-y-2">
-          <h2 className="text-4xl font-serif text-brown">Best Sellers</h2>
+          <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Best Sellers</h2>
           <p className="text-muted">Most loved treats by our community</p>
         </div>
         <Link href="/shop" className="text-caramel font-bold hover:underline">See Menu</Link>
