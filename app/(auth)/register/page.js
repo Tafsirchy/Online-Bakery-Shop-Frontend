@@ -1,29 +1,74 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { ShieldCheck, ArrowLeft, UserPlus, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from '@/lib/axios';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [formError, setFormError] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState({ score: 0, label: '', color: '' });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const getDashboardPath = (role) => {
-    if (role === 'admin') return '/admin/products';
-    if (role === 'manager') return '/management';
-    return '/customer';
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const { data } = await axios.post('/auth/google', { 
+          accessToken: tokenResponse.access_token 
+        });
+        
+        useAuthStore.getState().setAuth(data.user, data.token);
+        toast.success('Account created! Welcome to the family.', { icon: '🥖' });
+        router.push('/');
+      } catch (err) {
+
+        toast.error('Google registration failed');
+      }
+    },
+    onError: () => toast.error('Google Authentication Failed'),
+  });
+
+
+
+
+  const checkPasswordStrength = (pass) => {
+    let score = 0;
+    if (pass.length >= 8) score++;
+    if (/[A-Z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass)) score++;
+    if (/[^A-Za-z0-9]/.test(pass)) score++;
+
+    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    const colors = ['', 'bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-green-500'];
+
+    setPasswordStrength({
+      score,
+      label: labels[score],
+      color: colors[score]
+    });
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    
+    if (name === 'password') {
+      checkPasswordStrength(value);
+    }
+
     if (formError) setFormError('');
     if (error) clearError();
   };
@@ -32,12 +77,23 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (formData.password.length < 6) {
-      setFormError('Password must be at least 6 characters long');
+      const msg = 'Password must be at least 6 characters long';
+      setFormError(msg);
+      toast.warning(msg);
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setFormError('Passwords do not match');
+      const msg = 'Passwords do not match';
+      setFormError(msg);
+      toast.error(msg);
+      return;
+    }
+
+    if (passwordStrength.score < 2) {
+      const msg = 'Please use a stronger password (include numbers or symbols)';
+      setFormError(msg);
+      toast.warning(msg);
       return;
     }
 
@@ -48,106 +104,224 @@ export default function RegisterPage() {
         password: formData.password,
       };
 
-      const response = await register(payload);
-      router.push(getDashboardPath(response?.user?.role));
+      await register(payload);
+      toast.success('Account created! Welcome to the family.', {
+        icon: '🥖',
+      });
+      router.push('/');
     } catch (err) {
-      setFormError(err.response?.data?.message || err.message || 'Registration failed');
+      let msg = err.response?.data?.message || err.message || 'Registration failed';
+      if (msg.includes('ECONNREFUSED') || msg.includes('querySrv')) {
+        msg = 'Database Connection Failed. Please check your MongoDB connection.';
+      }
+      setFormError(msg);
+      toast.error(msg);
     }
   };
 
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-background">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
+    <div className="relative h-screen overflow-hidden bg-[#f8efe5] text-brown font-sans">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
+
+      {/* Back Button */}
+      <Link
+        href="/"
+        className="absolute top-4 left-4 z-50 flex items-center gap-2 rounded-full border border-brown/10 bg-white/40 px-4 py-1.5 text-xs font-medium text-brown backdrop-blur-md transition-all hover:bg-white/60 group"
       >
-        <Card className="border-border-light shadow-soft rounded-2xl bg-cream-highlight">
-          <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-3xl font-serif">Join Our Bakery</CardTitle>
-            <CardDescription className="text-muted text-lg">
-              Create an account to start your delicious journey.
-            </CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-4">
-              {(formError || error) && (
-                <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg border border-red-100">
-                  {formError || error}
+        <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
+        Back
+      </Link>
+
+      <div className="relative mx-auto flex h-full max-w-[1000px] w-full items-center justify-center p-2 sm:p-4">
+        <main className="relative grid h-[520px] w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[1.1fr_0.9fr]">
+
+          {/* Left Side: Form */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="flex h-full items-center justify-center px-6 py-4 sm:px-10"
+          >
+            <div className="w-full max-w-[340px] space-y-3">
+              <div className="text-center space-y-1">
+                <h1 className="text-2xl font-serif text-brown sm:text-3xl">Join Us</h1>
+                <p className="text-[11px] text-muted tracking-tight">Create an account to start your cozy journey.</p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-2">
+                {(formError || error) && (
+                  <div className="rounded-lg border border-red-200 bg-red-50 p-2 text-[10px] text-red-600">
+                    {formError || error}
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <Label htmlFor="name" className="text-[10px] text-brown/80 uppercase tracking-wider">Full Name</Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder="John Doe"
+                      required
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="h-9 rounded-xl border-caramel/45 bg-white/50 px-3 text-xs focus-visible:ring-caramel/55"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="email" className="text-[10px] text-brown/80 uppercase tracking-wider">Email</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="name@email.com"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="h-9 rounded-xl border-caramel/45 bg-white/50 px-3 text-xs focus-visible:ring-caramel/55"
+                    />
+                  </div>
                 </div>
-              )}
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="John Doe"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="rounded-xl border-border-light focus-visible:ring-sage"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="rounded-xl border-border-light focus-visible:ring-sage"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  minLength={6}
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="rounded-xl border-border-light focus-visible:ring-sage"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  minLength={6}
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="rounded-xl border-border-light focus-visible:ring-sage"
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
-              <Button 
-                type="submit" 
-                className="w-full py-6 rounded-xl bg-sage hover:bg-brown-hover transition-all duration-300"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Creating Account...' : 'Register'}
-              </Button>
-              <p className="text-center text-muted">
-                Already have an account?{' '}
-                <Link href="/login" className="text-caramel hover:underline font-medium">
-                  Sign In
-                </Link>
-              </p>
-            </CardFooter>
-          </form>
-        </Card>
-      </motion.div>
+
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password" className="text-[10px] text-brown/80 uppercase tracking-wider">Password</Label>
+                    {formData.password && (
+                      <span className={`text-[9px] font-bold px-1.5 rounded-full text-white ${passwordStrength.color}`}>
+                        {passwordStrength.label}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      name="password"
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="h-9 rounded-xl border-caramel/45 bg-white/50 pl-3 pr-9 text-xs focus-visible:ring-caramel/55"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-brown/40 hover:text-brown/70 transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                    </button>
+                  </div>
+                  {/* Strength Bar */}
+                  {formData.password && (
+                    <div className="flex gap-1 h-1 mt-1">
+                      {[1, 2, 3, 4].map((step) => (
+                        <div 
+                          key={step} 
+                          className={`flex-1 rounded-full transition-all duration-500 ${
+                            step <= passwordStrength.score ? passwordStrength.color : 'bg-gray-200'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="confirmPassword" className="text-[10px] text-brown/80 uppercase tracking-wider">Confirm Password</Label>
+                    {formData.confirmPassword && (
+                      <span className={`text-[9px] font-bold ${formData.password === formData.confirmPassword ? 'text-green-600' : 'text-red-500'}`}>
+                        {formData.password === formData.confirmPassword ? 'Match' : 'Mismatch'}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      required
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className={`h-9 rounded-xl border-caramel/45 bg-white/50 pl-3 pr-9 text-xs focus-visible:ring-caramel/55 ${
+                        formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-300 bg-red-50/30' : ''
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-brown/40 hover:text-brown/70 transition-colors"
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                    </button>
+                  </div>
+                </div>
+
+
+
+                <Button
+                  type="submit"
+                  className="mt-2 h-10 w-full rounded-full bg-caramel text-white hover:bg-[#c78f61] transition-all text-xs font-semibold"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Creating Account...' : 'Register'}
+                </Button>
+
+                <div className="relative py-1">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t border-brown/10" />
+                  </div>
+                  <div className="relative flex justify-center text-[9px] uppercase tracking-widest text-brown/40 bg-white px-2">
+                    Or sign up with
+                  </div>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-10 w-full rounded-full border-brown/10 bg-white hover:bg-brown/5 transition-all text-xs flex items-center justify-center gap-2"
+                  onClick={() => handleGoogleLogin()}
+                >
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-4 w-4" />
+                  Sign up with Google
+                </Button>
+
+
+                <p className="text-center text-[11px] text-brown/70 pt-1">
+                  Already have an account?{' '}
+                  <Link href="/login" className="font-bold text-caramel hover:underline">
+                    Sign in
+                  </Link>
+                </p>
+
+              </form>
+            </div>
+          </motion.div>
+
+          {/* Right Side: Visuals */}
+          <div className="relative hidden h-full overflow-hidden lg:block bg-[#fdfaf7]">
+            <motion.div
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="h-full w-full"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1587241321921-91a834d6d191?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Bakery Interior"
+                className="h-full w-full object-cover brightness-[0.95]"
+              />
+            </motion.div>
+
+            <div className="absolute inset-0 bg-gradient-to-l from-brown/30 to-transparent opacity-40" />
+            <div className="absolute bottom-6 right-6 max-w-[200px] text-right text-white drop-shadow-md">
+              <p className="font-serif text-lg leading-tight italic">Freshly baked dreams.</p>
+              <div className="mt-2 h-0.5 w-12 bg-white/80 ml-auto" />
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
