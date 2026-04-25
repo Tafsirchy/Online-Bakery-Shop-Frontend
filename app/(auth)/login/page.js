@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from '@/lib/axios';
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [formError, setFormError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -220,5 +220,22 @@ export default function LoginPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="relative h-screen overflow-hidden bg-[#f8efe5] text-brown font-sans">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
+          <div className="relative mx-auto flex h-full max-w-[1000px] w-full items-center justify-center p-2 sm:p-4 text-sm text-brown/70">
+            Loading login page...
+          </div>
+        </div>
+      }
+    >
+      <LoginPageContent />
+    </Suspense>
   );
 }

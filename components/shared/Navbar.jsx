@@ -85,22 +85,26 @@ export default function Navbar() {
 
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer">
-                <User className="w-6 h-6 text-brown" />
+              <DropdownMenuTrigger asChild>
+                <button type="button" aria-label="Open account menu" className="p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer">
+                  <User className="w-6 h-6 text-brown" />
+                </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48 bg-cream-highlight border-border-light rounded-xl shadow-soft">
-                <DropdownMenuItem className="p-3 cursor-pointer">
-                  <Link href={getDashboardPath(user.role)} className="w-full">Dashboard</Link>
+              <DropdownMenuContent align="end" className="w-52 rounded-2xl border border-border-light bg-white p-2 shadow-soft">
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl">
+                  <Link href={getDashboardPath(user.role)} className="w-full text-left">Dashboard</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="p-3 cursor-pointer">
-                  <Link href="/profile" className="w-full">Profile Settings</Link>
+                <DropdownMenuItem asChild className="cursor-pointer rounded-xl">
+                  <Link href="/profile" className="w-full text-left">Profile Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={handleLogout}
-                  className="p-3 cursor-pointer text-red-500 focus:text-red-600 flex items-center gap-2"
+                  className="cursor-pointer rounded-xl text-red-500 focus:text-red-600"
                 >
-                  <LogOut className="w-4 h-4" />
-                  Logout
+                  <span className="flex w-full items-center gap-2">
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

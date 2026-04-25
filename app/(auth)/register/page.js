@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,6 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
