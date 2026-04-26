@@ -141,38 +141,40 @@ export default function CustomerDashboard() {
   const getStageIndex = (status) => orderStages.indexOf(status);
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-brown/5">
-      {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-white border-r border-border-light flex flex-col pt-8 px-6 pb-6">
-        <h2 className="text-2xl font-serif text-brown font-bold mb-8 tracking-tight">Customer<br/>Portal</h2>
-        <nav className="space-y-2 flex-1">
-          <button 
-            onClick={() => setActiveTab('orders')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'orders' ? 'bg-sage text-white shadow-md' : 'text-muted hover:bg-cream-highlight hover:text-brown'}`}
-          >
-            <ShoppingBag className="w-5 h-5" />
-            <span className="font-medium">My Orders</span>
-          </button>
-          <button 
-            onClick={() => setActiveTab('profile')}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'profile' ? 'bg-sage text-white shadow-md' : 'text-muted hover:bg-cream-highlight hover:text-brown'}`}
-          >
-            <User className="w-5 h-5" />
-            <span className="font-medium">Profile Settings</span>
-          </button>
-        </nav>
-        <Button 
-          variant="ghost" 
-          onClick={() => window.location.href = '/'}
-          className="w-full justify-start text-muted hover:text-brown gap-3 mt-auto rounded-xl"
-        >
-          <Home className="w-5 h-5" />
-          Back to Store
-        </Button>
-      </aside>
+    <div className="flex flex-col min-h-screen bg-brown/5">
+      {/* Top Navigation / Tabs */}
+      <div className="bg-white border-b border-border-light sticky top-0 z-10 px-6 py-4 shadow-sm">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <h2 className="text-2xl font-serif text-brown font-bold tracking-tight">Customer Portal</h2>
+          <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto no-scrollbar">
+            <button 
+              onClick={() => setActiveTab('orders')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all whitespace-nowrap ${activeTab === 'orders' ? 'bg-sage text-white shadow-md' : 'text-muted hover:bg-cream-highlight hover:text-brown font-medium'}`}
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span>My Orders</span>
+            </button>
+            <button 
+              onClick={() => setActiveTab('profile')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all whitespace-nowrap ${activeTab === 'profile' ? 'bg-sage text-white shadow-md' : 'text-muted hover:bg-cream-highlight hover:text-brown font-medium'}`}
+            >
+              <User className="w-4 h-4" />
+              <span>Profile Settings</span>
+            </button>
+            <Button 
+              variant="ghost" 
+              onClick={() => window.location.href = '/'}
+              className="rounded-full text-muted hover:text-brown whitespace-nowrap ml-2"
+            >
+              <Home className="w-4 h-4 mr-2" />
+              Store
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10 overflow-y-auto max-h-screen">
+      <main className="flex-1 p-6 md:p-10 overflow-y-auto">
         <AnimatePresence mode="wait">
           {activeTab === 'orders' && (
             <motion.div 
@@ -443,7 +445,7 @@ export default function CustomerDashboard() {
                 ) : (
                   <div className="relative">
                     {/* Stepper Line */}
-                    <div className="absolute top-6 left-10 right-10 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="absolute top-[26px] left-10 right-10 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <motion.div 
                         className="h-full bg-sage"
                         initial={{ width: 0 }}

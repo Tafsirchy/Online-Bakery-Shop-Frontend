@@ -24,7 +24,7 @@ export default function Hero() {
             className="space-y-6"
           >
             <span className="inline-block px-5 py-2 rounded-full bg-caramel/10 border border-caramel/20 text-caramel text-xs font-bold tracking-[0.2em] uppercase">
-              Est. 2024 • Artisanal & Organic
+              Est. 2026 • Artisanal & Organic
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-brown leading-[1.1]">
               Baking the World

@@ -186,22 +186,19 @@ export default function WhyUs() {
 
       {/* Feature Detail Modal */}
       <Dialog open={!!selectedFeature} onOpenChange={(open) => !open && setSelectedFeature(null)}>
-        <DialogContent className="max-w-md rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl">
+        <DialogContent className="w-[400px] h-[400px] rounded-full p-0 overflow-hidden border-none shadow-2xl flex flex-col justify-center items-center bg-white text-center relative mx-auto">
           {selectedFeature && (
-            <div className="flex flex-col bg-white">
-              <div className="h-48 relative overflow-hidden">
+            <div className="flex flex-col items-center justify-center p-8 w-full h-full relative z-10">
+              <div className="absolute inset-0 opacity-10 pointer-events-none">
                 <img src={selectedFeature.img} alt={selectedFeature.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/20" />
               </div>
-              <div className="p-8 text-center relative">
-                <div className={`absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 ${selectedFeature.color} bg-white rounded-full flex items-center justify-center border-4 border-white shadow-warm`}>
-                  <selectedFeature.icon className="w-8 h-8" />
-                </div>
-                <h3 className="text-2xl font-serif text-brown mt-6 mb-4">{selectedFeature.title}</h3>
-                <p className="text-muted leading-relaxed text-[15px]">
-                  {selectedFeature.desc}
-                </p>
+              <div className={`w-20 h-20 ${selectedFeature.color} bg-white rounded-full flex items-center justify-center shadow-warm mb-4 relative z-10`}>
+                <selectedFeature.icon className="w-8 h-8" />
               </div>
+              <h3 className="text-2xl font-serif text-brown mb-4 relative z-10">{selectedFeature.title}</h3>
+              <p className="text-muted leading-relaxed text-[14px] relative z-10 max-w-[85%]">
+                {selectedFeature.desc}
+              </p>
             </div>
           )}
         </DialogContent>
