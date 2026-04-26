@@ -28,7 +28,16 @@ export default function ShopPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [priceRange, setPriceRange] = useState([0, 2000]);
-  const [sortBy, setSortBy] = useState('-createdAt');
+  const [sortBy, setSortBy] = useState('-averageRating');
+  
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const catFromUrl = searchParams.get('category');
+    if (catFromUrl) {
+      setCategory(catFromUrl);
+    }
+  }, [searchParams]);
   
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -140,10 +149,9 @@ export default function ShopPage() {
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent className="bg-cream-highlight border-border-light rounded-xl">
-                  <SelectItem value="-createdAt">Newest Arrival</SelectItem>
+                  <SelectItem value="-averageRating">Top Rated</SelectItem>
                   <SelectItem value="price">Price: Low to High</SelectItem>
                   <SelectItem value="-price">Price: High to Low</SelectItem>
-                  <SelectItem value="-averageRating">Top Rated</SelectItem>
                 </SelectContent>
               </Select>
             </div>
