@@ -134,15 +134,6 @@ export default function Navbar() {
                   <span className="font-medium">Dashboard</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => router.push('/profile')}
-                  className="cursor-pointer rounded-xl py-3 px-4 flex items-center gap-3 text-brown hover:bg-cream-highlight transition-colors"
-                >
-                  <div className="w-8 h-8 rounded-lg bg-caramel/10 flex items-center justify-center">
-                    <User className="w-4 h-4 text-caramel" />
-                  </div>
-                  <span className="font-medium">Profile Settings</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
                   onClick={handleLogout}
                   className="cursor-pointer rounded-xl py-3 px-4 flex items-center gap-3 text-red-500 focus:text-red-600 focus:bg-red-50 transition-colors mt-1"
                 >
