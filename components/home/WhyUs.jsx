@@ -186,7 +186,7 @@ export default function WhyUs() {
 
       {/* Feature Detail Modal */}
       <Dialog open={!!selectedFeature} onOpenChange={(open) => !open && setSelectedFeature(null)}>
-        <DialogContent className="w-[400px] h-[400px] rounded-full p-0 overflow-hidden border-none shadow-2xl flex flex-col justify-center items-center bg-white text-center relative mx-auto">
+        <DialogContent className="w-[400px] h-[400px] rounded-full p-0 overflow-hidden border-none shadow-2xl flex flex-col justify-center items-center bg-white text-center">
           {selectedFeature && (
             <div className="flex flex-col items-center justify-center p-8 w-full h-full relative z-10">
               <div className="absolute inset-0 opacity-10 pointer-events-none">

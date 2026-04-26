@@ -144,8 +144,7 @@ export default function CustomerDashboard() {
     <div className="flex flex-col min-h-screen bg-brown/5">
       {/* Top Navigation / Tabs */}
       <div className="bg-white border-b border-border-light sticky top-0 z-10 px-6 py-4 shadow-sm">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <h2 className="text-2xl font-serif text-brown font-bold tracking-tight">Customer Portal</h2>
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4">
           <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto no-scrollbar">
             <button 
               onClick={() => setActiveTab('orders')}
@@ -417,7 +416,7 @@ export default function CustomerDashboard() {
 
       {/* Track Order Modal */}
       <Dialog open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
-        <DialogContent className="max-w-2xl rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl">
+        <DialogContent className="w-full max-w-lg md:max-w-2xl rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl bg-white max-h-[90vh] overflow-y-auto">
           {selectedOrder && (
             <div className="bg-white">
               <div className="p-8 bg-cream-highlight border-b border-border-light flex justify-between items-center">
