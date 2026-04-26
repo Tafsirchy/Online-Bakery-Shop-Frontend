@@ -59,6 +59,20 @@ function CustomerDashboardContent() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [cancelLoading, setCancelLoading] = useState(false);
 
+  // Form Change Tracking
+  const isProfileChanged = useMemo(() => {
+    if (!authUser) return false;
+    return (
+      profileData.name !== (authUser.name || '') ||
+      profileData.phone !== (authUser.phone || '') ||
+      profileData.address !== (authUser.address || '')
+    );
+  }, [profileData, authUser]);
+
+  const isPasswordReady = useMemo(() => {
+    return passwordData.currentPassword.trim() !== '' && passwordData.newPassword.length >= 6;
+  }, [passwordData]);
+
   useEffect(() => {
     if (authUser) {
       setProfileData({ 
@@ -391,7 +405,15 @@ function CustomerDashboardContent() {
                           onChange={e => setProfileData({...profileData, address: e.target.value})}
                         />
                       </div>
-                      <Button type="submit" className="w-full h-12 rounded-xl bg-sage hover:bg-brown text-white font-bold shadow-md transition-all active:scale-[0.98]" disabled={profileLoading}>
+                      <Button 
+                        type="submit" 
+                        className={`w-full h-12 rounded-xl font-bold shadow-md transition-all ${
+                          isProfileChanged && !profileLoading 
+                            ? 'bg-sage hover:bg-brown text-white active:scale-[0.98]' 
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'
+                        }`} 
+                        disabled={!isProfileChanged || profileLoading}
+                      >
                         {profileLoading ? 'Saving...' : 'Save Profile Details'}
                       </Button>
                     </form>
@@ -427,7 +449,15 @@ function CustomerDashboardContent() {
                           onChange={e => setPasswordData({...passwordData, newPassword: e.target.value})}
                         />
                       </div>
-                      <Button type="submit" className="w-full rounded-xl bg-caramel hover:bg-brown text-white" disabled={passwordLoading}>
+                      <Button 
+                        type="submit" 
+                        className={`w-full h-12 rounded-xl font-bold shadow-md transition-all ${
+                          isPasswordReady && !passwordLoading 
+                            ? 'bg-caramel hover:bg-brown text-white active:scale-[0.98]' 
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'
+                        }`} 
+                        disabled={!isPasswordReady || passwordLoading}
+                      >
                         {passwordLoading ? 'Updating...' : 'Update Password'}
                       </Button>
                     </form>

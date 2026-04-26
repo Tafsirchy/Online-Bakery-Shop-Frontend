@@ -20,7 +20,7 @@ export default function BreadBenefits() {
       <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
         <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Benefits Of Breads</h2>
         <p className="text-muted leading-relaxed">
-          More than just a staple, our artisanal bread is a powerhouse of nutrition and flavor. 
+          More than just a staple, our artisanal bread is a powerhouse of nutrition and flavor.
           Discover why our community loves our daily bakes.
         </p>
       </div>
@@ -51,9 +51,9 @@ export default function BreadBenefits() {
           className="relative flex justify-center items-center"
         >
           <div className="absolute inset-0 bg-caramel/5 rounded-full blur-[80px]" />
-          <motion.img 
-            src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800" 
-            alt="Round Sourdough" 
+          <motion.img
+            src="https://images.unsplash.com/photo-1695150455847-a34429ebfaca?q=80&w=695&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Round Sourdough"
             animate={{ y: [0, -15, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
             className="relative z-10 w-full max-w-[420px] aspect-square object-cover rounded-full border-8 border-white shadow-2xl drop-shadow-2xl"
