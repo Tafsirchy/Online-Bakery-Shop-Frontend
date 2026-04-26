@@ -16,6 +16,9 @@ export const useWishlistStore = create(
           set({ wishlist: res.data.data });
         } catch (err) {
           console.error('Failed to fetch wishlist', err);
+          if (err.response?.status === 401) {
+            set({ wishlist: [] });
+          }
         }
       },
 

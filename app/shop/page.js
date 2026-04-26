@@ -143,11 +143,12 @@ function ShopContent() {
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <Label className="hidden sm:block text-sm text-muted whitespace-nowrap">Sort by:</Label>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-full sm:w-40 rounded-xl border-border-light">
+                <SelectTrigger className="w-full sm:w-48 rounded-xl border-border-light bg-white/50">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent className="bg-cream-highlight border-border-light rounded-xl">
                   <SelectItem value="-averageRating">Top Rated</SelectItem>
+                  <SelectItem value="-createdAt">Newest Arrival</SelectItem>
                   <SelectItem value="price">Price: Low to High</SelectItem>
                   <SelectItem value="-price">Price: High to Low</SelectItem>
                 </SelectContent>
