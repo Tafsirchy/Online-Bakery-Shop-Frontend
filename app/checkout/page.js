@@ -129,7 +129,7 @@ export default function CheckoutPage() {
       const response = await axios.post('/orders', orderData);
 
       clearCart();
-      router.push(`/customer/orders/${response.data.data._id}`);
+      router.push(`/shop?cod_success=true&orderId=${response.data.data._id}`);
     } catch (err) {
       const serverMessage = err.response?.data?.message || err.message || 'Order placement failed';
 

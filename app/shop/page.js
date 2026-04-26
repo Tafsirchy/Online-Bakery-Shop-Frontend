@@ -186,11 +186,17 @@ function PaymentSuccessModal() {
   const [message, setMessage] = useState('Finalizing your payment...');
 
   const isSuccess = searchParams.get('payment_success');
+  const isCodSuccess = searchParams.get('cod_success');
   const orderId = searchParams.get('orderId');
   const sessionId = searchParams.get('session_id');
 
   useEffect(() => {
-    if (isSuccess === 'true' && orderId && sessionId && !isOpen) {
+    if (isCodSuccess === 'true' && orderId && !isOpen) {
+      setIsOpen(true);
+      setIsLoading(false);
+      setMessage('Order placed successfully! You will pay via Cash on Delivery when it arrives.');
+      clearCart();
+    } else if (isSuccess === 'true' && orderId && sessionId && !isOpen) {
       setIsOpen(true);
       const finalizePayment = async () => {
         try {
@@ -205,7 +211,7 @@ function PaymentSuccessModal() {
       };
       finalizePayment();
     }
-  }, [isSuccess, orderId, sessionId, clearCart, isOpen]);
+  }, [isSuccess, isCodSuccess, orderId, sessionId, clearCart, isOpen]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -219,7 +225,9 @@ function PaymentSuccessModal() {
           <div className="mx-auto w-16 h-16 rounded-full bg-sage/10 text-sage flex items-center justify-center mb-2">
             <CheckCircle2 className="w-10 h-10" />
           </div>
-          <DialogTitle className="text-3xl font-serif text-brown text-center">Payment Status</DialogTitle>
+          <DialogTitle className="text-3xl font-serif text-brown text-center">
+            {isCodSuccess === 'true' ? 'Order Confirmed' : 'Payment Status'}
+          </DialogTitle>
         </DialogHeader>
         <div className="space-y-8 text-center mt-4">
           <p className="text-muted/90 text-lg">
