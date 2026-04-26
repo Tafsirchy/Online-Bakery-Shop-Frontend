@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
@@ -8,7 +9,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
+  const [isMounted, setIsMounted] = useState(false);
   const totalPrice = getTotalPrice();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   if (items.length === 0) {
     return (

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useCartStore } from '@/store/useCartStore';
 import { Button } from '@/components/ui/button';
@@ -18,15 +19,22 @@ import { toast } from 'react-toastify';
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logout, hasHydrated, checkAuth } = useAuthStore();
   const { getTotalItems } = useCartStore();
   const cartCount = getTotalItems();
+  const [isMounted, setIsMounted] = useState(false);
+  const safeCartCount = isMounted ? cartCount : 0;
 
   useEffect(() => {
     if (hasHydrated) {
       checkAuth();
     }
   }, [hasHydrated, checkAuth]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const getDashboardPath = (role) => {
     if (role === 'admin') return '/admin/products';
@@ -68,16 +76,16 @@ export default function Navbar() {
         {/* Icons / Auth */}
         <div className="flex items-center gap-4">
           <motion.div
-            key={cartCount}
+            key={safeCartCount}
             initial={{ scale: 1 }}
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 0.3 }}
           >
             <Link href="/cart" className="relative w-10 h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
               <ShoppingBasket className="w-6 h-6 group-hover:scale-110 transition-transform" />
-              {cartCount > 0 && (
+              {safeCartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-caramel text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-background animate-in fade-in zoom-in duration-300">
-                  {cartCount}
+                  {safeCartCount}
                 </span>
               )}
             </Link>
@@ -85,17 +93,25 @@ export default function Navbar() {
 
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button type="button" aria-label="Open account menu" className="p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer">
-                  <User className="w-6 h-6 text-brown" />
-                </button>
+              <DropdownMenuTrigger
+                type="button"
+                aria-label="Open account menu"
+                className="p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer"
+              >
+                <User className="w-6 h-6 text-brown" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-52 rounded-2xl border border-border-light bg-white p-2 shadow-soft">
-                <DropdownMenuItem asChild className="cursor-pointer rounded-xl">
-                  <Link href={getDashboardPath(user.role)} className="w-full text-left">Dashboard</Link>
+                <DropdownMenuItem
+                  onClick={() => router.push(getDashboardPath(user.role))}
+                  className="cursor-pointer rounded-xl"
+                >
+                  Dashboard
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild className="cursor-pointer rounded-xl">
-                  <Link href="/profile" className="w-full text-left">Profile Settings</Link>
+                <DropdownMenuItem
+                  onClick={() => router.push('/profile')}
+                  className="cursor-pointer rounded-xl"
+                >
+                  Profile Settings
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={handleLogout}

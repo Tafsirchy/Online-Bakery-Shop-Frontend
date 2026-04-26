@@ -11,7 +11,7 @@ export default function Footer() {
     { name: 'Shop', path: '/shop' },
     { name: 'Our Story', path: '/story' },
     { name: 'Categories', path: '/categories' },
-    { name: 'Special Offers', path: '/offers' }
+    { name: 'Special Offers', path: '/shop' }
   ];
 
   // The specific cream color used in the logo "The Cozy"

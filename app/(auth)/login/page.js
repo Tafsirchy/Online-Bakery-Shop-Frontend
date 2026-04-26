@@ -138,6 +138,7 @@ function LoginPageContent() {
                     type="email"
                     placeholder="name@example.com"
                     required
+                    autoComplete="username"
                     value={formData.email}
                     onChange={handleChange}
                     className="h-10 rounded-full border-caramel/45 bg-white/50 px-4 text-sm focus-visible:ring-caramel/55"
@@ -158,6 +159,7 @@ function LoginPageContent() {
                       name="password"
                       type={showPassword ? 'text' : 'password'}
                       required
+                      autoComplete="current-password"
                       value={formData.password}
                       onChange={handleChange}
                       className="h-10 rounded-full border-caramel/45 bg-white/50 pl-4 pr-10 text-sm focus-visible:ring-caramel/55"

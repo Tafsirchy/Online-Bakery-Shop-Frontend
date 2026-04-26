@@ -17,17 +17,18 @@ function CheckoutSuccessContent() {
   const [message, setMessage] = useState('Finalizing your payment...');
 
   const orderId = useMemo(() => searchParams.get('orderId'), [searchParams]);
+  const sessionId = useMemo(() => searchParams.get('session_id'), [searchParams]);
 
   useEffect(() => {
     const finalizePayment = async () => {
-      if (!orderId) {
+      if (!orderId || !sessionId) {
         setMessage('Payment completed. We could not verify the order ID from the URL.');
         setIsLoading(false);
         return;
       }
 
       try {
-        await axios.put(`/orders/${orderId}/mark-paid`);
+        await axios.put(`/orders/${orderId}/mark-paid`, { sessionId });
         clearCart();
         setMessage('Payment successful! Your order is confirmed and now processing.');
       } catch (err) {
@@ -38,7 +39,7 @@ function CheckoutSuccessContent() {
     };
 
     finalizePayment();
-  }, [orderId, clearCart]);
+  }, [orderId, sessionId, clearCart]);
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-16">
@@ -65,7 +66,7 @@ function CheckoutSuccessContent() {
             <Link href="/shop">
               <Button variant="outline" className="rounded-xl border-border-light">Continue Shopping</Button>
             </Link>
-            <Link href="/dashboard/customer">
+            <Link href="/customer">
               <Button className="rounded-xl bg-sage hover:bg-brown-hover">Go to Dashboard</Button>
             </Link>
           </div>

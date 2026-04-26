@@ -13,7 +13,11 @@ export default function ProductCard({ product }) {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    addToCart(product);
+    const added = addToCart(product);
+    if (!added) {
+      toast.error('This product cannot be added right now. Please refresh and try again.');
+      return;
+    }
     toast.success(`${product.name} added to cart!`, {
       icon: '🛒',
       position: "bottom-right"
@@ -22,7 +26,11 @@ export default function ProductCard({ product }) {
 
   const handleBuyNow = (e) => {
     e.stopPropagation();
-    addToCart(product);
+    const added = addToCart(product);
+    if (!added) {
+      toast.error('This product cannot be purchased right now.');
+      return;
+    }
     router.push('/checkout');
   };
 

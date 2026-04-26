@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCartStore } from '@/store/useCartStore';
@@ -18,10 +18,13 @@ const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
   : null;
 
+const isValidObjectId = (value) => /^[a-fA-F0-9]{24}$/.test(String(value || ''));
+
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, getTotalPrice, clearCart } = useCartStore();
+  const { items, getTotalPrice, clearCart, removeInvalidItems, removeFromCart } = useCartStore();
   const { user } = useAuthStore();
+  const [isMounted, setIsMounted] = useState(false);
   
   const [shippingInfo, setShippingInfo] = useState({
     street: '', city: '', zipCode: '', country: 'Bangladesh'
@@ -37,6 +40,22 @@ export default function CheckoutPage() {
   const shippingFee = 60; // Flat fee for BD delivery
   const discountAmount = (subtotal * discount) / 100;
   const finalTotal = subtotal + shippingFee - discountAmount;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && items.length === 0) {
+      router.replace('/cart');
+    }
+  }, [isMounted, items.length, router]);
+
+  useEffect(() => {
+    if (isMounted) {
+      removeInvalidItems();
+    }
+  }, [isMounted, removeInvalidItems]);
 
   const handleApplyCoupon = async () => {
     if (!couponCode) return;
@@ -66,13 +85,22 @@ export default function CheckoutPage() {
 
     setLoading(true);
     try {
+      const sanitizedProducts = items
+        .filter((item) => isValidObjectId(item.productId))
+        .map((item) => ({
+          productId: String(item.productId),
+          quantity: Math.max(1, Math.floor(Number(item.quantity || 1))),
+        }));
+
+      if (sanitizedProducts.length === 0) {
+        throw new Error('Your cart has invalid products. Please re-add items from the shop.');
+      }
+
       const orderData = {
-        products: items,
+        products: sanitizedProducts,
         shippingAddress: shippingInfo,
         paymentMethod,
-        totalPrice: subtotal,
-        discount: discountAmount,
-        finalPrice: finalTotal
+        couponCode: couponCode || undefined
       };
 
       if (paymentMethod === 'Stripe') {
@@ -81,15 +109,19 @@ export default function CheckoutPage() {
         }
 
         const sessionResponse = await axios.post('/orders/checkout-session', orderData);
-        const stripe = await stripePromise;
 
-        if (!stripe) {
-          throw new Error('Failed to initialize Stripe');
+        const unavailableIds = Array.isArray(sessionResponse.data?.warnings)
+          ? sessionResponse.data.warnings
+          : [];
+
+        if (unavailableIds.length > 0) {
+          unavailableIds.forEach((productId) => removeFromCart(productId));
         }
 
-        const result = await stripe.redirectToCheckout({ sessionId: sessionResponse.data.sessionId });
-        if (result.error) {
-          throw new Error(result.error.message || 'Stripe checkout redirect failed');
+        if (sessionResponse.data?.sessionUrl) {
+          window.location.href = sessionResponse.data.sessionUrl;
+        } else {
+          throw new Error('Failed to create Stripe session URL');
         }
         return;
       }
@@ -99,14 +131,28 @@ export default function CheckoutPage() {
       clearCart();
       router.push(`/customer/orders/${response.data.data._id}`);
     } catch (err) {
-      alert(err.response?.data?.message || err.message || 'Order placement failed');
+      const serverMessage = err.response?.data?.message || err.message || 'Order placement failed';
+
+      // If backend reports missing products, remove them from cart and return user to cart page.
+      if (typeof serverMessage === 'string' && serverMessage.startsWith('Some products are unavailable:')) {
+        const unavailableIds = serverMessage.match(/[a-fA-F0-9]{24}/g) || [];
+
+        if (unavailableIds.length > 0) {
+          unavailableIds.forEach((productId) => removeFromCart(productId));
+        }
+
+        alert('All items in your cart are unavailable right now. Please return to the shop.');
+        router.replace('/cart');
+        return;
+      }
+
+      alert(serverMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  if (items.length === 0) {
-    if (typeof window !== 'undefined') router.push('/cart');
+  if (!isMounted || items.length === 0) {
     return null;
   }
 
