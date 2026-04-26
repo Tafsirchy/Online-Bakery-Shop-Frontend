@@ -141,36 +141,47 @@ export default function CustomerDashboard() {
   const getStageIndex = (status) => orderStages.indexOf(status);
 
   return (
-    <div className="flex flex-col min-h-screen bg-brown/5">
-      {/* Top Navigation / Tabs */}
-      <div className="bg-white border-b border-border-light sticky top-0 z-10 px-6 py-4 shadow-sm">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto no-scrollbar">
-            <button 
-              onClick={() => setActiveTab('orders')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all whitespace-nowrap ${activeTab === 'orders' ? 'bg-sage text-white shadow-md' : 'text-muted hover:bg-cream-highlight hover:text-brown font-medium'}`}
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <span>My Orders</span>
-            </button>
-            <button 
-              onClick={() => setActiveTab('profile')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full transition-all whitespace-nowrap ${activeTab === 'profile' ? 'bg-sage text-white shadow-md' : 'text-muted hover:bg-cream-highlight hover:text-brown font-medium'}`}
-            >
-              <User className="w-4 h-4" />
-              <span>Profile Settings</span>
-            </button>
+    <div className="flex min-h-screen bg-brown/5">
+      {/* Left Sidebar */}
+      <aside className="w-72 bg-cream-highlight border-r border-border-light flex flex-col shrink-0">
+        <div className="p-8 pb-12">
+          <h2 className="text-3xl font-serif text-brown font-bold tracking-tight">Dashboard</h2>
+          <p className="text-[10px] font-bold text-muted uppercase tracking-[0.3em] mt-1 ml-1">Customer</p>
+        </div>
+
+        <nav className="flex-1 px-4 space-y-2">
+          <button 
+            onClick={() => setActiveTab('orders')}
+            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all ${activeTab === 'orders' ? 'bg-sage text-white shadow-lg' : 'text-muted hover:bg-white hover:text-brown'}`}
+          >
+            <ShoppingBag className="w-5 h-5" />
+            <span className="font-bold">My Orders</span>
+          </button>
+
+          <button 
+            onClick={() => setActiveTab('profile')}
+            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all ${activeTab === 'profile' ? 'bg-sage text-white shadow-lg' : 'text-muted hover:bg-white hover:text-brown'}`}
+          >
+            <User className="w-5 h-5" />
+            <span className="font-bold">Profile</span>
+          </button>
+
+          <div className="pt-8 mt-8 border-t border-border-light/50">
             <Button 
               variant="ghost" 
               onClick={() => window.location.href = '/'}
-              className="rounded-full text-muted hover:text-brown whitespace-nowrap ml-2"
+              className="w-full justify-start gap-4 px-6 py-6 rounded-2xl text-muted hover:text-brown hover:bg-white"
             >
-              <Home className="w-4 h-4 mr-2" />
-              Store
+              <Home className="w-5 h-5" />
+              <span className="font-bold">Store</span>
             </Button>
           </div>
+        </nav>
+
+        <div className="p-8 text-[10px] text-muted/50 font-bold uppercase tracking-widest">
+          The Cozy Bakery © 2026
         </div>
-      </div>
+      </aside>
 
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10 overflow-y-auto">

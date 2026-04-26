@@ -39,7 +39,7 @@ const features = [
     desc: "We use 100% biodegradable packaging to keep our planet as fresh as our bread. Sustainability is at the core of our operations, minimizing our carbon footprint every step of the way.",
     icon: Leaf,
     color: "bg-sage/10 text-sage",
-    img: "https://images.unsplash.com/photo-1542601906970-350352299440?w=800"
+    img: "https://images.unsplash.com/photo-1542601906970-350352299440?q=80&w=2070&auto=format&fit=crop"
   },
   { 
     title: "Expert Bakers", 
