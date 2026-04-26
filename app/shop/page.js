@@ -220,7 +220,7 @@ function PaymentSuccessModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md rounded-3xl p-8 border-none shadow-2xl bg-cream-highlight outline-none" showCloseButton={false}>
+      <DialogContent className="w-[calc(100%-2rem)] max-w-lg rounded-3xl p-8 border-none shadow-2xl bg-cream-highlight outline-none" showCloseButton={false}>
         <DialogHeader className="text-center space-y-4">
           <div className="mx-auto w-16 h-16 rounded-full bg-sage/10 text-sage flex items-center justify-center mb-2">
             <CheckCircle2 className="w-10 h-10" />
@@ -241,15 +241,15 @@ function PaymentSuccessModal() {
             )}
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <Button variant="outline" onClick={handleClose} className="w-full rounded-xl border-border-light hover:bg-brown/5 h-12">
-              Continue Shopping
-            </Button>
-            <Link href="/customer" className="w-full sm:w-auto">
-              <Button className="w-full rounded-xl bg-sage hover:bg-brown-hover h-12 text-white">
+          <div className="flex flex-col gap-3 pt-4">
+            <Link href="/customer" className="w-full">
+              <Button className="w-full rounded-xl bg-sage hover:bg-brown-hover h-12 text-white text-base font-semibold">
                 Go to Dashboard
               </Button>
             </Link>
+            <Button variant="outline" onClick={handleClose} className="w-full rounded-xl border-border-light hover:bg-brown/5 h-12 text-base">
+              Continue Shopping
+            </Button>
           </div>
         </div>
       </DialogContent>
