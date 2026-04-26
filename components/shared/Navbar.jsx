@@ -23,7 +23,7 @@ export default function Navbar() {
   const router = useRouter();
   const { user, logout, hasHydrated, checkAuth } = useAuthStore();
   const { getTotalItems } = useCartStore();
-  const { wishlist, fetchWishlist } = useWishlistStore();
+  const { wishlist, fetchWishlist, clearWishlist } = useWishlistStore();
   const cartCount = getTotalItems();
   const [isMounted, setIsMounted] = useState(false);
   const safeCartCount = isMounted ? cartCount : 0;
@@ -46,6 +46,7 @@ export default function Navbar() {
   };
   const handleLogout = () => {
     logout();
+    clearWishlist();
     toast.info('Logged out. See you soon!', { icon: '👋' });
   };
   const navLinks = [
