@@ -2,13 +2,15 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Star, CreditCard } from 'lucide-react';
+import { ShoppingCart, Star, Heart } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
+import { useWishlistStore } from '@/store/useWishlistStore';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCartStore();
+  const { toggleWishlist, isInWishlist } = useWishlistStore();
   const router = useRouter();
 
   const handleAddToCart = (e) => {
@@ -32,6 +34,11 @@ export default function ProductCard({ product }) {
       return;
     }
     router.push('/checkout');
+  };
+
+  const handleToggleWishlist = (e) => {
+    e.stopPropagation();
+    toggleWishlist(product._id);
   };
 
   return (
@@ -60,6 +67,16 @@ export default function ProductCard({ product }) {
             OFFER
           </div>
         )}
+
+        {/* Wishlist Button */}
+        <button 
+          onClick={handleToggleWishlist}
+          className="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-brown hover:text-red-500 hover:bg-white transition-all shadow-sm z-10"
+        >
+          <Heart 
+            className={`w-4 h-4 transition-colors ${isInWishlist(product._id) ? 'fill-red-500 text-red-500' : ''}`} 
+          />
+        </button>
       </div>
 
       <div className="p-4 flex flex-col flex-grow space-y-3">
