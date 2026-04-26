@@ -31,7 +31,8 @@ import {
   Flame, 
   Sparkles,
   User,
-  Quote
+  Quote,
+  Edit
 } from 'lucide-react';
 
 export default function ProductDetailsPage() {
@@ -108,15 +109,23 @@ export default function ProductDetailsPage() {
     }
   };
 
-  const handleDeleteReview = async (reviewId) => {
-    if (!window.confirm('Are you sure you want to delete this review?')) return;
-    
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [editFormData, setEditFormData] = useState({ rating: 5, comment: '' });
+
+  const handleEditClick = (review) => {
+    setEditingReviewId(review._id);
+    setEditFormData({ rating: review.rating, comment: review.comment });
+  };
+
+  const handleUpdateReview = async (e) => {
+    e.preventDefault();
     try {
-      await axios.delete(`/reviews/${reviewId}`);
-      toast.success('Review deleted');
+      await axios.put(`/reviews/${editingReviewId}`, editFormData);
+      toast.success('Review updated');
+      setEditingReviewId(null);
       fetchData();
     } catch (err) {
-      toast.error('Failed to delete review');
+      toast.error('Failed to update review');
     }
   };
 
@@ -402,38 +411,77 @@ export default function ProductDetailsPage() {
                       key={review._id} 
                       className="bg-white rounded-[2rem] p-8 border border-border-light shadow-soft group relative"
                     >
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-full bg-cream-highlight flex items-center justify-center border border-border-light">
-                            <User className="w-6 h-6 text-brown/40" />
+                      {editingReviewId === review._id ? (
+                        <form onSubmit={handleUpdateReview} className="space-y-4">
+                          <div className="flex gap-2">
+                            {[1, 2, 3, 4, 5].map((s) => (
+                              <button
+                                key={s}
+                                type="button"
+                                onClick={() => setEditFormData({ ...editFormData, rating: s })}
+                                className="transition-transform active:scale-90"
+                              >
+                                <Star className={`w-6 h-6 ${s <= editFormData.rating ? 'fill-caramel text-caramel' : 'text-gray-200'}`} />
+                              </button>
+                            ))}
                           </div>
-                          <div>
-                            <h4 className="font-bold text-brown">{review.userId?.name}</h4>
-                            <div className="flex gap-0.5 mt-0.5">
-                              {[1, 2, 3, 4, 5].map((s) => (
-                                <Star key={s} className={`w-3 h-3 ${s <= review.rating ? 'fill-caramel text-caramel' : 'text-gray-200'}`} />
-                              ))}
+                          <Textarea 
+                            className="bg-cream-highlight border-border-light rounded-2xl h-24"
+                            value={editFormData.comment}
+                            onChange={(e) => setEditFormData({ ...editFormData, comment: e.target.value })}
+                            required
+                          />
+                          <div className="flex gap-2">
+                            <Button type="submit" size="sm" className="bg-sage text-white rounded-xl">Save</Button>
+                            <Button type="button" variant="ghost" size="sm" onClick={() => setEditingReviewId(null)} className="rounded-xl">Cancel</Button>
+                          </div>
+                        </form>
+                      ) : (
+                        <>
+                          <div className="flex justify-between items-start mb-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-full bg-cream-highlight flex items-center justify-center border border-border-light">
+                                <User className="w-6 h-6 text-brown/40" />
+                              </div>
+                              <div>
+                                <h4 className="font-bold text-brown">{review.userId?.name}</h4>
+                                <div className="flex gap-0.5 mt-0.5">
+                                  {[1, 2, 3, 4, 5].map((s) => (
+                                    <Star key={s} className={`w-3 h-3 ${s <= review.rating ? 'fill-caramel text-caramel' : 'text-gray-200'}`} />
+                                  ))}
+                                </div>
+                              </div>
                             </div>
+                            <span className="text-[10px] text-muted font-bold uppercase tracking-widest bg-background px-3 py-1 rounded-full border border-border-light">
+                              {new Date(review.createdAt).toLocaleDateString()}
+                            </span>
                           </div>
-                        </div>
-                        <span className="text-[10px] text-muted font-bold uppercase tracking-widest bg-background px-3 py-1 rounded-full border border-border-light">
-                          {new Date(review.createdAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                      
-                      <div className="relative">
-                        <Quote className="absolute -left-2 -top-2 w-8 h-8 text-cream-highlight group-hover:text-sage/10 transition-colors" />
-                        <p className="text-muted leading-relaxed relative z-10 italic">"{review.comment}"</p>
-                      </div>
+                          
+                          <div className="relative">
+                            <Quote className="absolute -left-2 -top-2 w-8 h-8 text-cream-highlight group-hover:text-sage/10 transition-colors" />
+                            <p className="text-muted leading-relaxed relative z-10 italic">"{review.comment}"</p>
+                          </div>
 
-                      {/* Delete Action if owner or admin */}
-                      {(user?._id === review.userId?._id || user?.role === 'admin') && (
-                        <button 
-                          onClick={() => handleDeleteReview(review._id)}
-                          className="absolute bottom-6 right-6 p-2 rounded-xl text-red-400 hover:bg-red-50 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                          {/* Actions if owner or admin */}
+                          <div className="absolute bottom-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {user?._id === review.userId?._id && (
+                              <button 
+                                onClick={() => handleEditClick(review)}
+                                className="p-2 rounded-xl text-sage hover:bg-sage/5 transition-all"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </button>
+                            )}
+                            {(user?._id === review.userId?._id || user?.role === 'admin') && (
+                              <button 
+                                onClick={() => handleDeleteReview(review._id)}
+                                className="p-2 rounded-xl text-red-400 hover:bg-red-50 hover:text-red-500 transition-all"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            )}
+                          </div>
+                        </>
                       )}
                     </motion.div>
                   ))}
