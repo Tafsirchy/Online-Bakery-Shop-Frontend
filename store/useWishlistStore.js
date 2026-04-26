@@ -15,9 +15,10 @@ export const useWishlistStore = create(
           const res = await axios.get('/auth/wishlist');
           set({ wishlist: res.data.data });
         } catch (err) {
-          console.error('Failed to fetch wishlist', err);
           if (err.response?.status === 401) {
             set({ wishlist: [] });
+          } else {
+            console.error('Failed to fetch wishlist', err);
           }
         }
       },

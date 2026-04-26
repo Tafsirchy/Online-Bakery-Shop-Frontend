@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -28,10 +28,13 @@ function LoginPageContent() {
     redirect_uri: typeof window !== 'undefined' ? `${window.location.origin}/login` : '',
   });
 
+  const exchangeInProgress = useRef(false);
+
   // Handle the code from the redirect
   useEffect(() => {
     const code = searchParams.get('code');
-    if (code) {
+    if (code && !exchangeInProgress.current) {
+      exchangeInProgress.current = true;
       const exchangeCode = async () => {
         try {
           const { data } = await axios.post('/auth/google', { code });
@@ -43,7 +46,9 @@ function LoginPageContent() {
           toast.success('Welcome! Logged in with Google.', { icon: '👋' });
           router.push('/');
         } catch (err) {
+          console.error('Google Exchange Error:', err);
           toast.error('Google Login failed during exchange');
+          exchangeInProgress.current = false; // Reset on failure so user can try again
         }
       };
       exchangeCode();
