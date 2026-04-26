@@ -38,19 +38,19 @@ export default function Sidebar() {
   return (
     <aside className="w-72 bg-cream-highlight border-r border-border-light flex flex-col shrink-0 h-full">
       <div className="p-8 pb-4">
-        <Link href="/" className="text-xl font-serif text-brown font-bold tracking-tight block mb-8 px-2">
+        <Link href="/" className="text-3xl font-serif text-brown font-bold tracking-tight block mb-6 px-1 transition-transform hover:scale-105 origin-left">
           The Cozy <span className="text-caramel">Bakery</span>
         </Link>
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-2 h-8 bg-sage rounded-full" />
-          <h2 className="text-3xl font-serif text-brown font-bold tracking-tight">Dashboard</h2>
+        <div className="flex items-center gap-3 mb-1">
+          <div className="w-1.5 h-6 bg-sage rounded-full" />
+          <h2 className="text-xl font-bold text-brown tracking-tight">Dashboard</h2>
         </div>
-        <p className="text-[10px] font-bold text-muted uppercase tracking-[0.3em] ml-5 opacity-60">
+        <p className="text-[9px] font-bold text-muted uppercase tracking-[0.3em] ml-4.5 opacity-50">
           {user?.role || 'Customer'} Portal
         </p>
       </div>
 
-      <nav className="flex-1 px-4 space-y-2">
+      <nav className="flex-1 px-4 space-y-1">
         {links.map((link) => {
           const isActive = user?.role === 'admin' 
             ? pathname === link.path 
@@ -60,40 +60,40 @@ export default function Sidebar() {
             <Link 
               key={link.path} 
               href={link.path}
-              className={`flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold ${
+              className={`flex items-center gap-4 px-5 py-3.5 rounded-2xl transition-all font-bold group ${
                 isActive 
                   ? 'bg-sage text-white shadow-lg' 
                   : 'text-muted hover:bg-white hover:text-brown'
               }`}
             >
-              <link.icon className="w-5 h-5" />
-              {link.name}
+              <link.icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-muted group-hover:text-brown'}`} />
+              <span className="text-sm">{link.name}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-8 mt-auto border-t border-border-light/50 bg-cream-highlight/50 space-y-4">
+      <div className="p-6 mt-auto border-t border-border-light/50 bg-cream-highlight/50 space-y-3">
         <Link 
           href="/"
-          className="flex items-center gap-4 px-6 py-4 rounded-2xl text-brown hover:bg-white font-bold transition-all group"
+          className="flex items-center gap-4 px-5 py-3 rounded-2xl text-brown hover:bg-white font-bold transition-all group border border-transparent hover:border-border-light/50"
         >
-          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center group-hover:bg-sage/10 transition-colors">
-            <Home className="w-5 h-5 text-brown" />
+          <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center group-hover:bg-sage/10 transition-colors shadow-sm">
+            <Home className="w-4.5 h-4.5 text-brown" />
           </div>
-          <span className="uppercase tracking-widest text-xs">Back to Home</span>
+          <span className="uppercase tracking-widest text-[10px]">Back to Home</span>
         </Link>
 
         <button 
           onClick={logout}
-          className="flex items-center gap-4 px-6 py-4 rounded-2xl text-red-500 hover:bg-red-50 hover:shadow-sm transition-all w-full text-left group"
+          className="flex items-center gap-4 px-5 py-3 rounded-2xl text-red-500 hover:bg-red-50 transition-all w-full text-left group"
         >
-          <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition-colors">
-            <LogOut className="w-5 h-5" />
+          <div className="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition-colors shadow-sm">
+            <LogOut className="w-4.5 h-4.5" />
           </div>
-          <span className="font-bold uppercase tracking-widest text-xs">Logout</span>
+          <span className="font-bold uppercase tracking-widest text-[10px]">Logout</span>
         </button>
-        <div className="mt-6 text-[9px] text-muted/30 font-bold uppercase tracking-[0.2em] pl-2">
+        <div className="pt-2 text-[8px] text-muted/30 font-bold uppercase tracking-[0.2em] pl-1">
           The Cozy Bakery © 2026
         </div>
       </div>
