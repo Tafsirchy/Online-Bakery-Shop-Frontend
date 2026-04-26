@@ -1,6 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useCartStore } from '@/store/useCartStore';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { CheckCircle2, Loader2 } from 'lucide-react';
 import axios from '@/lib/axios';
 import ProductCard from '@/components/product/ProductCard';
 import { Input } from '@/components/ui/input';
@@ -52,6 +57,9 @@ export default function ShopPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
+      <Suspense fallback={null}>
+        <PaymentSuccessModal />
+      </Suspense>
       <div className="flex flex-col md:flex-row gap-8">
         {/* Filters Sidebar */}
         <aside className="w-full md:w-64 space-y-8">
@@ -165,5 +173,78 @@ export default function ShopPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+function PaymentSuccessModal() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { clearCart } = useCartStore();
+  
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [message, setMessage] = useState('Finalizing your payment...');
+
+  const isSuccess = searchParams.get('payment_success');
+  const orderId = searchParams.get('orderId');
+  const sessionId = searchParams.get('session_id');
+
+  useEffect(() => {
+    if (isSuccess === 'true' && orderId && sessionId && !isOpen) {
+      setIsOpen(true);
+      const finalizePayment = async () => {
+        try {
+          await axios.put(`/orders/${orderId}/mark-paid`, { sessionId });
+          clearCart();
+          setMessage('Payment successful! Your order is confirmed and now processing.');
+        } catch (err) {
+          setMessage(err.response?.data?.message || 'Payment was received, but confirmation is pending.');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      finalizePayment();
+    }
+  }, [isSuccess, orderId, sessionId, clearCart, isOpen]);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    router.replace('/shop', { scroll: false });
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-md rounded-3xl p-8 border-none shadow-2xl bg-cream-highlight outline-none" showCloseButton={false}>
+        <DialogHeader className="text-center space-y-4">
+          <div className="mx-auto w-16 h-16 rounded-full bg-sage/10 text-sage flex items-center justify-center mb-2">
+            <CheckCircle2 className="w-10 h-10" />
+          </div>
+          <DialogTitle className="text-3xl font-serif text-brown text-center">Payment Status</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-8 text-center mt-4">
+          <p className="text-muted/90 text-lg">
+            {isLoading ? (
+              <span className="inline-flex items-center gap-3">
+                <Loader2 className="w-5 h-5 animate-spin text-caramel" />
+                Finalizing your order...
+              </span>
+            ) : (
+              message
+            )}
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+            <Button variant="outline" onClick={handleClose} className="w-full rounded-xl border-border-light hover:bg-brown/5 h-12">
+              Continue Shopping
+            </Button>
+            <Link href="/customer" className="w-full sm:w-auto">
+              <Button className="w-full rounded-xl bg-sage hover:bg-brown-hover h-12 text-white">
+                Go to Dashboard
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
