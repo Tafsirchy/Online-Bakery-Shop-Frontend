@@ -1,47 +1,49 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Leaf, Clock, Heart, ShieldCheck } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const features = [
   { 
     title: "100% Organic", 
-    desc: "We use only the finest locally sourced organic ingredients for our dough and fillings.",
+    desc: "We use only the finest locally sourced organic ingredients for our dough and fillings. Every grain is selected for its purity, ensuring that every bite you take is free from artificial preservatives and chemicals.",
     icon: Leaf,
     color: "bg-sage/10 text-sage",
     img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800"
   },
   { 
     title: "Always Fresh", 
-    desc: "Our bakers start at dawn to ensure every bite you take is fresh from the oven.",
+    desc: "Our bakers start at dawn to ensure every bite you take is fresh from the oven. We believe that the true essence of bread is best enjoyed when it's warm, soft, and straight out of the bakery.",
     icon: Clock,
     color: "bg-caramel/10 text-caramel",
     img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800"
   },
   { 
     title: "Made with Love", 
-    desc: "Traditional family recipes passed down through generations, made with passion.",
+    desc: "Traditional family recipes passed down through generations, made with passion. Baking is our love language, and we pour our hearts into every loaf to bring joy to your family's table.",
     icon: Heart,
     color: "bg-red-50 text-red-400",
     img: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800"
   },
   { 
     title: "Safe Delivery", 
-    desc: "Carefully packed and delivered to your doorstep while maintaining perfect warmth.",
+    desc: "Carefully packed and delivered to your doorstep while maintaining perfect warmth. Our dedicated delivery team ensures that your treats arrive in pristine condition, ready to be devoured.",
     icon: ShieldCheck,
     color: "bg-brown/10 text-brown",
     img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800"
   },
   { 
     title: "Eco-Friendly", 
-    desc: "We use 100% biodegradable packaging to keep our planet as fresh as our bread.",
+    desc: "We use 100% biodegradable packaging to keep our planet as fresh as our bread. Sustainability is at the core of our operations, minimizing our carbon footprint every step of the way.",
     icon: Leaf,
     color: "bg-sage/10 text-sage",
     img: "https://images.unsplash.com/photo-1542601906970-350352299440?w=800"
   },
   { 
     title: "Expert Bakers", 
-    desc: "Our team has over 20 years of combined experience in artisanal bread making.",
+    desc: "Our team has over 20 years of combined experience in artisanal bread making. We've mastered the delicate balance of time, temperature, and technique to bring you bakery perfection.",
     icon: Heart,
     color: "bg-red-50 text-red-400",
     img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800"
@@ -49,6 +51,8 @@ const features = [
 ];
 
 export default function WhyUs() {
+  const [selectedFeature, setSelectedFeature] = useState(null);
+
   return (
     <section className="py-32 bg-cream overflow-hidden relative">
       {/* Decorative SVG Background elements */}
@@ -115,7 +119,8 @@ export default function WhyUs() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                className="min-w-[260px] snap-center aspect-square rounded-full bg-white shadow-soft border border-brown/5 flex flex-col items-center justify-center p-8 text-center space-y-3 group hover:shadow-warm transition-all"
+                onClick={() => setSelectedFeature(feature)}
+                className="min-w-[260px] snap-center aspect-square rounded-full bg-white shadow-soft border border-brown/5 flex flex-col items-center justify-center p-8 text-center space-y-3 group hover:shadow-warm transition-all cursor-pointer"
               >
                 <div className={`w-12 h-12 ${feature.color} rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform`}>
                   <feature.icon className="w-6 h-6" />
@@ -162,14 +167,15 @@ export default function WhyUs() {
                     marginTop: '-90px',
                     marginLeft: '-90px'
                   }}
-                  className="w-44 h-44 rounded-full bg-white shadow-warm border-4 border-white flex flex-col items-center justify-center p-6 text-center space-y-2 hover:scale-110 transition-transform cursor-default group"
+                  onClick={() => setSelectedFeature(feature)}
+                  className="w-44 h-44 rounded-full bg-white shadow-warm border-4 border-white flex flex-col items-center justify-center p-6 text-center space-y-2 hover:scale-110 transition-transform cursor-pointer group"
                 >
                   <div className={`w-10 h-10 ${feature.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-transform`}>
                     <feature.icon className="w-5 h-5" />
                   </div>
                   <h3 className="text-sm font-bold text-brown leading-tight">{feature.title}</h3>
                   <p className="text-[10px] text-muted leading-tight opacity-0 group-hover:opacity-100 transition-opacity">
-                    {feature.desc.split(' ').slice(0, 8).join(' ')}...
+                    Click to learn more
                   </p>
                 </motion.div>
               );
@@ -177,6 +183,29 @@ export default function WhyUs() {
           </div>
         </div>
       </div>
+
+      {/* Feature Detail Modal */}
+      <Dialog open={!!selectedFeature} onOpenChange={(open) => !open && setSelectedFeature(null)}>
+        <DialogContent className="max-w-md rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl">
+          {selectedFeature && (
+            <div className="flex flex-col bg-white">
+              <div className="h-48 relative overflow-hidden">
+                <img src={selectedFeature.img} alt={selectedFeature.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/20" />
+              </div>
+              <div className="p-8 text-center relative">
+                <div className={`absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 ${selectedFeature.color} bg-white rounded-full flex items-center justify-center border-4 border-white shadow-warm`}>
+                  <selectedFeature.icon className="w-8 h-8" />
+                </div>
+                <h3 className="text-2xl font-serif text-brown mt-6 mb-4">{selectedFeature.title}</h3>
+                <p className="text-muted leading-relaxed text-[15px]">
+                  {selectedFeature.desc}
+                </p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
