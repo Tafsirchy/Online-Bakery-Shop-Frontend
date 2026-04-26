@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import axios from '@/lib/axios';
 import { generateInvoice } from '@/utils/generateInvoice';
 import { Button } from '@/components/ui/button';
@@ -27,9 +28,25 @@ import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/useAuthStore';
 
 export default function CustomerDashboard() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-sage border-t-transparent rounded-full animate-spin" /></div>}>
+      <CustomerDashboardContent />
+    </Suspense>
+  );
+}
+function CustomerDashboardContent() {
   const { user: authUser, checkAuth } = useAuthStore();
   const [activeTab, setActiveTab] = useState('orders');
   const [orders, setOrders] = useState([]);
+  const searchParams = useSearchParams();
+  const tab = searchParams.get('tab');
+
+  useEffect(() => {
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [tab]);
+
   const [loading, setLoading] = useState(true);
 
   // Profile State
@@ -141,50 +158,7 @@ export default function CustomerDashboard() {
   const getStageIndex = (status) => orderStages.indexOf(status);
 
   return (
-    <div className="flex min-h-screen bg-brown/5">
-      {/* Left Sidebar */}
-      <aside className="w-72 bg-cream-highlight border-r border-border-light flex flex-col shrink-0">
-        <div className="p-8 pb-12">
-          <h2 className="text-3xl font-serif text-brown font-bold tracking-tight">Dashboard</h2>
-          <p className="text-[10px] font-bold text-muted uppercase tracking-[0.3em] mt-1 ml-1">Customer</p>
-        </div>
-
-        <nav className="flex-1 px-4 space-y-2">
-          <button 
-            onClick={() => setActiveTab('orders')}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all ${activeTab === 'orders' ? 'bg-sage text-white shadow-lg' : 'text-muted hover:bg-white hover:text-brown'}`}
-          >
-            <ShoppingBag className="w-5 h-5" />
-            <span className="font-bold">My Orders</span>
-          </button>
-
-          <button 
-            onClick={() => setActiveTab('profile')}
-            className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all ${activeTab === 'profile' ? 'bg-sage text-white shadow-lg' : 'text-muted hover:bg-white hover:text-brown'}`}
-          >
-            <User className="w-5 h-5" />
-            <span className="font-bold">Profile</span>
-          </button>
-
-          <div className="pt-8 mt-8 border-t border-border-light/50">
-            <Button 
-              variant="ghost" 
-              onClick={() => window.location.href = '/'}
-              className="w-full justify-start gap-4 px-6 py-6 rounded-2xl text-muted hover:text-brown hover:bg-white"
-            >
-              <Home className="w-5 h-5" />
-              <span className="font-bold">Store</span>
-            </Button>
-          </div>
-        </nav>
-
-        <div className="p-8 text-[10px] text-muted/50 font-bold uppercase tracking-widest">
-          The Cozy Bakery © 2026
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10 overflow-y-auto">
+    <div className="max-w-6xl mx-auto space-y-10 w-full">
         <AnimatePresence mode="wait">
           {activeTab === 'orders' && (
             <motion.div 
@@ -423,7 +397,7 @@ export default function CustomerDashboard() {
             </motion.div>
           )}
         </AnimatePresence>
-      </main>
+      </div>
 
       {/* Track Order Modal */}
       <Dialog open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
