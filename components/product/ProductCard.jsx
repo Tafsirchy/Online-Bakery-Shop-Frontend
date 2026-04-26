@@ -6,6 +6,7 @@ import { ShoppingCart, Star, Heart } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { toast } from 'react-toastify';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function ProductCard({ product }) {
@@ -48,7 +49,7 @@ export default function ProductCard({ product }) {
       className="bg-cream-highlight rounded-2xl shadow-soft border border-border-light overflow-hidden group flex flex-col h-full"
     >
       {/* Image Container */}
-      <div className="aspect-[4/3] bg-surface-caramel/20 relative overflow-hidden shrink-0">
+      <Link href={`/product/${product._id}`} className="aspect-[4/3] bg-surface-caramel/20 relative overflow-hidden shrink-0 block">
         {product.images?.[0] ? (
           <img 
             src={product.images[0]} 
@@ -77,14 +78,16 @@ export default function ProductCard({ product }) {
             className={`w-3.5 h-3.5 transition-colors ${isInWishlist(product._id) ? 'fill-red-500 text-red-500' : ''}`} 
           />
         </button>
-      </div>
+      </Link>
 
       <div className="p-3.5 flex flex-col flex-grow space-y-2">
         {/* Title & Rating */}
         <div className="flex justify-between items-start gap-2">
           <div className="min-w-0">
             <p className="text-[8px] text-muted font-bold uppercase tracking-[0.2em] mb-0.5 truncate">{product.category}</p>
-            <h3 className="text-sm font-serif text-brown leading-tight line-clamp-1">{product.name}</h3>
+            <Link href={`/product/${product._id}`}>
+              <h3 className="text-sm font-serif text-brown leading-tight line-clamp-1 hover:text-caramel transition-colors cursor-pointer">{product.name}</h3>
+            </Link>
           </div>
           <div className="flex items-center gap-1 text-[10px] text-muted bg-white/50 px-1.5 py-0.5 rounded-lg shrink-0">
             <Star className="w-2.5 h-2.5 fill-caramel text-caramel" />

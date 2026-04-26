@@ -29,18 +29,24 @@ export default function ShopPage() {
   const [category, setCategory] = useState('all');
   const [priceRange, setPriceRange] = useState([0, 2000]);
   const [sortBy, setSortBy] = useState('-createdAt');
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const productsPerPage = 9;
 
   const categories = ['all', 'Cakes', 'Pastries', 'Cookies', 'Bread', 'Offers'];
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      let url = `/products?sort=${sortBy}&price[gte]=${priceRange[0]}&price[lte]=${priceRange[1]}`;
+      let url = `/products?sort=${sortBy}&price[gte]=${priceRange[0]}&price[lte]=${priceRange[1]}&page=${currentPage}&limit=${productsPerPage}`;
       if (category !== 'all') url += `&category=${category}`;
       if (search) url += `&search=${search}`;
       
       const response = await axios.get(url);
       setProducts(response.data.data);
+      setTotalPages(Math.ceil((response.data.total || 0) / productsPerPage));
     } catch (err) {
       console.error(err);
     } finally {
@@ -51,8 +57,13 @@ export default function ShopPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchProducts();
-    }, 500); // Debounce search/filters
+    }, 500); 
     return () => clearTimeout(timer);
+  }, [search, category, priceRange, sortBy, currentPage]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
   }, [search, category, priceRange, sortBy]);
 
   return (
@@ -141,17 +152,53 @@ export default function ShopPage() {
           {/* Products Grid */}
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3, 4, 5, 6].map((n) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
                 <div key={n} className="h-80 bg-cream-highlight rounded-2xl animate-pulse" />
               ))}
             </div>
           ) : products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <AnimatePresence mode="popLayout">
-                {products.map((product) => (
-                  <ProductCard key={product._id} product={product} />
-                ))}
-              </AnimatePresence>
+            <div className="space-y-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <AnimatePresence mode="popLayout">
+                  {products.map((product) => (
+                    <ProductCard key={product._id} product={product} />
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              {/* Pagination UI */}
+              <div className="flex justify-center items-center gap-4 pt-8 border-t border-border-light">
+                <Button 
+                  variant="outline" 
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(prev => prev - 1)}
+                  className="rounded-xl border-border-light hover:bg-sage hover:text-white transition-all disabled:opacity-30"
+                >
+                  Previous
+                </Button>
+                <div className="flex items-center gap-2">
+                  <span className="w-10 h-10 rounded-full bg-sage text-white flex items-center justify-center font-bold shadow-sm">
+                    {currentPage}
+                  </span>
+                  {products.length === productsPerPage && (
+                    <Button 
+                      variant="ghost" 
+                      onClick={() => setCurrentPage(prev => prev + 1)}
+                      className="w-10 h-10 rounded-full text-muted hover:text-brown font-medium"
+                    >
+                      {currentPage + 1}
+                    </Button>
+                  )}
+                </div>
+                <Button 
+                  variant="outline" 
+                  disabled={products.length < productsPerPage}
+                  onClick={() => setCurrentPage(prev => prev + 1)}
+                  className="rounded-xl border-border-light hover:bg-sage hover:text-white transition-all disabled:opacity-30"
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="text-center py-20 bg-cream-highlight rounded-2xl border border-dashed border-border-light">
@@ -164,6 +211,7 @@ export default function ShopPage() {
                   setSearch('');
                   setCategory('all');
                   setPriceRange([0, 2000]);
+                  setCurrentPage(1);
                 }}
               >
                 Clear all filters
