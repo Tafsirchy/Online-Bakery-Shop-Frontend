@@ -397,7 +397,6 @@ function CustomerDashboardContent() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
 
       {/* Track Order Modal */}
       <Dialog open={!!selectedOrder} onOpenChange={(open) => !open && setSelectedOrder(null)}>
