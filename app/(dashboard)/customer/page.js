@@ -166,9 +166,9 @@ function CustomerDashboardContent() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="max-w-6xl mx-auto space-y-10"
+              className="max-w-6xl mx-auto space-y-12"
             >
-              <header className="space-y-4">
+              <header className="space-y-4 text-center md:text-left">
                 <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-sage/10 text-sage rounded-full text-xs font-bold uppercase tracking-[0.2em]">
                   <ShoppingBag className="w-4 h-4" />
                   Your Activity
@@ -177,125 +177,148 @@ function CustomerDashboardContent() {
                 <p className="text-muted text-lg max-w-2xl leading-relaxed">Track your ongoing orders, download invoices, and view your sweet history.</p>
               </header>
 
-              {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[1, 2, 3].map((n) => (
-                    <div key={n} className="h-40 bg-cream-highlight rounded-3xl animate-pulse shadow-sm" />
-                  ))}
+              {/* Stats Section */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <Card className="rounded-[2.5rem] border-none shadow-warm bg-white overflow-hidden group">
+                  <CardContent className="p-10 relative">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-cream-highlight rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
+                    <div className="relative z-10 space-y-6">
+                      <div className="w-14 h-14 bg-white rounded-2xl shadow-soft flex items-center justify-center">
+                        <ShoppingBag className="w-7 h-7 text-caramel" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-muted uppercase tracking-widest mb-1">Total Orders</p>
+                        <h3 className="text-5xl font-serif text-brown">{stats.totalOrders}</h3>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="rounded-[2.5rem] border-none shadow-warm bg-white overflow-hidden group">
+                  <CardContent className="p-10 relative">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-cream-highlight rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
+                    <div className="relative z-10 space-y-6">
+                      <div className="w-14 h-14 bg-white rounded-2xl shadow-soft flex items-center justify-center">
+                        <CreditCard className="w-7 h-7 text-caramel" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-muted uppercase tracking-widest mb-1">Total Spent</p>
+                        <h3 className="text-5xl font-serif text-brown">৳{stats.totalSpent.toFixed(2)}</h3>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="rounded-[2.5rem] border-none shadow-warm bg-white overflow-hidden group">
+                  <CardContent className="p-10 relative">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-cream-highlight rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
+                    <div className="relative z-10 space-y-6">
+                      <div className="w-14 h-14 bg-white rounded-2xl shadow-soft flex items-center justify-center">
+                        <Truck className="w-7 h-7 text-caramel" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-muted uppercase tracking-widest mb-1">Active Deliveries</p>
+                        <h3 className="text-5xl font-serif text-brown">{stats.activeOrders}</h3>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Order History Section */}
+              <section className="space-y-8">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <h2 className="text-3xl font-serif text-brown flex items-center gap-3">
+                    <ClipboardList className="w-8 h-8 text-caramel" />
+                    Order History
+                  </h2>
+                  <div className="h-px hidden md:block flex-1 bg-border-light mx-8 opacity-50" />
+                  <div className="text-xs font-bold text-muted uppercase tracking-widest bg-white px-6 py-3 rounded-full border border-border-light shadow-sm self-start">
+                    {orders.length} {orders.length === 1 ? 'Order' : 'Orders'} Total
+                  </div>
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <Card className="rounded-3xl border-none shadow-soft bg-cream-highlight overflow-hidden relative group h-auto min-h-[160px]">
-                    <div className="absolute -right-6 -top-6 w-32 h-32 bg-sage/10 rounded-full group-hover:scale-150 transition-transform duration-500" />
-                    <CardContent className="p-6 relative z-10 flex flex-col justify-between h-full space-y-4">
-                      <div className="p-3 bg-white rounded-2xl shadow-sm border border-sage/10 w-fit">
-                        <ShoppingBag className="w-6 h-6 text-sage" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold uppercase tracking-wider text-muted mb-1">Total Orders</p>
-                        <h3 className="text-4xl font-serif text-brown">{stats.totalOrders}</h3>
-                      </div>
-                    </CardContent>
-                  </Card>
 
-                  <Card className="rounded-3xl border-none shadow-soft bg-cream-highlight overflow-hidden relative group h-auto min-h-[160px]">
-                    <div className="absolute -right-6 -top-6 w-32 h-32 bg-caramel/10 rounded-full group-hover:scale-150 transition-transform duration-500" />
-                    <CardContent className="p-6 relative z-10 flex flex-col justify-between h-full space-y-4">
-                      <div className="p-3 bg-white rounded-2xl shadow-sm border border-caramel/10 w-fit">
-                        <CreditCard className="w-6 h-6 text-caramel" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold uppercase tracking-wider text-muted mb-1">Total Spent</p>
-                        <h3 className="text-4xl font-serif text-brown">৳{stats.totalSpent.toFixed(2)}</h3>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="rounded-3xl border-none shadow-soft bg-cream-highlight overflow-hidden relative group h-auto min-h-[160px]">
-                    <div className="absolute -right-6 -top-6 w-32 h-32 bg-brown/5 rounded-full group-hover:scale-150 transition-transform duration-500" />
-                    <CardContent className="p-6 relative z-10 flex flex-col justify-between h-full space-y-4">
-                      <div className="p-3 bg-white rounded-2xl shadow-sm border border-border-light w-fit">
-                        <Truck className="w-6 h-6 text-brown" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold uppercase tracking-wider text-muted mb-1">Active Deliveries</p>
-                        <h3 className="text-4xl font-serif text-brown">{stats.activeOrders}</h3>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
-
-              <div className="space-y-6">
-                <h2 className="text-2xl font-serif text-brown flex items-center gap-2">Order History</h2>
                 {loading ? (
-                   <div className="h-[400px] bg-cream-highlight rounded-3xl animate-pulse shadow-soft" />
+                  <div className="space-y-4">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="h-24 bg-cream-highlight rounded-3xl animate-pulse" />
+                    ))}
+                  </div>
                 ) : orders.length > 0 ? (
-                  <Card className="rounded-3xl border-none shadow-soft overflow-hidden bg-cream-highlight relative">
-                    <div className="overflow-x-auto custom-scrollbar">
-                      <Table className="min-w-[800px]">
-                        <TableHeader className="bg-white/50 border-b-0">
-                          <TableRow className="hover:bg-transparent border-none">
-                            <TableHead className="font-bold text-brown py-5 rounded-tl-3xl pl-6">Order ID</TableHead>
-                            <TableHead className="font-bold text-brown py-5">Date</TableHead>
-                            <TableHead className="font-bold text-brown py-5">Items</TableHead>
-                            <TableHead className="font-bold text-brown py-5">Total</TableHead>
-                            <TableHead className="font-bold text-brown py-5">Status</TableHead>
-                            <TableHead className="text-right font-bold text-brown py-5 rounded-tr-3xl pr-6">Action</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                        ) : (
-                          orders.map((order) => (
-                            <TableRow key={order._id} className="hover:bg-cream-highlight/30 transition-colors border-border-light">
-                              <TableCell className="py-6 px-8">
-                                <span className="font-mono text-xs font-bold text-brown/60 bg-cream-highlight px-3 py-1.5 rounded-lg border border-border-light">
-                                  #{order.trackingId}
-                                </span>
-                              </TableCell>
-                              <TableCell className="py-6 font-medium text-muted">
-                                {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                              </TableCell>
-                              <TableCell className="py-6 font-medium text-muted">
-                                {order.products.length} {order.products.length === 1 ? 'Item' : 'Items'}
-                              </TableCell>
-                              <TableCell className="py-6 text-center">
-                                <span className="text-xl font-serif text-brown font-bold">
-                                  ৳{order.finalPrice.toFixed(2)}
-                                </span>
-                              </TableCell>
-                              <TableCell className="py-6 text-center">
-                                <span className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(order.status)}`}>
-                                  {order.status}
-                                </span>
-                              </TableCell>
-                              <TableCell className="py-6 px-8 text-right">
-                                <div className="flex items-center justify-end gap-2">
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    onClick={() => setSelectedOrder(order)}
-                                    className="rounded-full border-border-light hover:bg-sage hover:text-white hover:border-sage transition-all px-6"
-                                  >
-                                    Track
-                                  </Button>
-                                  <Button 
-                                    variant="ghost" 
-                                    size="icon"
-                                    onClick={() => generateInvoice(order)}
-                                    className="rounded-full hover:bg-cream-highlight text-muted hover:text-brown"
-                                  >
-                                    <Download className="w-4 h-4" />
-                                  </Button>
-                                </div>
-                              </TableCell>
+                  <Card className="rounded-[2.5rem] overflow-hidden border-none shadow-warm bg-white border border-border-light">
+                    <CardContent className="p-0">
+                      <div className="overflow-x-auto">
+                        <Table>
+                          <TableHeader className="bg-cream-highlight/50">
+                            <TableRow className="hover:bg-transparent border-border-light">
+                              <TableHead className="py-6 px-10 font-bold text-brown uppercase text-[10px] tracking-widest">Order ID</TableHead>
+                              <TableHead className="py-6 font-bold text-brown uppercase text-[10px] tracking-widest">Date</TableHead>
+                              <TableHead className="py-6 font-bold text-brown uppercase text-[10px] tracking-widest text-center">Items</TableHead>
+                              <TableHead className="py-6 font-bold text-brown uppercase text-[10px] tracking-widest text-center">Total</TableHead>
+                              <TableHead className="py-6 font-bold text-brown uppercase text-[10px] tracking-widest text-center">Status</TableHead>
+                              <TableHead className="py-6 px-10 font-bold text-brown uppercase text-[10px] tracking-widest text-right">Action</TableHead>
                             </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {orders.map((order) => (
+                              <TableRow key={order._id} className="hover:bg-cream-highlight/30 transition-colors border-border-light">
+                                <TableCell className="py-6 px-10">
+                                  <span className="font-mono text-xs font-bold text-brown/60 bg-cream-highlight px-3 py-1.5 rounded-lg border border-border-light">
+                                    #{order.trackingId}
+                                  </span>
+                                </TableCell>
+                                <TableCell className="py-6 font-medium text-muted">
+                                  {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                </TableCell>
+                                <TableCell className="py-6 text-center font-medium text-muted">
+                                  {order.products.length} {order.products.length === 1 ? 'Item' : 'Items'}
+                                </TableCell>
+                                <TableCell className="py-6 text-center">
+                                  <span className="text-xl font-serif text-brown font-bold">
+                                    ৳{order.finalPrice.toFixed(2)}
+                                  </span>
+                                </TableCell>
+                                <TableCell className="py-6 text-center">
+                                  <span className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(order.status)}`}>
+                                    {order.status}
+                                  </span>
+                                </TableCell>
+                                <TableCell className="py-6 px-10 text-right">
+                                  <div className="flex items-center justify-end gap-3">
+                                    <Button 
+                                      variant="outline" 
+                                      size="sm" 
+                                      onClick={() => setSelectedOrder(order)}
+                                      className="rounded-full border-border-light hover:bg-sage hover:text-white hover:border-sage transition-all px-6"
+                                    >
+                                      Track
+                                    </Button>
+                                    <Button 
+                                      variant="ghost" 
+                                      size="icon"
+                                      onClick={() => generateInvoice(order)}
+                                      className="rounded-full hover:bg-cream-highlight text-muted hover:text-brown"
+                                    >
+                                      <Download className="w-4 h-4" />
+                                    </Button>
+                                  </div>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="text-center py-24 bg-white rounded-[3rem] border border-border-light shadow-warm flex flex-col items-center">
+                    <div className="w-24 h-24 bg-cream-highlight rounded-full flex items-center justify-center mb-8 relative">
                       <div className="absolute inset-0 bg-caramel/5 rounded-full animate-ping" />
                       <Package className="w-10 h-10 text-caramel/50 relative z-10" />
                     </div>
-                    <h3 className="text-3xl font-serif text-brown mb-3">No orders yet</h3>
-                    <p className="text-muted max-w-md mx-auto mb-8 text-lg">Your order history is currently empty. Let's find some delicious treats to satisfy your cravings!</p>
-                    <Button onClick={() => window.location.href = '/shop'} className="rounded-xl bg-sage hover:bg-brown-hover h-12 px-8 text-white text-base shadow-warm">
+                    <h3 className="text-3xl font-serif text-brown mb-4">No orders yet</h3>
+                    <p className="text-muted max-w-md mx-auto mb-10 text-lg">Your order history is currently empty. Let's find some delicious treats to satisfy your cravings!</p>
+                    <Button onClick={() => window.location.href = '/shop'} className="rounded-2xl bg-sage hover:bg-brown h-14 px-10 text-white font-bold shadow-lg transition-all hover:scale-105">
                       Browse Shop
                     </Button>
                   </div>
