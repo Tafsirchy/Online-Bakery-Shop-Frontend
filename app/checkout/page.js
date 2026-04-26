@@ -28,7 +28,7 @@ export default function CheckoutPage() {
   const orderPlacedRef = useRef(false);
   
   const [shippingInfo, setShippingInfo] = useState({
-    street: '', city: '', zipCode: '', country: 'Bangladesh'
+    street: '', city: '', zipCode: '', country: 'Bangladesh', phone: ''
   });
   const [couponCode, setCouponCode] = useState('');
   const [discount, setDiscount] = useState(0);
@@ -178,6 +178,17 @@ export default function CheckoutPage() {
                   className="rounded-xl border-border-light"
                   value={shippingInfo.street}
                   onChange={(e) => setShippingInfo({...shippingInfo, street: e.target.value})}
+                />
+              </div>
+              <div className="md:col-span-2 space-y-2">
+                <Label>Phone Number</Label>
+                <Input 
+                  required 
+                  type="tel"
+                  placeholder="e.g. +880 1..."
+                  className="rounded-xl border-border-light"
+                  value={shippingInfo.phone}
+                  onChange={(e) => setShippingInfo({...shippingInfo, phone: e.target.value})}
                 />
               </div>
               <div className="space-y-2">

@@ -61,17 +61,19 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex gap-8 items-center text-muted font-medium">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              href={link.path}
-              className={`hover:text-brown transition-colors ${pathname === link.path ? 'text-brown font-bold' : ''}`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
+        {!pathname.startsWith('/customer') && !pathname.startsWith('/admin') && !pathname.startsWith('/management') && (
+          <div className="hidden md:flex gap-8 items-center text-muted font-medium">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                href={link.path}
+                className={`hover:text-brown transition-colors ${pathname === link.path ? 'text-brown font-bold' : ''}`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* Icons / Auth */}
         <div className="flex items-center gap-4">
