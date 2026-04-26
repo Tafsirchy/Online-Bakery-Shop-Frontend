@@ -38,7 +38,7 @@ export default function Sidebar() {
   return (
     <aside className="w-72 bg-cream-highlight border-r border-border-light flex flex-col shrink-0 h-full">
       <div className="p-8 pb-4">
-        <Link href="/" className="text-3xl font-serif text-brown font-bold tracking-tight block mb-6 px-1 transition-transform hover:scale-105 origin-left">
+        <Link href="/" className="text-3xl font-serif text-brown font-bold tracking-tight block mb-6 px-0 transition-transform hover:scale-105 origin-left whitespace-nowrap">
           The Cozy <span className="text-caramel">Bakery</span>
         </Link>
         <div className="flex items-center gap-3 mb-1">

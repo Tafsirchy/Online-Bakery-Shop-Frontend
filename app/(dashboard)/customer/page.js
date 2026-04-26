@@ -50,7 +50,7 @@ function CustomerDashboardContent() {
   const [loading, setLoading] = useState(true);
 
   // Profile State
-  const [profileData, setProfileData] = useState({ name: '', email: '' });
+  const [profileData, setProfileData] = useState({ name: '', email: '', phone: '', address: '' });
   const [passwordData, setPasswordData] = useState({ currentPassword: '', newPassword: '' });
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
@@ -61,7 +61,12 @@ function CustomerDashboardContent() {
 
   useEffect(() => {
     if (authUser) {
-      setProfileData({ name: authUser.name || '', email: authUser.email || '' });
+      setProfileData({ 
+        name: authUser.name || '', 
+        email: authUser.email || '',
+        phone: authUser.phone || '',
+        address: authUser.address || ''
+      });
     }
   }, [authUser]);
 
@@ -359,17 +364,35 @@ function CustomerDashboardContent() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label>Email Address</Label>
+                        <Label>Email Address (Cannot be changed)</Label>
                         <Input 
                           type="email"
-                          required 
-                          className="rounded-xl bg-background border-border-light" 
+                          readOnly 
+                          className="rounded-xl bg-gray-50 border-border-light cursor-not-allowed opacity-70" 
                           value={profileData.email}
-                          onChange={e => setProfileData({...profileData, email: e.target.value})}
                         />
                       </div>
-                      <Button type="submit" className="w-full rounded-xl bg-sage hover:bg-brown text-white" disabled={profileLoading}>
-                        {profileLoading ? 'Saving...' : 'Save Changes'}
+                      <div className="space-y-2">
+                        <Label>Mobile Number</Label>
+                        <Input 
+                          type="tel"
+                          placeholder="e.g. 01712345678"
+                          className="rounded-xl bg-background border-border-light" 
+                          value={profileData.phone}
+                          onChange={e => setProfileData({...profileData, phone: e.target.value})}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Delivery Address</Label>
+                        <textarea 
+                          className="w-full min-h-[100px] rounded-xl bg-background border border-border-light p-3 text-sm outline-none focus:ring-2 focus:ring-sage/20 transition-all"
+                          placeholder="Your detailed address..."
+                          value={profileData.address}
+                          onChange={e => setProfileData({...profileData, address: e.target.value})}
+                        />
+                      </div>
+                      <Button type="submit" className="w-full h-12 rounded-xl bg-sage hover:bg-brown text-white font-bold shadow-md transition-all active:scale-[0.98]" disabled={profileLoading}>
+                        {profileLoading ? 'Saving...' : 'Save Profile Details'}
                       </Button>
                     </form>
                   </CardContent>
