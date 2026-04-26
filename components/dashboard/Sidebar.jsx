@@ -37,7 +37,10 @@ export default function Sidebar() {
 
   return (
     <aside className="w-72 bg-cream-highlight border-r border-border-light flex flex-col shrink-0 h-full">
-      <div className="p-10 pb-8">
+      <div className="p-8 pb-4">
+        <Link href="/" className="text-xl font-serif text-brown font-bold tracking-tight block mb-8 px-2">
+          The Cozy <span className="text-caramel">Bakery</span>
+        </Link>
         <div className="flex items-center gap-3 mb-2">
           <div className="w-2 h-8 bg-sage rounded-full" />
           <h2 className="text-3xl font-serif text-brown font-bold tracking-tight">Dashboard</h2>
@@ -68,19 +71,19 @@ export default function Sidebar() {
             </Link>
           );
         })}
-
-        <div className="pt-8 mt-8 border-t border-border-light/50">
-          <Link 
-            href="/"
-            className="flex items-center gap-4 px-6 py-4 rounded-2xl text-muted hover:text-brown hover:bg-white font-bold transition-all"
-          >
-            <Home className="w-5 h-5" />
-            Store
-          </Link>
-        </div>
       </nav>
 
-      <div className="p-8 mt-auto border-t border-border-light/50 bg-cream-highlight/50">
+      <div className="p-8 mt-auto border-t border-border-light/50 bg-cream-highlight/50 space-y-4">
+        <Link 
+          href="/"
+          className="flex items-center gap-4 px-6 py-4 rounded-2xl text-brown hover:bg-white font-bold transition-all group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center group-hover:bg-sage/10 transition-colors">
+            <Home className="w-5 h-5 text-brown" />
+          </div>
+          <span className="uppercase tracking-widest text-xs">Back to Home</span>
+        </Link>
+
         <button 
           onClick={logout}
           className="flex items-center gap-4 px-6 py-4 rounded-2xl text-red-500 hover:bg-red-50 hover:shadow-sm transition-all w-full text-left group"
