@@ -111,50 +111,54 @@ export default function Navbar() {
             </Link>
           </motion.div>
 
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                type="button"
-                aria-label="Open account menu"
-                className="p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer"
-              >
-                <User className="w-6 h-6 text-brown" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="end" 
-                sideOffset={12}
-                className="w-64 rounded-[1.5rem] border border-border-light bg-white p-2 shadow-2xl animate-in fade-in zoom-in-95 duration-200 z-[1002]"
-              >
-                <div className="px-4 py-3 border-b border-border-light/50 mb-1">
-                  <p className="text-xs font-bold text-muted uppercase tracking-widest mb-1">Signed in as</p>
-                  <p className="text-sm font-bold text-brown truncate">{user.email}</p>
-                </div>
-                <DropdownMenuItem
-                  onClick={() => router.push(getDashboardPath(user.role))}
-                  className="cursor-pointer rounded-xl py-3 px-4 flex items-center gap-3 text-brown hover:bg-cream-highlight transition-colors"
+          {isMounted ? (
+            user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  type="button"
+                  aria-label="Open account menu"
+                  className="p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-sage/10 flex items-center justify-center">
-                    <Menu className="w-4 h-4 text-sage" />
-                  </div>
-                  <span className="font-medium">Dashboard</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="cursor-pointer rounded-xl py-3 px-4 flex items-center gap-3 text-red-500 focus:text-red-600 focus:bg-red-50 transition-colors mt-1"
+                  <User className="w-6 h-6 text-brown" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  align="end" 
+                  sideOffset={12}
+                  className="w-64 rounded-[1.5rem] border border-border-light bg-white p-2 shadow-2xl animate-in fade-in zoom-in-95 duration-200 z-[1002]"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
-                    <LogOut className="w-4 h-4" />
+                  <div className="px-4 py-3 border-b border-border-light/50 mb-1">
+                    <p className="text-xs font-bold text-muted uppercase tracking-widest mb-1">Signed in as</p>
+                    <p className="text-sm font-bold text-brown truncate">{user.email}</p>
                   </div>
-                  <span className="font-bold uppercase tracking-widest text-[10px]">Logout</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  <DropdownMenuItem
+                    onClick={() => router.push(getDashboardPath(user.role))}
+                    className="cursor-pointer rounded-xl py-3 px-4 flex items-center gap-3 text-brown hover:bg-cream-highlight transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-sage/10 flex items-center justify-center">
+                      <Menu className="w-4 h-4 text-sage" />
+                    </div>
+                    <span className="font-medium">Dashboard</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer rounded-xl py-3 px-4 flex items-center gap-3 text-red-500 focus:text-red-600 focus:bg-red-50 transition-colors mt-1"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                      <LogOut className="w-4 h-4" />
+                    </div>
+                    <span className="font-bold uppercase tracking-widest text-[10px]">Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <Button className="bg-brown hover:bg-caramel text-white rounded-full px-8 h-11 font-bold shadow-soft transition-all active:scale-95 border-none">
+                  Login
+                </Button>
+              </Link>
+            )
           ) : (
-            <Link href="/login">
-              <Button className="bg-brown hover:bg-caramel text-white rounded-full px-8 h-11 font-bold shadow-soft transition-all active:scale-95 border-none">
-                Login
-              </Button>
-            </Link>
+            <div className="w-24 h-11 bg-brown/5 animate-pulse rounded-full" />
           )}
 
           {/* Mobile Menu */}
