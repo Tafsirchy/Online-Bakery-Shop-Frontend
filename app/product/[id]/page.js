@@ -1,3 +1,25 @@
+import { useParams, useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import axios from '@/lib/axios';
+import { useCartStore } from '@/store/useCartStore';
+import { useWishlistStore } from '@/store/useWishlistStore';
+import { toast } from 'react-toastify';
+import { 
+  ArrowLeft, 
+  ShoppingCart, 
+  Heart, 
+  Minus, 
+  Plus, 
+  Star, 
+  Truck, 
+  RotateCcw, 
+  ShieldCheck,
+  Loader2
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Textarea } from '@/components/ui/textarea';
 import { 

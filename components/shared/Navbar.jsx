@@ -15,6 +15,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 
@@ -152,10 +157,72 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Mobile Menu Trigger */}
-          <Button variant="ghost" className="md:hidden p-2">
-            <Menu className="w-6 h-6" />
-          </Button>
+          {/* Mobile Menu */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" className="p-2 hover:bg-cream-highlight rounded-xl">
+                  <Menu className="w-6 h-6 text-brown" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background border-l border-border-light p-0">
+                <div className="flex flex-col h-full">
+                  <div className="p-6 border-b border-border-light">
+                    <Link href="/" className="text-xl font-serif text-brown font-bold tracking-tight">
+                      The Cozy <span className="text-caramel">Bakery</span>
+                    </Link>
+                  </div>
+                  
+                  <div className="flex-grow py-8 px-6 space-y-6">
+                    {navLinks.map((link) => (
+                      <Link
+                        key={link.path}
+                        href={link.path}
+                        className={`block text-2xl font-serif text-muted hover:text-brown transition-colors ${pathname === link.path ? 'text-brown' : ''}`}
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
+
+                  <div className="p-6 bg-cream-highlight/30 space-y-4">
+                    {user ? (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-border-light">
+                          <div className="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center">
+                            <User className="w-5 h-5 text-sage" />
+                          </div>
+                          <div className="overflow-hidden">
+                            <p className="text-sm font-bold text-brown truncate">{user.name}</p>
+                            <p className="text-[10px] text-muted truncate">{user.email}</p>
+                          </div>
+                        </div>
+                        <Button 
+                          onClick={() => router.push(getDashboardPath(user.role))}
+                          className="w-full h-12 rounded-xl bg-brown hover:bg-caramel text-white font-bold"
+                        >
+                          Go to Dashboard
+                        </Button>
+                        <Button 
+                          variant="outline"
+                          onClick={handleLogout}
+                          className="w-full h-12 rounded-xl border-red-100 text-red-500 hover:bg-red-50 font-bold"
+                        >
+                          Logout
+                        </Button>
+                      </div>
+                    ) : (
+                      <Link href="/login" className="block">
+                        <Button className="w-full h-12 rounded-xl bg-brown hover:bg-caramel text-white font-bold">
+                          Login / Register
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </nav>

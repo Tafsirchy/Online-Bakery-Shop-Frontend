@@ -29,7 +29,13 @@ function LoginPageContent() {
           accessToken: tokenResponse.access_token 
         });
         
-        useAuthStore.getState().setAuth(data.user, data.token);
+        // Correctly update auth store
+        useAuthStore.setState({ 
+          user: data.user, 
+          token: data.token,
+          isLoading: false 
+        });
+
         toast.success('Welcome! Logged in with Google.', { icon: '👋' });
         router.push('/');
       } catch (err) {
