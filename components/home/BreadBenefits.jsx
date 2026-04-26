@@ -56,7 +56,7 @@ export default function BreadBenefits() {
             alt="Round Sourdough" 
             animate={{ y: [0, -15, 0] }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            className="relative z-10 w-full max-w-[400px] drop-shadow-2xl"
+            className="relative z-10 w-full max-w-[420px] aspect-square object-cover rounded-full border-8 border-white shadow-2xl drop-shadow-2xl"
           />
         </motion.div>
 
