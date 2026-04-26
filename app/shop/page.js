@@ -22,7 +22,7 @@ import { Search, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function ShopPage() {
+function ShopContent() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -77,9 +77,7 @@ export default function ShopPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
-      <Suspense fallback={null}>
-        <PaymentSuccessModal />
-      </Suspense>
+      <PaymentSuccessModal />
       <div className="flex flex-col md:flex-row gap-8">
         {/* Filters Sidebar */}
         <aside className="w-full md:w-64 space-y-8">
@@ -229,6 +227,21 @@ export default function ShopPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-12 h-12 text-sage animate-spin" />
+          <p className="text-muted font-serif italic text-lg">Opening the bakery...</p>
+        </div>
+      </div>
+    }>
+      <ShopContent />
+    </Suspense>
   );
 }
 
