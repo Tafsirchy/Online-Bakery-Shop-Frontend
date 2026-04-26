@@ -323,7 +323,7 @@ function CustomerDashboardContent() {
                     </Button>
                   </div>
                 )}
-              </div>
+              </section>
             </motion.div>
           )}
 
