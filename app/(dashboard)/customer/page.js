@@ -73,6 +73,17 @@ function CustomerDashboardContent() {
     return passwordData.currentPassword.trim() !== '' && passwordData.newPassword.length >= 6;
   }, [passwordData]);
 
+  const isCancellable = useMemo(() => {
+    if (!selectedOrder) return false;
+    if (selectedOrder.status !== 'Pending' && selectedOrder.status !== 'Processing') return false;
+    
+    const orderTime = new Date(selectedOrder.createdAt).getTime();
+    const currentTime = new Date().getTime();
+    const twelveHoursInMs = 12 * 60 * 60 * 1000;
+    
+    return (currentTime - orderTime) < twelveHoursInMs;
+  }, [selectedOrder]);
+
   useEffect(() => {
     if (authUser) {
       setProfileData({ 
@@ -550,14 +561,23 @@ function CustomerDashboardContent() {
                   </div>
                   
                   {(selectedOrder.status === 'Pending' || selectedOrder.status === 'Processing') && (
-                    <Button 
-                      variant="destructive" 
-                      onClick={() => handleCancelOrder(selectedOrder._id)}
-                      disabled={cancelLoading}
-                      className="rounded-xl shadow-sm"
-                    >
-                      {cancelLoading ? 'Cancelling...' : 'Cancel Order'}
-                    </Button>
+                    isCancellable ? (
+                      <Button 
+                        variant="destructive" 
+                        onClick={() => handleCancelOrder(selectedOrder._id)}
+                        disabled={cancelLoading}
+                        className="rounded-xl shadow-sm"
+                      >
+                        {cancelLoading ? 'Cancelling...' : 'Cancel Order'}
+                      </Button>
+                    ) : (
+                      <div className="text-right">
+                        <p className="text-[10px] font-bold text-red-500/60 uppercase tracking-widest italic">
+                          Cancellation window closed
+                        </p>
+                        <p className="text-[9px] text-muted">12 hours have passed since confirmation</p>
+                      </div>
+                    )
                   )}
                 </div>
               </div>
