@@ -6,43 +6,43 @@ import { Leaf, Clock, Heart, ShieldCheck } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const features = [
-  { 
-    title: "100% Organic", 
+  {
+    title: "100% Organic",
     desc: "We use only the finest locally sourced organic ingredients for our dough and fillings. Every grain is selected for its purity, ensuring that every bite you take is free from artificial preservatives and chemicals.",
     icon: Leaf,
     color: "bg-sage/10 text-sage",
     img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800"
   },
-  { 
-    title: "Always Fresh", 
+  {
+    title: "Always Fresh",
     desc: "Our bakers start at dawn to ensure every bite you take is fresh from the oven. We believe that the true essence of bread is best enjoyed when it's warm, soft, and straight out of the bakery.",
     icon: Clock,
     color: "bg-caramel/10 text-caramel",
-    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800"
+    img: "https://images.unsplash.com/photo-1506459225024-1428097a7e18?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
-  { 
-    title: "Made with Love", 
+  {
+    title: "Made with Love",
     desc: "Traditional family recipes passed down through generations, made with passion. Baking is our love language, and we pour our hearts into every loaf to bring joy to your family's table.",
     icon: Heart,
     color: "bg-red-50 text-red-400",
     img: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800"
   },
-  { 
-    title: "Safe Delivery", 
+  {
+    title: "Safe Delivery",
     desc: "Carefully packed and delivered to your doorstep while maintaining perfect warmth. Our dedicated delivery team ensures that your treats arrive in pristine condition, ready to be devoured.",
     icon: ShieldCheck,
     color: "bg-brown/10 text-brown",
     img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800"
   },
-  { 
-    title: "Eco-Friendly", 
+  {
+    title: "Eco-Friendly",
     desc: "We use 100% biodegradable packaging to keep our planet as fresh as our bread. Sustainability is at the core of our operations, minimizing our carbon footprint every step of the way.",
     icon: Leaf,
     color: "bg-sage/10 text-sage",
-    img: "https://images.unsplash.com/photo-1542601906970-350352299440?q=80&w=2070&auto=format&fit=crop"
+    img: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   },
-  { 
-    title: "Expert Bakers", 
+  {
+    title: "Expert Bakers",
     desc: "Our team has over 20 years of combined experience in artisanal bread making. We've mastered the delicate balance of time, temperature, and technique to bring you bakery perfection.",
     icon: Heart,
     color: "bg-red-50 text-red-400",
@@ -58,13 +58,13 @@ export default function WhyUs() {
       {/* Decorative SVG Background elements */}
       <div className="absolute top-0 right-0 opacity-5 pointer-events-none">
         <svg width="400" height="400" viewBox="0 0 200 200">
-           <path fill="currentColor" d="M45.7,-77C58.1,-69.3,66.4,-54.6,71.5,-39.7C76.6,-24.8,78.5,-9.7,77.3,5.1C76.1,19.9,71.8,34.4,63.4,46.5C55,58.6,42.5,68.3,28.6,73.4C14.7,78.5,-0.6,79,-16.1,76.5C-31.6,74,-47.4,68.5,-59.8,58.3C-72.2,48.1,-81.2,33.2,-85.1,17.2C-89,1.2,-87.8,-15.9,-81.4,-31C-75,-46.1,-63.4,-59.2,-49.4,-66.3C-35.4,-73.4,-17.7,-74.5,-0.4,-73.8C16.9,-73.1,33.3,-84.7,45.7,-77Z" transform="translate(100 100)" />
+          <path fill="currentColor" d="M45.7,-77C58.1,-69.3,66.4,-54.6,71.5,-39.7C76.6,-24.8,78.5,-9.7,77.3,5.1C76.1,19.9,71.8,34.4,63.4,46.5C55,58.6,42.5,68.3,28.6,73.4C14.7,78.5,-0.6,79,-16.1,76.5C-31.6,74,-47.4,68.5,-59.8,58.3C-72.2,48.1,-81.2,33.2,-85.1,17.2C-89,1.2,-87.8,-15.9,-81.4,-31C-75,-46.1,-63.4,-59.2,-49.4,-66.3C-35.4,-73.4,-17.7,-74.5,-0.4,-73.8C16.9,-73.1,33.3,-84.7,45.7,-77Z" transform="translate(100 100)" />
         </svg>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-20 items-center mb-24">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -72,16 +72,16 @@ export default function WhyUs() {
           >
             <span className="text-caramel font-bold tracking-[0.3em] uppercase text-xs">Our Commitment</span>
             <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">
-              Why our bakery <br /> 
+              Why our bakery <br />
               <span className="text-caramel">feels like home</span>
             </h2>
             <p className="text-muted text-lg max-w-md leading-relaxed">
-              We don't just bake; we craft memories. From the first spark of dawn 
+              We don't just bake; we craft memories. From the first spark of dawn
               to the final golden crust, quality is our only language.
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -135,7 +135,7 @@ export default function WhyUs() {
           <div className="hidden lg:block relative h-[700px] w-full">
             {/* Central Decorative Circle */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border-2 border-dashed border-caramel/20 flex items-center justify-center">
-              <motion.div 
+              <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-0 rounded-full border-2 border-dashed border-caramel/10"
@@ -160,7 +160,7 @@ export default function WhyUs() {
                   whileInView={{ opacity: 1, x, y }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1, duration: 0.8, type: "spring" }}
-                  style={{ 
+                  style={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
