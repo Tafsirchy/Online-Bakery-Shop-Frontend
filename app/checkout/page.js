@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCartStore } from '@/store/useCartStore';
@@ -25,6 +25,7 @@ export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart, removeInvalidItems, removeFromCart } = useCartStore();
   const { user } = useAuthStore();
   const [isMounted, setIsMounted] = useState(false);
+  const orderPlacedRef = useRef(false);
   
   const [shippingInfo, setShippingInfo] = useState({
     street: '', city: '', zipCode: '', country: 'Bangladesh'
@@ -46,7 +47,7 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    if (isMounted && items.length === 0) {
+    if (isMounted && items.length === 0 && !orderPlacedRef.current) {
       router.replace('/cart');
     }
   }, [isMounted, items.length, router]);
@@ -128,8 +129,9 @@ export default function CheckoutPage() {
 
       const response = await axios.post('/orders', orderData);
 
-      clearCart();
+      orderPlacedRef.current = true;
       router.push(`/shop?cod_success=true&orderId=${response.data.data._id}`);
+      clearCart();
     } catch (err) {
       const serverMessage = err.response?.data?.message || err.message || 'Order placement failed';
 
