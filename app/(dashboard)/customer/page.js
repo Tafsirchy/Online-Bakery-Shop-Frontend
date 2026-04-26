@@ -158,7 +158,7 @@ function CustomerDashboardContent() {
   const getStageIndex = (status) => orderStages.indexOf(status);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-10 w-full">
+    <div className="max-w-7xl mx-auto space-y-12 w-full p-10 pb-20">
         <AnimatePresence mode="wait">
           {activeTab === 'orders' && (
             <motion.div 
@@ -168,9 +168,13 @@ function CustomerDashboardContent() {
               exit={{ opacity: 0, y: -10 }}
               className="max-w-6xl mx-auto space-y-10"
             >
-              <header className="space-y-3">
-                <h1 className="text-4xl md:text-5xl font-serif text-brown tracking-tight">My Orders</h1>
-                <p className="text-muted text-lg max-w-2xl">Track your ongoing orders, download invoices, and view your sweet history.</p>
+              <header className="space-y-4">
+                <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-sage/10 text-sage rounded-full text-xs font-bold uppercase tracking-[0.2em]">
+                  <ShoppingBag className="w-4 h-4" />
+                  Your Activity
+                </div>
+                <h1 className="text-5xl md:text-6xl font-serif text-brown tracking-tight leading-tight">My Orders</h1>
+                <p className="text-muted text-lg max-w-2xl leading-relaxed">Track your ongoing orders, download invoices, and view your sweet history.</p>
               </header>
 
               {loading ? (
@@ -241,61 +245,51 @@ function CustomerDashboardContent() {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {orders.map((order) => (
-                            <TableRow 
-                              key={order._id} 
-                              className="hover:bg-white/60 transition-colors border-border-light/50 cursor-pointer"
-                              onClick={() => setSelectedOrder(order)}
-                            >
-                              <TableCell className="font-medium text-xs text-muted uppercase pl-6">
-                                <span className="bg-white px-3 py-1.5 rounded-lg border border-border-light/50 shadow-sm whitespace-nowrap">
-                                  {order.trackingId}
+                        ) : (
+                          orders.map((order) => (
+                            <TableRow key={order._id} className="hover:bg-cream-highlight/30 transition-colors border-border-light">
+                              <TableCell className="py-6 px-8">
+                                <span className="font-mono text-xs font-bold text-brown/60 bg-cream-highlight px-3 py-1.5 rounded-lg border border-border-light">
+                                  #{order.trackingId}
                                 </span>
                               </TableCell>
-                              <TableCell className="font-medium text-brown whitespace-nowrap">
+                              <TableCell className="py-6 font-medium text-muted">
                                 {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                               </TableCell>
-                              <TableCell>
-                                <span className="text-muted font-medium whitespace-nowrap">{order.products.length} {order.products.length === 1 ? 'Item' : 'Items'}</span>
+                              <TableCell className="py-6 font-medium text-muted">
+                                {order.products.length} {order.products.length === 1 ? 'Item' : 'Items'}
                               </TableCell>
-                              <TableCell className="font-bold text-brown text-base whitespace-nowrap">
-                                ৳{order.finalPrice.toFixed(2)}
+                              <TableCell className="py-6 text-center">
+                                <span className="text-xl font-serif text-brown font-bold">
+                                  ৳{order.finalPrice.toFixed(2)}
+                                </span>
                               </TableCell>
-                              <TableCell>
-                                <div className={`flex items-center gap-2 px-3 py-1.5 border rounded-full w-fit whitespace-nowrap ${getStatusColor(order.status)}`}>
-                                  {getStatusIcon(order.status)}
-                                  <span className="text-[11px] font-bold uppercase tracking-wider">{order.status}</span>
-                                </div>
+                              <TableCell className="py-6 text-center">
+                                <span className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest border ${getStatusColor(order.status)}`}>
+                                  {order.status}
+                                </span>
                               </TableCell>
-                              <TableCell className="text-right pr-6" onClick={(e) => e.stopPropagation()}>
-                                <div className="flex justify-end gap-2">
+                              <TableCell className="py-6 px-8 text-right">
+                                <div className="flex items-center justify-end gap-2">
                                   <Button 
                                     variant="outline" 
                                     size="sm" 
-                                    className="rounded-xl text-sage hover:text-white hover:bg-sage border-sage/20 whitespace-nowrap"
                                     onClick={() => setSelectedOrder(order)}
+                                    className="rounded-full border-border-light hover:bg-sage hover:text-white hover:border-sage transition-all px-6"
                                   >
                                     Track
                                   </Button>
                                   <Button 
                                     variant="ghost" 
-                                    size="sm" 
-                                    className="rounded-xl text-brown hover:bg-brown/10 whitespace-nowrap"
+                                    size="icon"
                                     onClick={() => generateInvoice(order)}
+                                    className="rounded-full hover:bg-cream-highlight text-muted hover:text-brown"
                                   >
                                     <Download className="w-4 h-4" />
                                   </Button>
                                 </div>
                               </TableCell>
                             </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </Card>
-                ) : (
-                  <div className="text-center py-24 bg-cream-highlight rounded-3xl border-2 border-dashed border-caramel/20 flex flex-col items-center shadow-sm">
-                    <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-soft mb-6 relative">
                       <div className="absolute inset-0 bg-caramel/5 rounded-full animate-ping" />
                       <Package className="w-10 h-10 text-caramel/50 relative z-10" />
                     </div>

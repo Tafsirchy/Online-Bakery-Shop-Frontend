@@ -37,9 +37,14 @@ export default function Sidebar() {
 
   return (
     <aside className="w-72 bg-cream-highlight border-r border-border-light flex flex-col shrink-0 h-full">
-      <div className="p-8 pb-12">
-        <h2 className="text-3xl font-serif text-brown font-bold tracking-tight">Dashboard</h2>
-        <p className="text-[10px] font-bold text-muted uppercase tracking-[0.3em] mt-1 ml-1">{user?.role}</p>
+      <div className="p-10 pb-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-2 h-8 bg-sage rounded-full" />
+          <h2 className="text-3xl font-serif text-brown font-bold tracking-tight">Dashboard</h2>
+        </div>
+        <p className="text-[10px] font-bold text-muted uppercase tracking-[0.3em] ml-5 opacity-60">
+          {user?.role || 'Customer'} Portal
+        </p>
       </div>
 
       <nav className="flex-1 px-4 space-y-2">
@@ -75,15 +80,17 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      <div className="p-8 space-y-4">
+      <div className="p-8 mt-auto border-t border-border-light/50 bg-cream-highlight/50">
         <button 
           onClick={logout}
-          className="flex items-center gap-4 px-6 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-all w-full text-left text-xs font-bold uppercase tracking-widest"
+          className="flex items-center gap-4 px-6 py-4 rounded-2xl text-red-500 hover:bg-red-50 hover:shadow-sm transition-all w-full text-left group"
         >
-          <LogOut className="w-4 h-4" />
-          Logout
+          <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center group-hover:bg-red-100 transition-colors">
+            <LogOut className="w-5 h-5" />
+          </div>
+          <span className="font-bold uppercase tracking-widest text-xs">Logout</span>
         </button>
-        <div className="text-[10px] text-muted/30 font-bold uppercase tracking-widest pl-6">
+        <div className="mt-6 text-[9px] text-muted/30 font-bold uppercase tracking-[0.2em] pl-2">
           The Cozy Bakery © 2026
         </div>
       </div>
