@@ -10,15 +10,18 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export default function AppChrome({ children }) {
   const pathname = usePathname();
-  const isAuthRoute = pathname === '/login' || pathname === '/register';
+  const isDashboardRoute = pathname.startsWith('/customer') || 
+                           pathname.startsWith('/admin') || 
+                           pathname.startsWith('/management');
+  const hideChrome = isAuthRoute || isDashboardRoute;
 
   return (
     <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
-      {!isAuthRoute && <Navbar />}
+      {!hideChrome && <Navbar />}
       <main className="flex-grow">
         {children}
       </main>
-      {!isAuthRoute && <Footer />}
+      {!hideChrome && <Footer />}
       
       <ToastContainer 
         position="top-right" 
