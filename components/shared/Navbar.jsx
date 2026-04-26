@@ -88,7 +88,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link href="/wishlist" className="relative w-10 h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
             <Heart className="w-6 h-6 group-hover:scale-110 transition-transform" />
-            {isMounted && wishlist.length > 0 && (
+            {isMounted && wishlist?.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-caramel text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-background animate-in fade-in zoom-in duration-300">
                 {wishlist.length}
               </span>

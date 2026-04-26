@@ -21,11 +21,16 @@ function LoginPageContent() {
   const { login, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleGoogleLogin = useGoogleLogin({
     flow: 'auth-code',
     ux_mode: 'redirect',
-    redirect_uri: typeof window !== 'undefined' ? `${window.location.origin}/login` : '',
+    redirect_uri: isMounted ? `${window.location.origin}/login` : '',
   });
 
   const exchangeInProgress = useRef(false);
