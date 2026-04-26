@@ -10,6 +10,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export default function AppChrome({ children }) {
   const pathname = usePathname();
+  const isAuthRoute = pathname === '/login' || pathname === '/register';
   const isDashboardRoute = pathname.startsWith('/customer') || 
                            pathname.startsWith('/admin') || 
                            pathname.startsWith('/management');
