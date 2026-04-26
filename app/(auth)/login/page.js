@@ -23,27 +23,32 @@ function LoginPageContent() {
   const searchParams = useSearchParams();
 
   const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const { data } = await axios.post('/auth/google', { 
-          accessToken: tokenResponse.access_token 
-        });
-        
-        // Correctly update auth store
-        useAuthStore.setState({ 
-          user: data.user, 
-          token: data.token,
-          isLoading: false 
-        });
-
-        toast.success('Welcome! Logged in with Google.', { icon: '👋' });
-        router.push('/');
-      } catch (err) {
-        toast.error('Google Login failed');
-      }
-    },
-    onError: () => toast.error('Google Login Failed'),
+    flow: 'auth-code',
+    ux_mode: 'redirect',
+    redirect_uri: typeof window !== 'undefined' ? `${window.location.origin}/login` : '',
   });
+
+  // Handle the code from the redirect
+  useEffect(() => {
+    const code = searchParams.get('code');
+    if (code) {
+      const exchangeCode = async () => {
+        try {
+          const { data } = await axios.post('/auth/google', { code });
+          useAuthStore.setState({ 
+            user: data.user, 
+            token: data.token,
+            isLoading: false 
+          });
+          toast.success('Welcome! Logged in with Google.', { icon: '👋' });
+          router.push('/');
+        } catch (err) {
+          toast.error('Google Login failed during exchange');
+        }
+      };
+      exchangeCode();
+    }
+  }, [searchParams, router]);
 
 
 
