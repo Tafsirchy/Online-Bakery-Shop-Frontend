@@ -219,19 +219,18 @@ export default function AdminProducts() {
                 Add New Product
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-cream-highlight border-border-light rounded-[2.5rem] max-w-4xl p-0 overflow-hidden shadow-2xl">
-              <div className="bg-brown p-8 text-white">
+            <DialogContent className="bg-cream-highlight border-border-light rounded-[2.5rem] max-w-6xl p-0 overflow-hidden shadow-2xl">
+              <div className="bg-brown p-6 text-white">
                 <DialogHeader>
-                  <DialogTitle className="text-3xl font-serif text-white flex items-center gap-3">
-                    <Plus className="w-8 h-8 text-caramel" />
+                  <DialogTitle className="text-2xl font-serif text-white flex items-center gap-3">
+                    <Plus className="w-6 h-6 text-caramel" />
                     {editingId ? 'Refine Bakery Item' : 'New Bakery Creation'}
                   </DialogTitle>
-                  <p className="text-white/60 text-sm mt-2 italic font-serif">Perfecting the details for our master bakers</p>
                 </DialogHeader>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-10 space-y-10 max-h-[80vh] min-h-[500px] overflow-y-auto custom-scrollbar bg-white/30 backdrop-blur-sm">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[85vh] min-h-[400px] overflow-y-auto custom-scrollbar bg-white/30 backdrop-blur-sm">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                   {/* Left Column: Basic Details */}
                   <div className="space-y-6">
                     <div className="space-y-3">
@@ -357,16 +356,16 @@ export default function AdminProducts() {
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-border-light">
+                <div className="pt-4 border-t border-border-light">
                   <Button 
                     type="submit" 
-                    className="w-full py-8 rounded-[1.5rem] bg-sage hover:bg-brown text-white font-bold text-xl shadow-xl transition-all active:scale-[0.99] flex gap-3"
+                    className="w-full py-6 rounded-[1.2rem] bg-sage hover:bg-brown text-white font-bold text-lg shadow-xl transition-all active:scale-[0.99] flex gap-3"
                     disabled={submitting}
                   >
-                    {submitting ? <Loader2 className="animate-spin w-6 h-6" /> : (
+                    {submitting ? <Loader2 className="animate-spin w-5 h-5" /> : (
                       <>
-                        <CheckCircle2 className="w-6 h-6" />
-                        {editingId ? 'Synchronize Updates' : 'Launch New Creation'}
+                        <CheckCircle2 className="w-5 h-5" />
+                        {editingId ? 'Save Changes' : 'Create Product'}
                       </>
                     )}
                   </Button>
