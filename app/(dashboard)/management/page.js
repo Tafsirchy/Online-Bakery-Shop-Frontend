@@ -27,13 +27,33 @@ import {
 
 export default function ManagementDashboard() {
   const [stats, setStats] = useState({
-    totalSales: 4520,
-    totalOrders: 124,
-    totalUsers: 852,
-    avgOrderValue: 36.45
+    totalRevenue: 0,
+    totalOrders: 0,
+    totalUsers: 0,
+    avgOrderValue: 0
   });
+  const [recentProducts, setRecentProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Mock data for charts
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [statsRes, productsRes] = await Promise.all([
+          axios.get('/orders/stats'),
+          axios.get('/products?limit=5&sort=-createdAt')
+        ]);
+        setStats(statsRes.data.data);
+        setRecentProducts(productsRes.data.data);
+      } catch (err) {
+        console.error('Failed to fetch dashboard data', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Mock data for charts (can be expanded later with real time-series data)
   const salesData = [
     { name: 'Mon', sales: 400 },
     { name: 'Tue', sales: 300 },
@@ -63,9 +83,9 @@ export default function ManagementDashboard() {
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: 'Total Revenue', value: `$${stats.totalSales}`, icon: DollarSign, color: 'text-sage', bg: 'bg-sage/10' },
-          { label: 'Total Orders', value: stats.totalOrders, icon: ShoppingBag, color: 'text-caramel', bg: 'bg-caramel/10' },
-          { label: 'Total Users', value: stats.totalUsers, icon: Users, color: 'text-brown', bg: 'bg-brown/10' },
+          { label: 'Total Revenue', value: `$${stats.totalRevenue?.toLocaleString()}`, icon: DollarSign, color: 'text-sage', bg: 'bg-sage/10' },
+          { label: 'Total Orders', value: stats.totalOrders?.toLocaleString(), icon: ShoppingBag, color: 'text-caramel', bg: 'bg-caramel/10' },
+          { label: 'Total Users', value: stats.totalUsers?.toLocaleString(), icon: Users, color: 'text-brown', bg: 'bg-brown/10' },
           { label: 'Avg. Order', value: `$${stats.avgOrderValue}`, icon: TrendingUp, color: 'text-sage', bg: 'bg-sage/10' },
         ].map((item, i) => (
           <Card key={i} className="rounded-3xl border-border-light shadow-soft overflow-hidden">
@@ -144,6 +164,37 @@ export default function ManagementDashboard() {
           </div>
         </Card>
       </div>
+
+      {/* Dynamic Content: Recent Products Gallery */}
+      <Card className="rounded-3xl border-border-light shadow-soft p-8">
+        <CardHeader className="p-0 mb-6 flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="text-2xl font-serif text-brown">Recent Bakery Creations</CardTitle>
+            <p className="text-sm text-muted">Latest additions to your dynamic catalog</p>
+          </div>
+          <Link href="/admin/products" className="text-sage font-bold text-sm hover:underline">View All Products</Link>
+        </CardHeader>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {recentProducts.map((product) => (
+            <div key={product._id} className="group relative aspect-square rounded-2xl overflow-hidden border border-border-light bg-cream-highlight shadow-sm hover:shadow-md transition-all">
+              <img 
+                src={product.imageUrl?.split(',')[0] || '/placeholder-bakery.jpg'} 
+                alt={product.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brown/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
+                <p className="text-white text-[10px] font-bold truncate">{product.name}</p>
+                <p className="text-caramel text-[8px] font-bold">${product.price}</p>
+              </div>
+            </div>
+          ))}
+          {recentProducts.length === 0 && (
+            <div className="col-span-full h-32 flex items-center justify-center border border-dashed border-border-light rounded-2xl">
+              <p className="text-muted italic text-sm">No recent creations found.</p>
+            </div>
+          )}
+        </div>
+      </Card>
     </div>
   );
 }

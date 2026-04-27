@@ -20,12 +20,13 @@ export default function Sidebar() {
   const currentTab = searchParams.get('tab') || 'orders';
   const { user, logout } = useAuthStore();
 
-  const adminLinks = [
+  const managementLinks = [
     { name: 'Analytics', path: '/management', icon: BarChart3 },
     { name: 'Products', path: '/admin/products', icon: Package },
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
-    { name: 'Users', path: '/admin/users', icon: Users },
+    ...(user?.role === 'admin' ? [{ name: 'Users', path: '/admin/users', icon: Users }] : []),
     { name: 'Coupons', path: '/admin/coupons', icon: Ticket },
+    { name: 'My Orders', path: '/customer?tab=orders', icon: ShoppingBag, tab: 'orders' },
   ];
 
   const customerLinks = [
@@ -33,7 +34,7 @@ export default function Sidebar() {
     { name: 'Profile', path: '/customer?tab=profile', icon: User, tab: 'profile' },
   ];
 
-  const links = user?.role === 'admin' ? adminLinks : customerLinks;
+  const links = (user?.role === 'admin' || user?.role === 'manager') ? managementLinks : customerLinks;
 
   return (
     <aside className="w-72 bg-cream-highlight border-r border-border-light flex flex-col shrink-0 h-full">
@@ -52,8 +53,9 @@ export default function Sidebar() {
 
       <nav className="flex-1 px-4 space-y-1">
         {links.map((link) => {
-          const isActive = user?.role === 'admin' 
-            ? pathname === link.path 
+          const isManagement = user?.role === 'admin' || user?.role === 'manager';
+          const isActive = isManagement 
+            ? (link.tab ? (pathname === '/customer' && currentTab === link.tab) : pathname === link.path)
             : pathname === '/customer' && currentTab === link.tab;
 
           return (
