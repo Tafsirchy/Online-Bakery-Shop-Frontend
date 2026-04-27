@@ -84,7 +84,7 @@ export default function ProductDetailsPage() {
 
   const handleToggleWishlist = (e) => {
     e.preventDefault();
-    toggleWishlist(product._id);
+    toggleWishlist(product);
   };
 
   const handleSubmitReview = async (e) => {

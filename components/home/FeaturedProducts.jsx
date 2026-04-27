@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
 import ProductCard from '@/components/product/ProductCard';
 import { motion } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 const FALLBACK_FEATURED_PRODUCTS = [
@@ -76,7 +77,25 @@ export default function FeaturedProducts() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="h-80 bg-cream-highlight rounded-2xl animate-pulse" />
+            <div key={n} className="bg-cream-highlight/50 rounded-2xl border border-border-light/50 overflow-hidden flex flex-col h-full animate-pulse shadow-sm">
+              <div className="aspect-[4/3] bg-caramel/5 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-caramel/20 animate-spin" />
+              </div>
+              <div className="p-4 space-y-3">
+                <div className="flex justify-between items-start gap-2">
+                  <div className="space-y-2 flex-grow">
+                    <div className="h-2 bg-caramel/10 rounded-full w-1/3" />
+                    <div className="h-4 bg-caramel/10 rounded-full w-3/4" />
+                  </div>
+                  <div className="w-8 h-4 bg-caramel/5 rounded-lg" />
+                </div>
+                <div className="h-5 bg-caramel/10 rounded-full w-1/4" />
+                <div className="flex gap-2 pt-2">
+                  <div className="h-10 bg-caramel/10 rounded-xl flex-grow" />
+                  <div className="h-10 w-10 bg-caramel/10 rounded-xl" />
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       ) : (

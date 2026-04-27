@@ -17,11 +17,10 @@ export default function WishlistPage() {
 
   useEffect(() => {
     if (authHydrated && hasHydrated) {
-      if (!user) {
-        // Redirect or show login state, but for now we just show empty
-        setLoading(false);
-      } else {
+      if (user) {
         fetchWishlist().finally(() => setLoading(false));
+      } else {
+        setLoading(false);
       }
     }
   }, [authHydrated, hasHydrated, user, fetchWishlist]);
@@ -49,17 +48,14 @@ export default function WishlistPage() {
           <p className="text-muted max-w-lg text-lg">
             Save your favorite artisanal baked goods here and easily add them to your cart when you're ready.
           </p>
+          {!user && (
+            <p className="mt-4 text-sm text-caramel font-medium bg-caramel/5 px-4 py-2 rounded-full">
+              Sign in to sync your wishlist across all your devices!
+            </p>
+          )}
         </div>
 
-        {!user ? (
-          <div className="bg-white max-w-xl mx-auto rounded-3xl p-10 text-center shadow-soft border border-border-light">
-            <h2 className="text-2xl font-serif text-brown mb-4">Please log in</h2>
-            <p className="text-muted mb-8">You need to be logged in to view and save items to your wishlist.</p>
-            <Button onClick={() => router.push('/login')} className="bg-brown hover:bg-caramel text-white rounded-xl h-12 px-8">
-              Go to Login
-            </Button>
-          </div>
-        ) : wishlist.length === 0 ? (
+        {wishlist.length === 0 ? (
           <div className="bg-white max-w-xl mx-auto rounded-3xl p-10 text-center shadow-soft border border-border-light">
             <Heart className="w-16 h-16 text-gray-200 mx-auto mb-6" />
             <h2 className="text-2xl font-serif text-brown mb-4">Your wishlist is empty</h2>

@@ -39,7 +39,7 @@ export default function ProductCard({ product }) {
 
   const handleToggleWishlist = (e) => {
     e.stopPropagation();
-    toggleWishlist(product._id);
+    toggleWishlist(product);
   };
 
   return (
@@ -49,22 +49,25 @@ export default function ProductCard({ product }) {
       className="bg-cream-highlight rounded-2xl shadow-soft border border-border-light overflow-hidden group flex flex-col h-full"
     >
       {/* Image Container */}
-      <Link href={`/product/${product._id}`} className="aspect-[4/3] bg-surface-caramel/20 relative overflow-hidden shrink-0 block">
-        {product.images?.[0] ? (
-          <img 
-            src={product.images[0]} 
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-brown/40 font-serif text-xl italic">
-            Freshly Baked
-          </div>
-        )}
+      {/* Image Container */}
+      <div className="aspect-[4/3] bg-surface-caramel/20 relative overflow-hidden shrink-0">
+        <Link href={`/product/${product._id}`} className="w-full h-full block">
+          {product.images?.[0] ? (
+            <img 
+              src={product.images[0]} 
+              alt={product.name}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-brown/40 font-serif text-xl italic">
+              Freshly Baked
+            </div>
+          )}
+        </Link>
         
         {/* Offer Badge */}
         {product.discountPrice > 0 && (
-          <div className="absolute top-3 left-3 bg-sage text-white px-2 py-0.5 rounded-full text-[9px] font-bold shadow-sm tracking-widest uppercase">
+          <div className="absolute top-3 left-3 bg-sage text-white px-2 py-0.5 rounded-full text-[9px] font-bold shadow-sm tracking-widest uppercase pointer-events-none">
             Offer
           </div>
         )}
@@ -78,7 +81,7 @@ export default function ProductCard({ product }) {
             className={`w-3.5 h-3.5 transition-colors ${isInWishlist(product._id) ? 'fill-red-500 text-red-500' : ''}`} 
           />
         </button>
-      </Link>
+      </div>
 
       <div className="p-3.5 flex flex-col flex-grow space-y-2">
         {/* Title & Rating */}
