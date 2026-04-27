@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from '@/lib/axios';
 
-export default function RegisterPage() {
+function RegisterPageContent() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [formError, setFormError] = useState('');
   const [passwordStrength, setPasswordStrength] = useState({ score: 0, label: '', color: '' });
@@ -22,23 +22,40 @@ export default function RegisterPage() {
   const { register, isLoading, error, clearError } = useAuthStore();
   const router = useRouter();
 
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const { data } = await axios.post('/auth/google', { 
-          accessToken: tokenResponse.access_token 
-        });
-        
-        useAuthStore.getState().setAuth(data.user, data.token);
-        toast.success('Account created! Welcome to the family.', { icon: '🥖' });
-        router.push('/');
-      } catch (err) {
+  const searchParams = useSearchParams();
 
-        toast.error('Google registration failed');
-      }
-    },
-    onError: () => toast.error('Google Authentication Failed'),
+  // Build a stable redirect URI from env var
+  const redirectUri = process.env.NEXT_PUBLIC_SITE_URL
+    ? `${process.env.NEXT_PUBLIC_SITE_URL}/register`
+    : typeof window !== 'undefined'
+    ? `${window.location.origin}/register`
+    : 'http://localhost:3000/register';
+
+  const handleGoogleLogin = useGoogleLogin({
+    flow: 'auth-code',
+    ux_mode: 'redirect',
+    redirect_uri: redirectUri,
   });
+
+  // Handle the code from the redirect
+  useEffect(() => {
+    const code = searchParams.get('code');
+    if (code) {
+      const exchangeCode = async () => {
+        try {
+          const { data } = await axios.post('/auth/google', { code });
+          useAuthStore.getState().setAuth(data.user, data.token);
+          toast.success('Account created! Welcome to the family.', { icon: '🥖' });
+          router.push('/');
+        } catch (err) {
+          console.error('Google Exchange Error:', err);
+          const msg = err.response?.data?.message || 'Google registration failed';
+          toast.error(msg);
+        }
+      };
+      exchangeCode();
+    }
+  }, [searchParams, router]);
 
 
 
@@ -322,5 +339,13 @@ export default function RegisterPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<div>Loading registration...</div>}>
+      <RegisterPageContent />
+    </Suspense>
   );
 }
