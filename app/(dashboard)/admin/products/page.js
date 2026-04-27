@@ -21,7 +21,7 @@ import {
   DialogTitle, 
   DialogTrigger 
 } from '@/components/ui/dialog';
-import { Plus, Pencil, Trash2, Loader2, Percent } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2, Percent, CheckCircle2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export default function AdminProducts() {
@@ -219,128 +219,158 @@ export default function AdminProducts() {
                 Add New Product
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-cream-highlight border-border-light rounded-2xl max-w-md">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-serif text-brown">
-                  {editingId ? 'Edit Bakery Item' : 'New Bakery Item'}
-                </DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4 pt-4 max-h-[70vh] overflow-y-auto px-1">
-                <div className="space-y-2">
-                  <Label>Product Name</Label>
-                  <Input 
-                    required 
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="rounded-xl border-border-light"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Price ($)</Label>
-                    <Input 
-                      required type="number" 
-                      value={formData.price}
-                      onChange={(e) => setFormData({...formData, price: e.target.value})}
-                      className="rounded-xl border-border-light"
-                    />
+            <DialogContent className="bg-cream-highlight border-border-light rounded-[2.5rem] max-w-4xl p-0 overflow-hidden shadow-2xl">
+              <div className="bg-brown p-8 text-white">
+                <DialogHeader>
+                  <DialogTitle className="text-3xl font-serif text-white flex items-center gap-3">
+                    <Plus className="w-8 h-8 text-caramel" />
+                    {editingId ? 'Refine Bakery Item' : 'New Bakery Creation'}
+                  </DialogTitle>
+                  <p className="text-white/60 text-sm mt-2 italic font-serif">Perfecting the details for our master bakers</p>
+                </DialogHeader>
+              </div>
+
+              <form onSubmit={handleSubmit} className="p-8 space-y-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                  {/* Left Column: Basic Details */}
+                  <div className="space-y-6">
+                    <div className="space-y-3">
+                      <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Product Name</Label>
+                      <Input 
+                        required 
+                        placeholder="e.g., Chocolate Lava Cake"
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                        className="rounded-2xl border-border-light bg-white/50 focus:bg-white transition-all h-12 shadow-sm"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-3">
+                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Base Price ($)</Label>
+                        <Input 
+                          required type="number" 
+                          value={formData.price}
+                          onChange={(e) => setFormData({...formData, price: e.target.value})}
+                          className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm"
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Offer Price ($)</Label>
+                        <Input 
+                          type="number" 
+                          value={formData.discountPrice}
+                          onChange={(e) => setFormData({...formData, discountPrice: e.target.value})}
+                          className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm"
+                          placeholder="Optional"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-3">
+                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Inventory Stock</Label>
+                        <Input 
+                          required type="number" 
+                          value={formData.stock}
+                          onChange={(e) => setFormData({...formData, stock: e.target.value})}
+                          className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm"
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Category</Label>
+                        <Select 
+                          value={formData.category} 
+                          onValueChange={(val) => setFormData({...formData, category: val})}
+                        >
+                          <SelectTrigger className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-cream-highlight border-border-light rounded-xl">
+                            <SelectItem value="Cakes">Cakes</SelectItem>
+                            <SelectItem value="Pastries">Pastries</SelectItem>
+                            <SelectItem value="Cookies">Cookies</SelectItem>
+                            <SelectItem value="Bread">Bread</SelectItem>
+                            <SelectItem value="Offers">Offers</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3 pt-2">
+                      <div className="flex items-center space-x-3 p-4 bg-white/40 rounded-2xl border border-border-light">
+                        <input
+                          type="checkbox"
+                          id="isFeatured"
+                          checked={formData.isFeatured}
+                          onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
+                          className="h-5 w-5 rounded-lg border-border-light text-sage focus:ring-sage transition-all"
+                        />
+                        <Label htmlFor="isFeatured" className="cursor-pointer font-bold text-brown">Feature on Home Page</Label>
+                      </div>
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label>Offer Price ($)</Label>
-                    <Input 
-                      type="number" 
-                      value={formData.discountPrice}
-                      onChange={(e) => setFormData({...formData, discountPrice: e.target.value})}
-                      className="rounded-xl border-border-light"
-                      placeholder="Optional"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Stock</Label>
-                    <Input 
-                      required type="number" 
-                      value={formData.stock}
-                      onChange={(e) => setFormData({...formData, stock: e.target.value})}
-                      className="rounded-xl border-border-light"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Image URLs (comma separated)</Label>
-                    <Input 
-                      value={formData.imageUrl}
-                      onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                      className="rounded-xl border-border-light"
-                      placeholder="url1, url2, url3"
-                    />
+
+                  {/* Right Column: Descriptions & Assets */}
+                  <div className="space-y-6">
+                    <div className="space-y-3">
+                      <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Image Assets (URLs, comma-separated)</Label>
+                      <Input 
+                        value={formData.imageUrl}
+                        onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
+                        className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm"
+                        placeholder="https://image1.jpg, https://image2.jpg"
+                      />
+                    </div>
+
+                    <div className="space-y-3">
+                      <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Detailed Description</Label>
+                      <Textarea 
+                        required 
+                        value={formData.description}
+                        onChange={(e) => setFormData({...formData, description: e.target.value})}
+                        className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-32 shadow-sm resize-none"
+                        placeholder="Tell us about the texture, flavor, and story of this treat..."
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-3">
+                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Ingredients</Label>
+                        <Textarea 
+                          value={formData.ingredients}
+                          onChange={(e) => setFormData({...formData, ingredients: e.target.value})}
+                          className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-24 shadow-sm text-xs"
+                          placeholder="Flour, Sugar, Cocoa..."
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Health Benefits</Label>
+                        <Textarea 
+                          value={formData.healthBenefits}
+                          onChange={(e) => setFormData({...formData, healthBenefits: e.target.value})}
+                          className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-24 shadow-sm text-xs"
+                          placeholder="Rich in antioxidants..."
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label>Ingredients (comma separated)</Label>
-                  <Textarea 
-                    value={formData.ingredients}
-                    onChange={(e) => setFormData({...formData, ingredients: e.target.value})}
-                    className="rounded-xl border-border-light h-20"
-                    placeholder="Flour, Sugar, Butter..."
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Health Benefits (comma separated)</Label>
-                  <Textarea 
-                    value={formData.healthBenefits}
-                    onChange={(e) => setFormData({...formData, healthBenefits: e.target.value})}
-                    className="rounded-xl border-border-light h-20"
-                    placeholder="Rich in fiber, Vitamin C..."
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2 py-2">
-                  <input
-                    type="checkbox"
-                    id="isFeatured"
-                    checked={formData.isFeatured}
-                    onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
-                    className="h-4 w-4 rounded border-border-light text-sage focus:ring-sage"
-                  />
-                  <Label htmlFor="isFeatured" className="cursor-pointer">Mark as Featured Product</Label>
-                </div>
-                <div className="space-y-2">
-                  <Label>Category</Label>
-                  <Select 
-                    value={formData.category} 
-                    onValueChange={(val) => setFormData({...formData, category: val})}
+                <div className="pt-6 border-t border-border-light">
+                  <Button 
+                    type="submit" 
+                    className="w-full py-8 rounded-[1.5rem] bg-sage hover:bg-brown text-white font-bold text-xl shadow-xl transition-all active:scale-[0.99] flex gap-3"
+                    disabled={submitting}
                   >
-                    <SelectTrigger className="rounded-xl border-border-light">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-cream-highlight border-border-light">
-                      <SelectItem value="Cakes">Cakes</SelectItem>
-                      <SelectItem value="Pastries">Pastries</SelectItem>
-                      <SelectItem value="Cookies">Cookies</SelectItem>
-                      <SelectItem value="Bread">Bread</SelectItem>
-                      <SelectItem value="Offers">Offers</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    {submitting ? <Loader2 className="animate-spin w-6 h-6" /> : (
+                      <>
+                        <CheckCircle2 className="w-6 h-6" />
+                        {editingId ? 'Synchronize Updates' : 'Launch New Creation'}
+                      </>
+                    )}
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label>Description</Label>
-                  <Textarea 
-                    required 
-                    value={formData.description}
-                    onChange={(e) => setFormData({...formData, description: e.target.value})}
-                    className="rounded-xl border-border-light h-24"
-                  />
-                </div>
-                <Button 
-                  type="submit" 
-                  className="w-full py-6 rounded-xl bg-sage hover:bg-brown-hover transition-all"
-                  disabled={submitting}
-                >
-                  {submitting ? <Loader2 className="animate-spin" /> : editingId ? 'Update Product' : 'Create Product'}
-                </Button>
               </form>
             </DialogContent>
           </Dialog>
