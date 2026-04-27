@@ -114,7 +114,7 @@ export default function AdminUsers() {
                 <TableRow>
                   <TableHead className="font-bold text-brown">User</TableHead>
                   <TableHead className="font-bold text-brown">Email Address</TableHead>
-                  <TableHead className="font-bold text-brown">Access Level</TableHead>
+                  <TableHead className="font-bold text-brown">Role</TableHead>
                   <TableHead className="font-bold text-brown">Joined On</TableHead>
                   <TableHead className="text-right font-bold text-brown">Management</TableHead>
                 </TableRow>
