@@ -49,7 +49,7 @@ export default function FeaturedProducts() {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const response = await axios.get('/products?limit=4&sort=-averageRating');
+        const response = await axios.get('/products?isFeatured=true&limit=4');
         const fetchedProducts = Array.isArray(response.data?.data) ? response.data.data : [];
         setProducts(fetchedProducts.length ? fetchedProducts : FALLBACK_FEATURED_PRODUCTS);
       } catch (err) {
@@ -66,8 +66,8 @@ export default function FeaturedProducts() {
     <section className="py-24 px-6 max-w-7xl mx-auto">
       <div className="flex justify-between items-end mb-12">
         <div className="space-y-2">
-          <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Best Sellers</h2>
-          <p className="text-muted">Most loved treats by our community</p>
+          <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Featured Selection</h2>
+          <p className="text-muted">Handpicked favorites from our master bakers</p>
         </div>
         <Link href="/shop" className="text-caramel font-bold hover:underline">See Menu</Link>
       </div>

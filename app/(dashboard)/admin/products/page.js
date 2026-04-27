@@ -41,6 +41,7 @@ export default function AdminProducts() {
     stock: '',
     description: '',
     imageUrl: '',
+    isFeatured: false,
   });
 
   const resetForm = () => {
@@ -52,6 +53,7 @@ export default function AdminProducts() {
       stock: '',
       description: '',
       imageUrl: '',
+      isFeatured: false,
     });
     setEditingId(null);
   };
@@ -86,6 +88,7 @@ export default function AdminProducts() {
       stock: product.stock ?? '',
       description: product.description || '',
       imageUrl: product.images?.[0] || '',
+      isFeatured: product.isFeatured || false,
     });
     setOpen(true);
   };
@@ -103,6 +106,7 @@ export default function AdminProducts() {
         stock: Number(formData.stock),
         description: formData.description.trim(),
         images: formData.imageUrl.trim() ? [formData.imageUrl.trim()] : [],
+        isFeatured: formData.isFeatured,
       };
 
       if (editingId) {
@@ -263,6 +267,17 @@ export default function AdminProducts() {
                     />
                   </div>
                 </div>
+
+                <div className="flex items-center space-x-2 py-2">
+                  <input
+                    type="checkbox"
+                    id="isFeatured"
+                    checked={formData.isFeatured}
+                    onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
+                    className="h-4 w-4 rounded border-border-light text-sage focus:ring-sage"
+                  />
+                  <Label htmlFor="isFeatured" className="cursor-pointer">Mark as Featured Product</Label>
+                </div>
                 <div className="space-y-2">
                   <Label>Category</Label>
                   <Select 
@@ -360,6 +375,7 @@ export default function AdminProducts() {
                   <TableHead className="font-bold text-brown">Product</TableHead>
                   <TableHead className="font-bold text-brown">Category</TableHead>
                   <TableHead className="font-bold text-brown">Price</TableHead>
+                  <TableHead className="font-bold text-brown">Featured</TableHead>
                   <TableHead className="font-bold text-brown">Offer</TableHead>
                   <TableHead className="font-bold text-brown">Stock</TableHead>
                   <TableHead className="text-right font-bold text-brown">Actions</TableHead>
@@ -375,6 +391,13 @@ export default function AdminProducts() {
                       </span>
                     </TableCell>
                     <TableCell className="font-bold text-caramel">${Number(product.price).toFixed(2)}</TableCell>
+                    <TableCell>
+                      {product.isFeatured ? (
+                        <span className="px-2 py-0.5 bg-caramel/10 text-caramel rounded text-[10px] font-bold uppercase tracking-wider">Featured</span>
+                      ) : (
+                        <span className="text-muted text-[10px]">-</span>
+                      )}
+                    </TableCell>
                     <TableCell>
                       {Number(product.discountPrice) > 0 ? (
                         <span className="px-3 py-1 bg-sage/10 text-sage rounded-full text-xs font-semibold">
