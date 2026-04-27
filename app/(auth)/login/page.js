@@ -60,8 +60,9 @@ function LoginPageContent() {
           router.push('/');
         } catch (err) {
           console.error('Google Exchange Error:', err);
-          toast.error('Google Login failed during exchange');
-          exchangeInProgress.current = false; // Reset on failure so user can try again
+          const msg = err.response?.data?.message || 'Google Login failed during exchange';
+          toast.error(msg);
+          exchangeInProgress.current = false;
         }
       };
       exchangeCode();
