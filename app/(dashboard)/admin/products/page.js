@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { 
   Table, 
@@ -42,6 +43,8 @@ export default function AdminProducts() {
     description: '',
     imageUrl: '',
     isFeatured: false,
+    ingredients: '',
+    healthBenefits: '',
   });
 
   const resetForm = () => {
@@ -54,6 +57,8 @@ export default function AdminProducts() {
       description: '',
       imageUrl: '',
       isFeatured: false,
+      ingredients: '',
+      healthBenefits: '',
     });
     setEditingId(null);
   };
@@ -87,8 +92,10 @@ export default function AdminProducts() {
       category: product.category || 'Cakes',
       stock: product.stock ?? '',
       description: product.description || '',
-      imageUrl: product.images?.[0] || '',
+      imageUrl: product.images?.join(', ') || '',
       isFeatured: product.isFeatured || false,
+      ingredients: product.ingredients?.join(', ') || '',
+      healthBenefits: product.healthBenefits?.join(', ') || '',
     });
     setOpen(true);
   };
@@ -105,8 +112,10 @@ export default function AdminProducts() {
         category: formData.category,
         stock: Number(formData.stock),
         description: formData.description.trim(),
-        images: formData.imageUrl.trim() ? [formData.imageUrl.trim()] : [],
+        images: formData.imageUrl.split(',').map(s => s.trim()).filter(Boolean),
         isFeatured: formData.isFeatured,
+        ingredients: formData.ingredients.split(',').map(s => s.trim()).filter(Boolean),
+        healthBenefits: formData.healthBenefits.split(',').map(s => s.trim()).filter(Boolean),
       };
 
       if (editingId) {
@@ -216,7 +225,7 @@ export default function AdminProducts() {
                   {editingId ? 'Edit Bakery Item' : 'New Bakery Item'}
                 </DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+              <form onSubmit={handleSubmit} className="space-y-4 pt-4 max-h-[70vh] overflow-y-auto px-1">
                 <div className="space-y-2">
                   <Label>Product Name</Label>
                   <Input 
@@ -258,14 +267,34 @@ export default function AdminProducts() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Image URL</Label>
+                    <Label>Image URLs (comma separated)</Label>
                     <Input 
                       value={formData.imageUrl}
                       onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
                       className="rounded-xl border-border-light"
-                      placeholder="Image URL"
+                      placeholder="url1, url2, url3"
                     />
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Ingredients (comma separated)</Label>
+                  <Textarea 
+                    value={formData.ingredients}
+                    onChange={(e) => setFormData({...formData, ingredients: e.target.value})}
+                    className="rounded-xl border-border-light h-20"
+                    placeholder="Flour, Sugar, Butter..."
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Health Benefits (comma separated)</Label>
+                  <Textarea 
+                    value={formData.healthBenefits}
+                    onChange={(e) => setFormData({...formData, healthBenefits: e.target.value})}
+                    className="rounded-xl border-border-light h-20"
+                    placeholder="Rich in fiber, Vitamin C..."
+                  />
                 </div>
 
                 <div className="flex items-center space-x-2 py-2">
@@ -298,11 +327,11 @@ export default function AdminProducts() {
                 </div>
                 <div className="space-y-2">
                   <Label>Description</Label>
-                  <Input 
+                  <Textarea 
                     required 
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
-                    className="rounded-xl border-border-light"
+                    className="rounded-xl border-border-light h-24"
                   />
                 </div>
                 <Button 
