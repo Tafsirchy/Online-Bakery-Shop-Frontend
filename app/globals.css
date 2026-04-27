@@ -91,6 +91,32 @@ h1, h2, h3, h4, h5, h6 {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Skeleton shimmer — lightweight, single sweep, no heavy pulse */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(212, 163, 115, 0.08);
+  }
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 251, 242, 0.6) 40%,
+      rgba(255, 251, 242, 0.9) 50%,
+      rgba(255, 251, 242, 0.6) 60%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer-sweep 1.6s ease-in-out infinite;
+  }
+  @keyframes shimmer-sweep {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 }
 
 @layer base {
