@@ -23,7 +23,6 @@ export default function ProductCard({ product }) {
     }
     toast.success(`${product.name} added to cart!`, {
       icon: '🛒',
-      position: "bottom-right"
     });
   };
 
