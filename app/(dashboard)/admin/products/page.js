@@ -219,14 +219,19 @@ export default function AdminProducts() {
                 Add New Product
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-cream-highlight border-border-light rounded-[2.5rem] max-w-6xl p-0 overflow-hidden shadow-2xl">
-              <div className="bg-brown p-6 text-white">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-serif text-white flex items-center gap-3">
+            <DialogContent className="bg-cream-highlight border-border-light rounded-[2.5rem] !max-w-[1200px] w-[95vw] p-0 overflow-hidden shadow-2xl">
+              <div className="bg-brown p-7 text-white border-b border-white/10">
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
                     <Plus className="w-6 h-6 text-caramel" />
-                    {editingId ? 'Refine Bakery Item' : 'New Bakery Creation'}
-                  </DialogTitle>
-                </DialogHeader>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-serif text-white font-bold leading-none">
+                      {editingId ? 'Refine Bakery Item' : 'New Bakery Creation'}
+                    </h2>
+                    <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] mt-2 font-bold">Product Management System</p>
+                  </div>
+                </div>
               </div>
 
               <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[85vh] min-h-[400px] overflow-y-auto custom-scrollbar bg-white/30 backdrop-blur-sm">
@@ -266,33 +271,35 @@ export default function AdminProducts() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-6">
-                      <div className="space-y-3">
-                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Inventory Stock</Label>
-                        <Input 
-                          required type="number" 
-                          value={formData.stock}
-                          onChange={(e) => setFormData({...formData, stock: e.target.value})}
-                          className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm"
-                        />
-                      </div>
-                      <div className="space-y-3">
-                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Category</Label>
-                        <Select 
-                          value={formData.category} 
-                          onValueChange={(val) => setFormData({...formData, category: val})}
-                        >
-                          <SelectTrigger className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="bg-cream-highlight border-border-light rounded-xl">
-                            <SelectItem value="Cakes">Cakes</SelectItem>
-                            <SelectItem value="Pastries">Pastries</SelectItem>
-                            <SelectItem value="Cookies">Cookies</SelectItem>
-                            <SelectItem value="Bread">Bread</SelectItem>
-                            <SelectItem value="Offers">Offers</SelectItem>
-                          </SelectContent>
-                        </Select>
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-2 gap-6">
+                        <div className="space-y-3">
+                          <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Inventory Stock</Label>
+                          <Input 
+                            required type="number" 
+                            value={formData.stock}
+                            onChange={(e) => setFormData({...formData, stock: e.target.value})}
+                            className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm"
+                          />
+                        </div>
+                        <div className="space-y-3">
+                          <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Category</Label>
+                          <Select 
+                            value={formData.category} 
+                            onValueChange={(val) => setFormData({...formData, category: val})}
+                          >
+                            <SelectTrigger className="rounded-2xl border-border-light bg-white/50 focus:bg-white h-12 shadow-sm">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-cream-highlight border-border-light rounded-xl">
+                              <SelectItem value="Cakes">Cakes</SelectItem>
+                              <SelectItem value="Pastries">Pastries</SelectItem>
+                              <SelectItem value="Cookies">Cookies</SelectItem>
+                              <SelectItem value="Bread">Bread</SelectItem>
+                              <SelectItem value="Offers">Offers</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
                     </div>
 
