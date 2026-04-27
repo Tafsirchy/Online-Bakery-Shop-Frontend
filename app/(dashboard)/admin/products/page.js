@@ -230,8 +230,8 @@ export default function AdminProducts() {
                 </DialogHeader>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-8 space-y-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              <form onSubmit={handleSubmit} className="p-10 space-y-10 max-h-[80vh] min-h-[500px] overflow-y-auto custom-scrollbar bg-white/30 backdrop-blur-sm">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                   {/* Left Column: Basic Details */}
                   <div className="space-y-6">
                     <div className="space-y-3">
