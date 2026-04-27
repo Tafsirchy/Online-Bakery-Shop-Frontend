@@ -142,6 +142,17 @@ function RegisterPageContent() {
     }
   };
 
+  // Prevent form flash during Google Redirect exchange
+  if (searchParams.get('code')) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-[#f8efe5]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-caramel border-t-transparent" />
+          <p className="text-sm font-medium text-brown animate-pulse">Creating your account...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative h-screen overflow-hidden bg-[#f8efe5] text-brown font-sans">

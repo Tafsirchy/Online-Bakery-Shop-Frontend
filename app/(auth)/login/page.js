@@ -110,6 +110,18 @@ function LoginPageContent() {
     }
   };
 
+  // Prevent form flash during Google Redirect exchange
+  if (searchParams.get('code') || (typeof exchangeInProgress !== 'undefined' && exchangeInProgress.current)) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-[#f8efe5]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-caramel border-t-transparent" />
+          <p className="text-sm font-medium text-brown animate-pulse">Authenticating with Google...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-screen overflow-hidden bg-[#f8efe5] text-brown font-sans">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
