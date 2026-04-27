@@ -47,7 +47,11 @@ function RegisterPageContent() {
             code,
             redirectUri: redirectUri
           });
-          useAuthStore.getState().setAuth(data.user, data.token);
+          useAuthStore.setState({ 
+            user: data.user, 
+            token: data.token,
+            isLoading: false 
+          });
           toast.success('Account created! Welcome to the family.', { icon: '🥖' });
           router.push('/');
         } catch (err) {
