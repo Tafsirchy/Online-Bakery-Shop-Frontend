@@ -50,7 +50,10 @@ function LoginPageContent() {
       exchangeInProgress.current = true;
       const exchangeCode = async () => {
         try {
-          const { data } = await axios.post('/auth/google', { code });
+          const { data } = await axios.post('/auth/google', { 
+            code,
+            redirectUri: redirectUri 
+          });
           useAuthStore.setState({ 
             user: data.user, 
             token: data.token,

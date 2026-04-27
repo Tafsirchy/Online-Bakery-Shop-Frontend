@@ -43,7 +43,10 @@ function RegisterPageContent() {
     if (code) {
       const exchangeCode = async () => {
         try {
-          const { data } = await axios.post('/auth/google', { code });
+          const { data } = await axios.post('/auth/google', { 
+            code,
+            redirectUri: redirectUri
+          });
           useAuthStore.getState().setAuth(data.user, data.token);
           toast.success('Account created! Welcome to the family.', { icon: '🥖' });
           router.push('/');
