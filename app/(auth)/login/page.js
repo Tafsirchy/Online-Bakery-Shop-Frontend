@@ -27,10 +27,18 @@ function LoginPageContent() {
     setIsMounted(true);
   }, []);
 
+  // Build a stable redirect URI from env var (baked at build time, same on server & client)
+  // Fallback to window.location.origin only as a last resort on the client.
+  const redirectUri = process.env.NEXT_PUBLIC_SITE_URL
+    ? `${process.env.NEXT_PUBLIC_SITE_URL}/login`
+    : typeof window !== 'undefined'
+    ? `${window.location.origin}/login`
+    : 'http://localhost:3000/login';
+
   const handleGoogleLogin = useGoogleLogin({
     flow: 'auth-code',
     ux_mode: 'redirect',
-    redirect_uri: isMounted ? `${window.location.origin}/login` : '',
+    redirect_uri: redirectUri,
   });
 
   const exchangeInProgress = useRef(false);
