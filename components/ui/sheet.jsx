@@ -14,15 +14,35 @@ function Sheet({
 }
 
 function SheetTrigger({
+  asChild,
+  children,
   ...props
 }) {
-  return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
+  return (
+    <SheetPrimitive.Trigger
+      data-slot="sheet-trigger"
+      render={asChild ? children : undefined}
+      {...props}
+    >
+      {asChild ? undefined : children}
+    </SheetPrimitive.Trigger>
+  );
 }
 
 function SheetClose({
+  asChild,
+  children,
   ...props
 }) {
-  return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
+  return (
+    <SheetPrimitive.Close
+      data-slot="sheet-close"
+      render={asChild ? children : undefined}
+      {...props}
+    >
+      {asChild ? undefined : children}
+    </SheetPrimitive.Close>
+  );
 }
 
 function SheetPortal({
