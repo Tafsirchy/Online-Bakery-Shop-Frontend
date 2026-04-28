@@ -44,16 +44,16 @@ const categories = [
 export default function CategoriesPage() {
   return (
     <PageWrapper>
-      <div className="max-w-7xl mx-auto px-6 py-20">
-        <header className="text-center max-w-3xl mx-auto mb-20 space-y-4">
-          <h1 className="text-5xl md:text-6xl font-serif text-brown">Our Collections</h1>
-          <p className="text-lg text-muted leading-relaxed">
+      <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
+        <header className="text-center max-w-3xl mx-auto mb-12 md:mb-20 space-y-4">
+          <h1 className="text-4xl md:text-6xl font-serif text-brown">Our Collections</h1>
+          <p className="text-sm md:text-lg text-muted leading-relaxed">
             Every category represents a labor of love. Explore our artisanal range 
             of treats, each crafted with a commitment to quality and tradition.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.name}
@@ -61,9 +61,9 @@ export default function CategoriesPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.1 }}
               viewport={{ once: true }}
-              className={`${cat.color} rounded-[2.5rem] p-10 md:p-12 flex flex-col md:flex-row gap-8 items-center border border-border-light shadow-soft group cursor-default`}
+              className={`${cat.color} rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 flex flex-col md:flex-row gap-6 md:gap-8 items-center border border-brown/5 shadow-soft group cursor-default`}
             >
-              <div className="w-full md:w-1/2 aspect-square rounded-3xl overflow-hidden shadow-warm relative">
+              <div className="w-full md:w-1/2 aspect-[16/9] md:aspect-square rounded-2xl md:rounded-3xl overflow-hidden shadow-warm relative">
                 <img 
                   src={cat.image} 
                   alt={cat.name} 
@@ -72,21 +72,21 @@ export default function CategoriesPage() {
                 <div className="absolute inset-0 bg-brown/10 group-hover:bg-transparent transition-colors duration-500" />
               </div>
 
-              <div className="w-full md:w-1/2 space-y-6">
+              <div className="w-full md:w-1/2 space-y-4 md:space-y-6">
                 <div className="flex justify-between items-start">
-                  <div className="p-3 bg-white/50 rounded-2xl">
-                    <cat.icon className="w-8 h-8 text-brown" />
+                  <div className="p-2.5 md:p-3 bg-white/50 rounded-xl md:rounded-2xl">
+                    <cat.icon className="w-6 h-6 md:w-8 md:h-8 text-brown" />
                   </div>
-                  <span className="text-xs font-bold uppercase tracking-widest text-muted">{cat.count}</span>
+                  <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted">{cat.count}</span>
                 </div>
                 
-                <div className="space-y-3">
-                  <h2 className="text-3xl font-serif text-brown">{cat.name}</h2>
-                  <p className="text-muted text-sm leading-relaxed">{cat.desc}</p>
+                <div className="space-y-2 md:space-y-3">
+                  <h2 className="text-2xl md:text-3xl font-serif text-brown">{cat.name}</h2>
+                  <p className="text-muted text-xs md:text-sm leading-relaxed line-clamp-3 md:line-clamp-none">{cat.desc}</p>
                 </div>
 
-                <Link href={`/shop?category=${cat.name}`} className="block pt-4">
-                  <Button className="w-full py-6 rounded-2xl bg-brown hover:bg-caramel text-white font-bold group">
+                <Link href={`/shop?category=${cat.name}`} className="block pt-2 md:pt-4">
+                  <Button className="w-full py-6 rounded-xl md:rounded-2xl bg-brown hover:bg-caramel text-white font-bold group border-none">
                     Browse {cat.name}
                     <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>

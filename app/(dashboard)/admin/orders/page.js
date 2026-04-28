@@ -29,6 +29,7 @@ import {
   ClipboardList
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   Dialog, 
@@ -117,68 +118,69 @@ export default function AdminOrders() {
   );
 
   return (
-    <div className="flex-1 p-8 overflow-y-auto">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-serif text-brown font-bold">Orders Management</h1>
-            <p className="text-muted">Tracking {orders.length} orders from your hungry customers</p>
+    <div className="flex-1 p-4 md:p-6 overflow-y-auto">
+      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="space-y-0.5">
+            <h1 className="text-2xl md:text-3xl font-serif text-brown font-bold">Orders Management</h1>
+            <p className="text-muted text-xs md:text-sm">Tracking {orders.length} orders from your hungry customers</p>
           </div>
           
-          <div className="relative w-full md:w-80">
+          <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <Input 
-              placeholder="Search by ID or Customer..." 
+              placeholder="Search ID or Customer..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 rounded-xl border-border-light bg-white"
+              className="pl-10 h-11 rounded-xl border-brown/10 bg-white"
             />
           </div>
         </header>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-64 bg-cream-highlight/30 rounded-[2.5rem] border border-dashed border-border-light">
+          <div className="flex flex-col items-center justify-center h-64 bg-cream-highlight/30 rounded-3xl border border-dashed border-brown/10">
             <Loader2 className="w-8 h-8 text-sage animate-spin mb-4" />
-            <p className="text-muted font-serif italic">Gathering your bake orders...</p>
+            <p className="text-muted font-serif italic text-sm">Gathering bake orders...</p>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl border border-border-light shadow-soft overflow-hidden">
-            <Table>
-              <TableHeader className="bg-cream-highlight">
-                <TableRow>
-                  <TableHead className="font-bold text-brown">Order ID</TableHead>
-                  <TableHead className="font-bold text-brown">Customer</TableHead>
-                  <TableHead className="font-bold text-brown">Amount</TableHead>
-                  <TableHead className="font-bold text-brown">Status</TableHead>
-                  <TableHead className="font-bold text-brown">Payment</TableHead>
-                  <TableHead className="text-right font-bold text-brown">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((order) => (
-                  <TableRow key={order._id} className="hover:bg-sage/5 transition-colors">
-                    <TableCell className="font-mono text-xs text-muted font-bold">
-                      {order.trackingId}
-                    </TableCell>
-                    <TableCell>
-                      <div className="font-bold text-brown font-serif">{order.userId?.name || 'Guest'}</div>
-                      <div className="text-[10px] text-muted">{new Date(order.createdAt).toLocaleString()}</div>
-                    </TableCell>
-                    <TableCell className="font-bold text-sage">
-                      ৳{Number(order.finalPrice).toFixed(2)}
-                    </TableCell>
-                    <TableCell>
+          <>
+            {/* Mobile Order Cards (Visible only on SM/MD) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden">
+              {filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((order) => (
+                <div key={order._id} className="bg-white rounded-2xl p-5 border border-brown/5 shadow-soft space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <ShoppingBag className="w-3.5 h-3.5 text-caramel" />
+                        <span className="font-mono text-[10px] text-muted font-bold tracking-tight uppercase">#{order.trackingId}</span>
+                      </div>
+                      <h4 className="font-serif text-brown font-bold text-lg">{order.userId?.name || 'Guest'}</h4>
+                      <p className="text-[10px] text-muted">{new Date(order.createdAt).toLocaleString()}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sage font-bold text-lg">৳{Number(order.finalPrice).toFixed(0)}</p>
+                      <Badge variant="outline" className={`mt-1 rounded-md px-1.5 py-0 text-[8px] uppercase font-bold tracking-widest ${
+                        order.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
+                      }`}>
+                        {order.paymentStatus}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 pt-2 border-t border-brown/5">
+                    <div className="space-y-1.5">
+                      <Label className="text-[9px] font-bold uppercase tracking-widest text-brown opacity-50">Current Status</Label>
                       <Select 
                         value={order.status} 
                         onValueChange={(val) => handleStatusChange(order._id, val)}
                       >
-                        <SelectTrigger className={`w-32 h-8 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(order.status)}`}>
-                          <div className="flex items-center gap-1.5">
+                        <SelectTrigger className={`w-full h-11 rounded-xl text-xs font-bold uppercase tracking-wider border-none shadow-sm ${getStatusColor(order.status)}`}>
+                          <div className="flex items-center gap-2">
                             {getStatusIcon(order.status)}
                             <SelectValue />
                           </div>
                         </SelectTrigger>
-                        <SelectContent className="bg-white border-border-light">
+                        <SelectContent className="bg-white border-brown/10 rounded-xl z-50">
                           <SelectItem value="Pending">Pending</SelectItem>
                           <SelectItem value="Processing">Processing</SelectItem>
                           <SelectItem value="Shipped">Shipped</SelectItem>
@@ -186,95 +188,169 @@ export default function AdminOrders() {
                           <SelectItem value="Cancelled">Cancelled</SelectItem>
                         </SelectContent>
                       </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className={`rounded-lg px-2 py-0.5 text-[10px] uppercase font-bold tracking-widest ${
-                        order.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
-                      }`}>
-                        {order.paymentStatus}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right space-x-1">
+                    </div>
+
+                    <div className="flex gap-2">
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-muted hover:text-sage hover:bg-sage/10"
+                        className="flex-1 h-11 rounded-xl bg-white border border-brown/10 text-brown font-bold text-xs flex gap-2 items-center justify-center hover:bg-cream-highlight transition-colors"
                         onClick={() => {
                           setSelectedOrder(order);
                           setDetailsOpen(true);
                         }}
                       >
                         <Eye className="w-4 h-4" />
+                        View Full Details
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-muted hover:text-red-500 hover:bg-red-50"
+                        className="h-11 w-11 rounded-xl text-muted hover:text-red-500 hover:bg-red-50 border border-transparent hover:border-red-100"
                         onClick={() => handleDeleteOrder(order._id)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
-                    </TableCell>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View (Visible only on LG+) */}
+            <div className="hidden lg:block bg-white rounded-3xl border border-brown/5 shadow-soft overflow-hidden">
+              <Table>
+                <TableHeader className="bg-cream-highlight/50">
+                  <TableRow className="border-brown/5">
+                    <TableHead className="font-bold text-brown">Order ID</TableHead>
+                    <TableHead className="font-bold text-brown">Customer</TableHead>
+                    <TableHead className="font-bold text-brown">Amount</TableHead>
+                    <TableHead className="font-bold text-brown">Status</TableHead>
+                    <TableHead className="font-bold text-brown">Payment</TableHead>
+                    <TableHead className="text-right font-bold text-brown px-6">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <Pagination 
-              currentPage={currentPage}
-              totalPages={Math.ceil(filteredOrders.length / itemsPerPage)}
-              onPageChange={setCurrentPage}
-              itemsPerPage={itemsPerPage}
-              totalItems={filteredOrders.length}
-            />
-          </div>
+                </TableHeader>
+                <TableBody>
+                  {filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((order) => (
+                    <TableRow key={order._id} className="hover:bg-brown/[0.01] border-brown/5 transition-colors">
+                      <TableCell className="font-mono text-[10px] text-muted font-bold">
+                        {order.trackingId}
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-bold text-brown font-serif">{order.userId?.name || 'Guest'}</div>
+                        <div className="text-[10px] text-muted">{new Date(order.createdAt).toLocaleString()}</div>
+                      </TableCell>
+                      <TableCell className="font-bold text-sage">
+                        ৳{Number(order.finalPrice).toFixed(2)}
+                      </TableCell>
+                      <TableCell>
+                        <Select 
+                          value={order.status} 
+                          onValueChange={(val) => handleStatusChange(order._id, val)}
+                        >
+                          <SelectTrigger className={`w-32 h-9 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(order.status)}`}>
+                            <div className="flex items-center gap-1.5">
+                              {getStatusIcon(order.status)}
+                              <SelectValue />
+                            </div>
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-brown/5">
+                            <SelectItem value="Pending">Pending</SelectItem>
+                            <SelectItem value="Processing">Processing</SelectItem>
+                            <SelectItem value="Shipped">Shipped</SelectItem>
+                            <SelectItem value="Delivered">Delivered</SelectItem>
+                            <SelectItem value="Cancelled">Cancelled</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className={`rounded-lg px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest ${
+                          order.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
+                        }`}>
+                          {order.paymentStatus}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right space-x-1 px-6">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-10 w-10 rounded-xl text-muted hover:text-sage hover:bg-sage/10"
+                          onClick={() => {
+                            setSelectedOrder(order);
+                            setDetailsOpen(true);
+                          }}
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-10 w-10 rounded-xl text-muted hover:text-red-500 hover:bg-red-50"
+                          onClick={() => handleDeleteOrder(order._id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+
+            <div className="pt-4">
+              <Pagination 
+                currentPage={currentPage}
+                totalPages={Math.ceil(filteredOrders.length / itemsPerPage)}
+                onPageChange={setCurrentPage}
+                itemsPerPage={itemsPerPage}
+                totalItems={filteredOrders.length}
+              />
+            </div>
+          </>
         )}
 
         {/* Order Details Dialog */}
         <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-          <DialogContent showCloseButton={false} className="bg-cream-highlight border-none rounded-[2rem] !max-w-4xl w-[95vw] p-0 overflow-hidden shadow-2xl">
+          <DialogContent showCloseButton={false} className="bg-cream-highlight border-brown/5 rounded-2xl w-[95vw] sm:w-[90vw] md:max-w-4xl p-0 overflow-hidden shadow-2xl">
             {selectedOrder && (
               <div className="flex flex-col max-h-[90vh]">
-                {/* Refined Header - Matching AdminProducts Style */}
-                <div className="bg-gradient-to-r from-brown to-[#5a3828] px-4 py-3 text-white border-b border-white/10 shrink-0">
+                <div className="bg-gradient-to-r from-brown to-[#5a3828] px-5 py-4 text-white border-b border-white/10 shrink-0">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+                      <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
                         <ShoppingBag className="w-5 h-5 text-caramel" />
                       </div>
                       <div className="space-y-0.5">
-                        <h2 className="text-[18px] font-serif text-white font-extrabold leading-tight tracking-[0.01em]">
+                        <h2 className="text-lg md:text-xl font-serif text-white font-extrabold leading-tight tracking-[0.01em]">
                           Order Details
                         </h2>
                         <p className="text-[10px] text-caramel/95 uppercase tracking-[0.2em] font-bold">#{selectedOrder.trackingId}</p>
                       </div>
                     </div>
                     <DialogClose asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                        <X className="w-5 h-5" />
+                      <Button variant="ghost" className="h-10 w-10 p-0 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+                        <X className="w-6 h-6" />
                       </Button>
                     </DialogClose>
                   </div>
                 </div>
 
-                <div className="p-8 overflow-y-auto custom-scrollbar space-y-8 bg-white/40 backdrop-blur-md">
-                  {/* Info Grid - Now 3 Columns */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-6 rounded-3xl border border-border-light shadow-sm">
+                <div className="p-4 md:p-8 overflow-y-auto custom-scrollbar space-y-6 md:space-y-8 bg-white/40 backdrop-blur-md">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 bg-white p-5 md:p-6 rounded-2xl border border-brown/5 shadow-sm">
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-[10px] text-muted font-bold uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-[9px] text-muted font-bold uppercase tracking-widest">
                         <User className="w-3 h-3 text-caramel" />
                         Customer
                       </div>
-                      <p className="font-serif font-bold text-brown text-lg leading-tight">{selectedOrder.userId?.name || 'Guest'}</p>
+                      <p className="font-serif font-bold text-brown text-lg">{selectedOrder.userId?.name || 'Guest'}</p>
                       <p className="text-[10px] text-muted">{new Date(selectedOrder.createdAt).toLocaleString()}</p>
                     </div>
 
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-[10px] text-muted font-bold uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-[9px] text-muted font-bold uppercase tracking-widest">
                         <CreditCard className="w-3 h-3 text-sage" />
                         Payment
                       </div>
-                      <p className="font-bold text-brown">{selectedOrder.paymentMethod}</p>
-                      <Badge variant="outline" className={`mt-1 rounded-full px-2 py-0 text-[9px] uppercase font-bold tracking-tighter ${
+                      <p className="font-bold text-brown text-sm">{selectedOrder.paymentMethod}</p>
+                      <Badge variant="outline" className={`mt-1 rounded-md px-1.5 py-0 text-[8px] uppercase font-bold tracking-widest ${
                         selectedOrder.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
                       }`}>
                         {selectedOrder.paymentStatus}
@@ -282,13 +358,13 @@ export default function AdminOrders() {
                     </div>
 
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-[10px] text-muted font-bold uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-[9px] text-muted font-bold uppercase tracking-widest">
                         <Truck className="w-3 h-3 text-caramel" />
-                        Shipping Address
+                        Shipping
                       </div>
-                      <p className="text-xs text-muted leading-relaxed line-clamp-3 hover:line-clamp-none transition-all cursor-default">
+                      <p className="text-xs text-muted leading-relaxed">
                         {typeof selectedOrder.shippingAddress === 'object' 
-                          ? `${selectedOrder.shippingAddress.street}, ${selectedOrder.shippingAddress.city}, ${selectedOrder.shippingAddress.zipCode}, ${selectedOrder.shippingAddress.country}`
+                          ? `${selectedOrder.shippingAddress.street}, ${selectedOrder.shippingAddress.city}, ${selectedOrder.shippingAddress.zipCode}`
                           : selectedOrder.shippingAddress}
                       </p>
                       {selectedOrder.shippingAddress?.phone && (
@@ -297,62 +373,59 @@ export default function AdminOrders() {
                     </div>
                   </div>
 
-                  {/* Order Items & Totals Split */}
-                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-                    {/* Items List - Takes 3/5 of width */}
+                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 items-start">
                     <div className="lg:col-span-3 space-y-4">
-                      <h3 className="font-serif text-xl text-brown flex items-center gap-2">
+                      <h3 className="font-serif text-lg md:text-xl text-brown flex items-center gap-2">
                         <Box className="w-5 h-5 text-caramel" />
                         Order Items
                       </h3>
                       <div className="space-y-3">
                         {selectedOrder.products.map((item, idx) => (
-                          <div key={idx} className="flex items-center justify-between bg-white p-3 rounded-2xl border border-border-light shadow-xs hover:shadow-md transition-shadow">
+                          <div key={idx} className="flex items-center justify-between bg-white p-3 rounded-2xl border border-brown/5 shadow-xs">
                             <div className="flex items-center gap-4">
-                              <div className="w-14 h-14 rounded-xl bg-cream-highlight overflow-hidden border border-border-light shrink-0">
+                              <div className="w-12 h-12 rounded-xl bg-cream-highlight overflow-hidden border border-brown/5 shrink-0">
                                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                               </div>
-                              <div>
-                                <p className="font-bold text-brown font-serif">{item.name}</p>
-                                <p className="text-xs text-muted">{item.quantity} × ৳{item.price}</p>
+                              <div className="min-w-0">
+                                <p className="font-bold text-brown font-serif truncate text-sm">{item.name}</p>
+                                <p className="text-[10px] text-muted font-bold">{item.quantity} × ৳{item.price}</p>
                               </div>
                             </div>
-                            <p className="font-bold text-sage px-4">৳{(item.quantity * item.price).toFixed(2)}</p>
+                            <p className="font-bold text-sage text-sm">৳{(item.quantity * item.price).toFixed(0)}</p>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* Financial Summary - Takes 2/5 of width */}
-                    <div className="lg:col-span-2 space-y-4 sticky top-0">
-                      <h3 className="font-serif text-xl text-brown flex items-center gap-2">
+                    <div className="lg:col-span-2 space-y-4">
+                      <h3 className="font-serif text-lg md:text-xl text-brown flex items-center gap-2">
                         <ClipboardList className="w-5 h-5 text-caramel" />
                         Summary
                       </h3>
-                      <div className="bg-brown text-white p-6 rounded-[2rem] shadow-xl space-y-4">
+                      <div className="bg-brown text-white p-6 rounded-3xl shadow-xl space-y-4">
                         <div className="space-y-2 pb-4 border-b border-white/10">
-                          <div className="flex justify-between text-sm opacity-70">
+                          <div className="flex justify-between text-xs opacity-70">
                             <span>Subtotal</span>
-                            <span>৳{Number(selectedOrder.totalPrice).toFixed(2)}</span>
+                            <span>৳{Number(selectedOrder.totalPrice).toFixed(0)}</span>
                           </div>
-                          <div className="flex justify-between text-sm opacity-70">
-                            <span>Shipping Fee</span>
-                            <span>৳{Number(selectedOrder.shippingFee || 60).toFixed(2)}</span>
+                          <div className="flex justify-between text-xs opacity-70">
+                            <span>Shipping</span>
+                            <span>৳{Number(selectedOrder.shippingFee || 60).toFixed(0)}</span>
                           </div>
                           {selectedOrder.discount > 0 && (
-                            <div className="flex justify-between text-sm text-caramel">
+                            <div className="flex justify-between text-xs text-caramel font-bold">
                               <span>Discount</span>
-                              <span>-৳{Number(selectedOrder.discount).toFixed(2)}</span>
+                              <span>-৳{Number(selectedOrder.discount).toFixed(0)}</span>
                             </div>
                           )}
                         </div>
                         <div className="flex justify-between items-center font-bold">
-                          <span className="text-lg">Total Amount</span>
-                          <span className="text-2xl text-caramel font-serif">৳{Number(selectedOrder.finalPrice).toFixed(2)}</span>
+                          <span className="text-base">Total</span>
+                          <span className="text-xl md:text-2xl text-caramel font-serif">৳{Number(selectedOrder.finalPrice).toFixed(0)}</span>
                         </div>
                         <div className="pt-2">
-                           <div className="w-full py-2 bg-white/10 rounded-xl text-center text-[10px] uppercase tracking-widest font-bold text-white/50 border border-white/5">
-                             Processed via {selectedOrder.paymentMethod}
+                           <div className="w-full py-2 bg-white/10 rounded-xl text-center text-[8px] uppercase tracking-widest font-bold text-white/40 border border-white/5">
+                             via {selectedOrder.paymentMethod}
                            </div>
                         </div>
                       </div>

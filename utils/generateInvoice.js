@@ -1,8 +1,8 @@
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
 export const generateInvoice = (order) => {
-  const doc = jsPDF();
+  const doc = new jsPDF();
 
   // Header
   doc.setFont('playfair', 'bold');
@@ -44,7 +44,7 @@ export const generateInvoice = (order) => {
     tableRows.push(productData);
   });
 
-  doc.autoTable({
+  autoTable(doc, {
     head: [tableColumn],
     body: tableRows,
     startY: 85,

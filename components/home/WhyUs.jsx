@@ -54,7 +54,7 @@ export default function WhyUs() {
   const [selectedFeature, setSelectedFeature] = useState(null);
 
   return (
-    <section className="py-16 md:py-32 bg-cream overflow-hidden relative">
+    <section className="py-12 md:py-32 bg-cream overflow-hidden relative">
       {/* Decorative SVG Background elements */}
       <div className="absolute top-0 right-0 opacity-5 pointer-events-none">
         <svg width="400" height="400" viewBox="0 0 200 200">
@@ -63,19 +63,19 @@ export default function WhyUs() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center mb-16 lg:mb-24">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-20 items-center mb-12 lg:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:w-1/2 space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start"
+            className="lg:w-1/2 space-y-4 md:space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start"
           >
             <span className="text-caramel font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">Our Commitment</span>
-            <h2 className="text-4xl md:text-6xl font-serif text-brown leading-tight">
+            <h2 className="text-3xl md:text-6xl font-serif text-brown leading-tight">
               Why our bakery <br className="hidden md:block" />
               <span className="text-caramel">feels like home</span>
             </h2>
-            <p className="text-muted text-base md:text-lg max-w-md leading-relaxed">
+            <p className="text-sm md:text-lg text-muted max-w-md leading-relaxed">
               We don't just bake; we craft memories. From the first spark of dawn
               to the final golden crust, quality is our only language.
             </p>
@@ -85,34 +85,34 @@ export default function WhyUs() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="lg:w-1/2 grid grid-cols-2 gap-4 relative"
+            className="lg:w-1/2 grid grid-cols-2 gap-3 md:gap-4 relative max-w-[400px] lg:max-w-none"
           >
-            <div className="space-y-4 pt-12">
-              <div className="aspect-[3/4] rounded-full overflow-hidden border-8 border-white shadow-warm">
+            <div className="space-y-3 md:space-y-4 pt-12">
+              <div className="aspect-[3/4] rounded-full overflow-hidden border-4 md:border-8 border-white shadow-warm">
                 <img src={features[0].img} className="w-full h-full object-cover" alt="Organic" />
               </div>
-              <div className="aspect-square rounded-3xl overflow-hidden border-8 border-white shadow-warm">
+              <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-warm">
                 <img src={features[1].img} className="w-full h-full object-cover" alt="Fresh" />
               </div>
             </div>
-            <div className="space-y-4">
-              <div className="aspect-square rounded-3xl overflow-hidden border-8 border-white shadow-warm">
+            <div className="space-y-3 md:space-y-4">
+              <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-warm">
                 <img src={features[2].img} className="w-full h-full object-cover" alt="Love" />
               </div>
-              <div className="aspect-[3/4] rounded-full overflow-hidden border-8 border-white shadow-warm">
+              <div className="aspect-[3/4] rounded-full overflow-hidden border-4 md:border-8 border-white shadow-warm">
                 <img src={features[3].img} className="w-full h-full object-cover" alt="Safe" />
               </div>
             </div>
-            {/* Floating Badge */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-caramel rounded-full flex items-center justify-center text-white text-center p-4 shadow-2xl rotate-12">
-              <p className="text-sm font-bold uppercase tracking-tighter">Premium <br /> Quality</p>
+            {/* Floating Badge - Scaled for mobile */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-32 md:h-32 bg-caramel rounded-full flex items-center justify-center text-white text-center p-3 md:p-4 shadow-2xl rotate-12">
+              <p className="text-[10px] md:text-sm font-bold uppercase tracking-tighter">Premium <br /> Quality</p>
             </div>
           </motion.div>
         </div>
 
         <div className="relative">
-          {/* Mobile: Horizontal Scroll (Circular Cards) */}
-          <div className="flex lg:hidden overflow-x-auto snap-x snap-mandatory pb-12 gap-6 scrollbar-hide">
+          {/* Mobile: Horizontal Scroll with peek affordance */}
+          <div className="flex lg:hidden overflow-x-auto snap-x snap-mandatory pb-8 gap-4 scrollbar-hide -mx-6 px-6">
             {features.map((feature, i) => (
               <motion.div
                 key={feature.title}
@@ -120,13 +120,13 @@ export default function WhyUs() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 onClick={() => setSelectedFeature(feature)}
-                className="min-w-[260px] snap-center aspect-square rounded-full bg-white shadow-soft border border-brown/5 flex flex-col items-center justify-center p-8 text-center space-y-3 group hover:shadow-warm transition-all cursor-pointer"
+                className="min-w-[240px] snap-center aspect-square rounded-full bg-white shadow-soft border border-brown/5 flex flex-col items-center justify-center p-6 text-center space-y-2 group transition-all cursor-pointer"
               >
-                <div className={`w-12 h-12 ${feature.color} rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform`}>
-                  <feature.icon className="w-6 h-6" />
+                <div className={`w-10 h-10 ${feature.color} rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform`}>
+                  <feature.icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold text-brown">{feature.title}</h3>
-                <p className="text-xs text-muted leading-relaxed line-clamp-3 px-2">{feature.desc}</p>
+                <h3 className="text-base font-bold text-brown">{feature.title}</h3>
+                <p className="text-[10px] text-muted leading-relaxed line-clamp-3 px-2">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -184,19 +184,19 @@ export default function WhyUs() {
         </div>
       </div>
 
-      {/* Feature Detail Modal */}
+      {/* Feature Detail Modal - Fixed for Responsive Mobile View */}
       <Dialog open={!!selectedFeature} onOpenChange={(open) => !open && setSelectedFeature(null)}>
-        <DialogContent className="w-[400px] h-[400px] rounded-full p-0 overflow-hidden border-none shadow-2xl flex flex-col justify-center items-center bg-white text-center">
+        <DialogContent className="w-[85vw] max-w-[400px] aspect-square rounded-full p-0 overflow-hidden border-none shadow-2xl flex flex-col justify-center items-center bg-white text-center">
           {selectedFeature && (
-            <div className="flex flex-col items-center justify-center p-8 w-full h-full relative z-10">
+            <div className="flex flex-col items-center justify-center p-6 md:p-8 w-full h-full relative z-10">
               <div className="absolute inset-0 opacity-10 pointer-events-none">
                 <img src={selectedFeature.img} alt={selectedFeature.title} className="w-full h-full object-cover" />
               </div>
-              <div className={`w-20 h-20 ${selectedFeature.color} bg-white rounded-full flex items-center justify-center shadow-warm mb-4 relative z-10`}>
-                <selectedFeature.icon className="w-8 h-8" />
+              <div className={`w-16 h-16 md:w-20 md:h-20 ${selectedFeature.color} bg-white rounded-full flex items-center justify-center shadow-warm mb-3 md:mb-4 relative z-10`}>
+                <selectedFeature.icon className="w-6 h-6 md:w-8 md:h-8" />
               </div>
-              <h3 className="text-2xl font-serif text-brown mb-4 relative z-10">{selectedFeature.title}</h3>
-              <p className="text-muted leading-relaxed text-[14px] relative z-10 max-w-[85%]">
+              <h3 className="text-xl md:text-2xl font-serif text-brown mb-2 md:mb-4 relative z-10">{selectedFeature.title}</h3>
+              <p className="text-muted leading-relaxed text-xs md:text-sm relative z-10 max-w-[85%]">
                 {selectedFeature.desc}
               </p>
             </div>

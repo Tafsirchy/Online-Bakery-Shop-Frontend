@@ -47,14 +47,14 @@ export default function Categories() {
   if (loading || categories.length === 0) return null;
 
   return (
-    <section className="py-24 bg-[#FFFBF2]/50">
+    <section className="py-12 md:py-24 bg-[#FFFBF2]/50">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-end mb-12">
-          <div className="space-y-2">
-            <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Our Collections</h2>
-            <p className="text-muted italic opacity-75">Curated selections of our finest bakes</p>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 md:mb-12">
+          <div className="space-y-1">
+            <h2 className="text-4xl md:text-6xl font-serif text-brown leading-tight">Our Collections</h2>
+            <p className="text-sm md:text-base text-muted italic opacity-75">Curated selections of our finest bakes</p>
           </div>
-          <Link href="/shop" className="text-caramel font-bold hover:underline flex items-center gap-2 group transition-all">
+          <Link href="/shop" className="text-caramel text-sm md:text-base font-bold hover:underline flex items-center gap-2 group transition-all">
             View All Collections
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </Link>
@@ -70,25 +70,25 @@ export default function Categories() {
               viewport={{ once: true }}
             >
               <Link href={`/shop?category=${cat.name}`}>
-                <div className={`${FALLBACK_COLORS[i % FALLBACK_COLORS.length]} rounded-3xl p-8 h-[320px] flex flex-col justify-end group cursor-pointer overflow-hidden relative shadow-soft border border-border-light/20 transition-all duration-500`}>
-                  {/* Background Image - Cleaner Hover */}
+                <div className={`${FALLBACK_COLORS[i % FALLBACK_COLORS.length]} rounded-3xl p-6 h-[280px] md:h-[320px] flex flex-col justify-end group cursor-pointer overflow-hidden relative shadow-soft border border-border-light/20 transition-all duration-500`}>
+                  {/* Background Image - Optimized for Mobile visibility */}
                   <img
                     src={cat.image || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]}
                     alt={cat.name}
-                    className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
+                    className="absolute inset-0 w-full h-full object-cover opacity-60 md:opacity-20 md:group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 to-transparent group-hover:from-background/20 group-hover:via-transparent transition-all duration-700 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent md:group-hover:from-background/20 md:group-hover:via-transparent transition-all duration-700 pointer-events-none" />
 
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-1000" />
                   
-                  <div className="relative z-10 space-y-4">
+                  <div className="relative z-10 space-y-3">
                     <div className="space-y-1">
-                      <h3 className="text-4xl font-serif text-brown group-hover:text-brown drop-shadow-sm leading-tight transition-transform duration-500 group-hover:-translate-y-1">{cat.name}</h3>
-                      <p className="text-[9px] font-black uppercase tracking-[0.2em] text-caramel opacity-80 leading-relaxed group-hover:opacity-100 transition-opacity">
+                      <h3 className="text-3xl md:text-4xl font-serif text-brown drop-shadow-sm leading-tight transition-transform duration-500 group-hover:-translate-y-1">{cat.name}</h3>
+                      <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-caramel opacity-90 leading-relaxed group-hover:opacity-100 transition-opacity">
                         {cat.subtitle || 'Premium Selection'}
                       </p>
                     </div>
-                    <div className="w-10 h-1 bg-brown group-hover:w-full transition-all duration-700 rounded-full opacity-30 group-hover:opacity-100" />
+                    <div className="w-10 h-1 bg-brown md:group-hover:w-full transition-all duration-700 rounded-full opacity-40 group-hover:opacity-100" />
                   </div>
                 </div>
               </Link>

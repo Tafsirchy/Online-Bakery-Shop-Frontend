@@ -150,223 +150,216 @@ export default function CouponsManagement() {
   }
 
   return (
-    <div className="flex-1 p-8 overflow-y-auto space-y-10 max-w-[1400px] mx-auto">
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="space-y-1">
-          <h1 className="text-4xl font-serif text-brown font-black flex items-center gap-3 tracking-tight">
-            <Ticket className="w-10 h-10 text-caramel" />
-            Coupons Management
-          </h1>
-          <p className="text-muted font-medium italic">Create, monitor, and optimize your bakery's promotional strategies</p>
-        </div>
+    <div className="flex-1 p-4 md:p-6 overflow-y-auto max-w-[1400px] mx-auto">
+      <div className="space-y-6 md:space-y-10">
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 md:gap-6">
+          <div className="space-y-0.5 md:space-y-1">
+            <h1 className="text-2xl md:text-4xl font-serif text-brown font-black flex items-center gap-3 tracking-tight">
+              <Ticket className="w-8 h-8 md:w-10 md:h-10 text-caramel" />
+              Coupons
+            </h1>
+            <p className="text-muted text-xs md:text-sm font-medium italic">Manage your bakery's promotional strategies</p>
+          </div>
 
-        <Button 
-          onClick={() => handleOpenModal()}
-          className="bg-brown hover:bg-[#5a3828] text-white rounded-[1.5rem] px-8 h-14 gap-3 shadow-warm hover:shadow-lg transition-all hover:scale-[1.02]"
-        >
-          <Plus className="w-5 h-5" />
-          <span className="font-bold">Create New Coupon</span>
-        </Button>
-      </header>
+          <Button 
+            onClick={() => handleOpenModal()}
+            className="w-full sm:w-auto bg-brown hover:bg-[#5a3828] text-white rounded-xl md:rounded-[1.5rem] px-8 h-12 md:h-14 gap-3 shadow-warm transition-all hover:scale-[1.02]"
+          >
+            <Plus className="w-5 h-5" />
+            <span className="font-bold">New Coupon</span>
+          </Button>
+        </header>
 
-      {/* Global Control Section */}
-      <div className="bg-gradient-to-r from-sage/10 to-caramel/10 rounded-[2rem] p-6 border-2 border-sage/20">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="space-y-2">
-            <h3 className="text-lg font-bold text-brown flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-sage" />
-              Global Coupon Controls
-            </h3>
-            <p className="text-sm text-muted italic">Manage activation status for all coupons at once</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button
-              onClick={() => handleGlobalToggle(true)}
-              disabled={globalToggling}
-              className="bg-sage hover:bg-sage/80 text-white rounded-xl px-6 h-12 font-bold flex items-center gap-2 transition-all"
-            >
-              {globalToggling ? <Loader2 className="animate-spin w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
-              Activate All
-            </Button>
-            <Button
-              onClick={() => handleGlobalToggle(false)}
-              disabled={globalToggling}
-              className="bg-red-500 hover:bg-red-600 text-white rounded-xl px-6 h-12 font-bold flex items-center gap-2 transition-all"
-            >
-              {globalToggling ? <Loader2 className="animate-spin w-4 h-4" /> : <XCircle className="w-4 h-4" />}
-              Deactivate All
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Section - Extended UI */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-[2rem] shadow-soft border border-border-light/5 flex items-center gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-brown/5 flex items-center justify-center text-brown">
-            <Ticket className="w-7 h-7" />
-          </div>
-          <div>
-            <p className="text-xs font-bold text-muted uppercase tracking-widest">Total Coupons</p>
-            <p className="text-2xl font-serif font-black text-brown">{coupons.length}</p>
-          </div>
-        </div>
-        
-        <div className="bg-white p-6 rounded-[2rem] shadow-soft border border-border-light/5 flex items-center gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-sage/10 flex items-center justify-center text-sage">
-            <CheckCircle2 className="w-7 h-7" />
-          </div>
-          <div>
-            <p className="text-xs font-bold text-muted uppercase tracking-widest">Active Now</p>
-            <p className="text-2xl font-serif font-black text-brown">
-              {coupons.filter(c => c.isActive && new Date(c.expiryDate) > new Date()).length}
-            </p>
+        {/* Global Control Section */}
+        <div className="bg-gradient-to-r from-sage/10 to-caramel/10 rounded-2xl md:rounded-[2rem] p-4 md:p-6 border-2 border-sage/20">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 md:gap-6">
+            <div className="space-y-1 md:space-y-2">
+              <h3 className="text-base md:text-lg font-bold text-brown flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-sage" />
+                Global Controls
+              </h3>
+              <p className="text-[10px] md:text-sm text-muted italic">Bulk manage activation for all coupons</p>
+            </div>
+            <div className="flex items-center gap-3 md:gap-4 w-full lg:w-auto">
+              <Button
+                onClick={() => handleGlobalToggle(true)}
+                disabled={globalToggling}
+                className="flex-1 lg:flex-none bg-sage hover:bg-sage/80 text-white rounded-xl px-4 md:px-6 h-11 md:h-12 font-bold flex items-center gap-2 transition-all"
+              >
+                {globalToggling ? <Loader2 className="animate-spin w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
+                Activate All
+              </Button>
+              <Button
+                onClick={() => handleGlobalToggle(false)}
+                disabled={globalToggling}
+                className="flex-1 lg:flex-none bg-red-500 hover:bg-red-600 text-white rounded-xl px-4 md:px-6 h-11 md:h-12 font-bold flex items-center gap-2 transition-all"
+              >
+                {globalToggling ? <Loader2 className="animate-spin w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+                Deactivate All
+              </Button>
+            </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-[2rem] shadow-soft border border-border-light/5 flex items-center gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-caramel/10 flex items-center justify-center text-caramel">
-            <Percent className="w-7 h-7" />
+        {/* Stats Section */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+          <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-soft border border-brown/5 flex flex-col sm:flex-row items-center gap-3 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-brown/5 flex items-center justify-center text-brown">
+              <Ticket className="w-5 h-5 md:w-7 md:h-7" />
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="text-[9px] md:text-xs font-bold text-muted uppercase tracking-widest">Total</p>
+              <p className="text-lg md:text-2xl font-serif font-black text-brown">{coupons.length}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-xs font-bold text-muted uppercase tracking-widest">Highest Discount</p>
-            <p className="text-2xl font-serif font-black text-brown">
-              {coupons.length > 0 ? Math.max(...coupons.map(c => c.discount)) : 0}%
-            </p>
+          
+          <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-soft border border-brown/5 flex flex-col sm:flex-row items-center gap-3 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-sage/10 flex items-center justify-center text-sage">
+              <CheckCircle2 className="w-5 h-5 md:w-7 md:h-7" />
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="text-[9px] md:text-xs font-bold text-muted uppercase tracking-widest">Active</p>
+              <p className="text-lg md:text-2xl font-serif font-black text-brown">
+                {coupons.filter(c => c.isActive && new Date(c.expiryDate) > new Date()).length}
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-soft border border-brown/5 flex flex-col sm:flex-row items-center gap-3 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-caramel/10 flex items-center justify-center text-caramel">
+              <Percent className="w-5 h-5 md:w-7 md:h-7" />
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="text-[9px] md:text-xs font-bold text-muted uppercase tracking-widest">Highest</p>
+              <p className="text-lg md:text-2xl font-serif font-black text-brown">
+                {coupons.length > 0 ? Math.max(...coupons.map(c => c.discount)) : 0}%
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-soft border border-brown/5 flex flex-col sm:flex-row items-center gap-3 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-red-50 flex items-center justify-center text-red-500">
+              <XCircle className="w-5 h-5 md:w-7 md:h-7" />
+            </div>
+            <div className="text-center sm:text-left">
+              <p className="text-[9px] md:text-xs font-bold text-muted uppercase tracking-widest">Expired</p>
+              <p className="text-lg md:text-2xl font-serif font-black text-brown">
+                {coupons.filter(c => new Date(c.expiryDate) <= new Date()).length}
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-[2rem] shadow-soft border border-border-light/5 flex items-center gap-5">
-          <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center text-red-500">
-            <XCircle className="w-7 h-7" />
-          </div>
-          <div>
-            <p className="text-xs font-bold text-muted uppercase tracking-widest">Expired</p>
-            <p className="text-2xl font-serif font-black text-brown">
-              {coupons.filter(c => new Date(c.expiryDate) <= new Date()).length}
-            </p>
-          </div>
-        </div>
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {coupons.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((coupon) => (
+            <Card key={coupon._id} className="rounded-3xl border-none shadow-soft overflow-hidden bg-white group transition-all duration-500">
+              <CardContent className="p-0">
+                <div className="relative h-36 md:h-44 overflow-hidden">
+                  {coupon.image ? (
+                    <>
+                      <img src={coupon.image} className="absolute inset-0 w-full h-full object-cover" alt="" />
+                      <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
+                    </>
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-brown to-[#5a3828]" />
+                  )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {coupons.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((coupon) => (
-          <Card key={coupon._id} className="rounded-[2rem] border-none shadow-soft overflow-hidden bg-white group hover:shadow-warm transition-all duration-500 py-0 gap-0">
-            <CardContent className="p-0">
-              <div className="relative h-44 overflow-hidden">
-                {/* Background Image / Gradient */}
-                {coupon.image ? (
-                  <>
-                    <img 
-                      src={coupon.image} 
-                      className="absolute inset-0 w-full h-full object-cover"
-                      alt=""
-                    />
-                    <div className="absolute inset-0 bg-black/50 group-hover:bg-black/40 transition-colors" />
-                  </>
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-brown to-[#5a3828]" />
-                )}
-
-                <div className="relative h-full z-10 p-6 flex flex-col justify-between">
-                  <div className="absolute -right-4 -top-4 opacity-10">
-                    <Ticket className="w-24 h-24 rotate-12 text-white" />
-                  </div>
-
-                  <div className="flex justify-between items-start">
-                    <button 
-                      onClick={() => handleToggleStatus(coupon)}
-                      className={`backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-sm ${
-                        coupon.isActive ? 'bg-sage/60 text-white border border-white/30' : 'bg-red-500/60 text-white border border-white/30'
-                      }`}
-                    >
-                      {coupon.isActive ? 'Active' : 'Inactive'}
-                    </button>
-                    <div className="flex gap-2">
-                      <button onClick={() => handleOpenModal(coupon)} className="p-2 hover:bg-white/20 rounded-full transition-colors text-white">
-                        <Edit className="w-4 h-4" />
+                  <div className="relative h-full z-10 p-5 md:p-6 flex flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <button 
+                        onClick={() => handleToggleStatus(coupon)}
+                        className={`backdrop-blur-md px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${
+                          coupon.isActive ? 'bg-sage/60 text-white border border-white/30' : 'bg-red-500/60 text-white border border-white/30'
+                        }`}
+                      >
+                        {coupon.isActive ? 'Active' : 'Inactive'}
                       </button>
-                      <button onClick={() => handleDelete(coupon._id)} className="p-2 hover:bg-red-500/30 rounded-full transition-colors text-white">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex gap-1 md:gap-2">
+                        <button onClick={() => handleOpenModal(coupon)} className="p-2 hover:bg-white/20 rounded-full text-white transition-colors">
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleDelete(coupon._id)} className="p-2 hover:bg-red-500/30 rounded-full text-white transition-colors">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-mono font-black tracking-tighter text-white drop-shadow-lg leading-none mb-1">
+                        {coupon.code}
+                      </h3>
+                      <p className="text-caramel font-black text-lg md:text-xl drop-shadow-md">
+                        {coupon.discount}% OFF
+                      </p>
                     </div>
                   </div>
-
-                  <div>
-                    <h3 className="text-3xl font-mono font-black tracking-tighter text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] leading-none mb-1">
-                      {coupon.code}
-                    </h3>
-                    <p className="text-caramel font-black text-xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
-                      {coupon.discount}% OFF
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="p-6 space-y-4 bg-cream-highlight/10">
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2 text-muted">
-                    <Calendar className="w-4 h-4" />
-                    <span>Expires</span>
-                  </div>
-                  <span className="font-bold text-brown">
-                    {new Date(coupon.expiryDate).toLocaleDateString()}
-                  </span>
                 </div>
                 
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2 text-muted">
-                    <DollarSign className="w-4 h-4" />
-                    <span>Min. Purchase</span>
+                <div className="p-5 md:p-6 space-y-3 md:space-y-4 bg-cream-highlight/10">
+                  <div className="flex items-center justify-between text-xs md:text-sm">
+                    <div className="flex items-center gap-2 text-muted">
+                      <Calendar className="w-4 h-4" />
+                      <span>Expires</span>
+                    </div>
+                    <span className="font-bold text-brown">
+                      {new Date(coupon.expiryDate).toLocaleDateString()}
+                    </span>
                   </div>
-                  <span className="font-bold text-brown">৳{coupon.minPurchase}</span>
-                </div>
-
-                <div className="pt-2">
-                  {new Date() > new Date(coupon.expiryDate) ? (
-                    <div className="flex items-center gap-2 text-red-500 text-xs font-bold uppercase tracking-widest bg-red-50 p-2 rounded-xl">
-                      <XCircle className="w-3 h-3" /> Expired
+                  
+                  <div className="flex items-center justify-between text-xs md:text-sm">
+                    <div className="flex items-center gap-2 text-muted">
+                      <DollarSign className="w-4 h-4" />
+                      <span>Min. Buy</span>
                     </div>
-                  ) : (
-                    <div className="flex items-center gap-2 text-sage text-xs font-bold uppercase tracking-widest bg-sage/10 p-2 rounded-xl">
-                      <Clock className="w-3 h-3" /> {Math.ceil((new Date(coupon.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))} Days Left
-                    </div>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                    <span className="font-bold text-brown">৳{coupon.minPurchase}</span>
+                  </div>
 
-        {coupons.length === 0 && (
-          <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-border-light rounded-[3rem] text-muted">
-            <Ticket className="w-12 h-12 mb-4 opacity-20" />
-            <p className="font-serif italic">No coupons created yet.</p>
-          </div>
-        )}
+                  <div className="pt-1 md:pt-2">
+                    {new Date() > new Date(coupon.expiryDate) ? (
+                      <div className="flex items-center gap-2 text-red-500 text-[10px] font-bold uppercase tracking-widest bg-red-50 p-2 rounded-xl">
+                        <XCircle className="w-3 h-3" /> Expired
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-sage text-[10px] font-bold uppercase tracking-widest bg-sage/10 p-2 rounded-xl">
+                        <Clock className="w-3 h-3" /> {Math.ceil((new Date(coupon.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))} Days Left
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+
+          {coupons.length === 0 && (
+            <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-brown/10 rounded-[3rem] text-muted">
+              <Ticket className="w-12 h-12 mb-4 opacity-20" />
+              <p className="font-serif italic text-sm">No coupons created yet.</p>
+            </div>
+          )}
+        </div>
+
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={Math.ceil(coupons.length / itemsPerPage)}
+          onPageChange={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+          totalItems={coupons.length}
+        />
       </div>
 
-      <Pagination 
-        currentPage={currentPage}
-        totalPages={Math.ceil(coupons.length / itemsPerPage)}
-        onPageChange={setCurrentPage}
-        itemsPerPage={itemsPerPage}
-        totalItems={coupons.length}
-      />
-
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent showCloseButton={false} className="bg-[#FCF8F1] border-none rounded-[2.5rem] p-0 overflow-hidden shadow-2xl w-[90vw] max-w-[1400px] sm:max-w-none flex flex-col">
-          <div className="bg-gradient-to-r from-brown to-[#5a3828] px-10 py-5 text-white shrink-0">
+        <DialogContent showCloseButton={false} className="bg-cream-highlight border-brown/5 rounded-2xl w-[95vw] sm:w-[90vw] md:max-w-4xl p-0 overflow-hidden shadow-2xl flex flex-col">
+          <div className="bg-gradient-to-r from-brown to-[#5a3828] px-5 py-4 text-white shrink-0">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-5">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-xl border border-white/20">
-                  <Ticket className="w-6 h-6 text-caramel" />
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Ticket className="w-5 h-5 text-caramel" />
                 </div>
                 <div className="space-y-0.5">
-                  <h2 className="text-2xl font-serif text-white font-black leading-tight tracking-tight">
+                  <h2 className="text-lg md:text-xl font-serif text-white font-black leading-tight">
                     {editingCoupon ? 'Refine Coupon' : 'New Promotion'}
                   </h2>
-                  <p className="text-[9px] text-caramel font-black uppercase tracking-[0.4em] opacity-90">Advanced Management System</p>
+                  <p className="text-[9px] text-caramel font-black uppercase tracking-widest opacity-90">Promotion Management</p>
                 </div>
               </div>
               <DialogClose asChild>
@@ -377,115 +370,91 @@ export default function CouponsManagement() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-8 space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Row 1: Identity & Basic Values */}
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-1 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-caramel" />
-                  Coupon Code
-                </label>
+          <form onSubmit={handleSubmit} className="p-4 md:p-8 space-y-6 md:space-y-8 overflow-y-auto max-h-[80vh] custom-scrollbar">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Code</label>
                 <Input 
                   value={formData.code}
                   onChange={(e) => setFormData({...formData, code: e.target.value.toUpperCase()})}
                   placeholder="E.G. BAKE2024"
-                  className="rounded-xl border-border-light bg-white font-mono font-black text-lg uppercase h-14 px-5 focus:ring-sage border-2 shadow-sm"
+                  className="rounded-xl border-brown/5 bg-white font-mono font-black text-lg h-12 md:h-14 px-5 focus-visible:ring-sage shadow-sm"
                   required
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-1 flex items-center gap-2">
-                  <Percent className="w-3.5 h-3.5" />
-                  Discount %
-                </label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Discount %</label>
                 <Input 
                   type="number"
                   value={formData.discount}
                   onChange={(e) => setFormData({...formData, discount: e.target.value})}
                   placeholder="15"
-                  className="rounded-xl border-border-light bg-white h-14 text-lg font-black px-5"
+                  className="rounded-xl border-brown/5 bg-white h-12 md:h-14 text-lg font-black px-5 focus-visible:ring-sage shadow-sm"
                   required
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-1 flex items-center gap-2">
-                  <DollarSign className="w-3.5 h-3.5" />
-                  Min. Purchase
-                </label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-black">৳</span>
-                  <Input 
-                    type="number"
-                    value={formData.minPurchase}
-                    onChange={(e) => setFormData({...formData, minPurchase: e.target.value})}
-                    placeholder="1000"
-                    className="rounded-xl border-border-light bg-white pl-10 h-14 text-lg font-black"
-                    required
-                  />
-                </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Min. Purchase</label>
+                <Input 
+                  type="number"
+                  value={formData.minPurchase}
+                  onChange={(e) => setFormData({...formData, minPurchase: e.target.value})}
+                  placeholder="1000"
+                  className="rounded-xl border-brown/5 bg-white h-12 md:h-14 text-lg font-black px-5 focus-visible:ring-sage shadow-sm"
+                  required
+                />
               </div>
 
-              {/* Row 2: Timing & Media & Status */}
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-1 flex items-center gap-2">
-                  <Calendar className="w-3.5 h-3.5" />
-                  Expiry Date
-                </label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Expiry Date</label>
                 <Input 
                   type="date"
                   value={formData.expiryDate}
                   onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
-                  className="rounded-xl border-border-light bg-white h-14 font-bold px-4"
+                  className="rounded-xl border-brown/5 bg-white h-12 md:h-14 font-bold px-4 focus-visible:ring-sage shadow-sm"
                   required
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-1 flex items-center gap-2">
-                  <ImageIcon className="w-3.5 h-3.5" />
-                  Image URL
-                </label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Image URL</label>
                 <Input 
                   value={formData.image}
                   onChange={(e) => setFormData({...formData, image: e.target.value})}
-                  placeholder="https://images.unsplash..."
-                  className="rounded-xl border-border-light bg-white h-14 px-5 italic text-xs"
+                  placeholder="https://..."
+                  className="rounded-xl border-brown/5 bg-white h-12 md:h-14 px-5 text-xs italic focus-visible:ring-sage shadow-sm"
                 />
               </div>
 
-              <div className="space-y-3">
-                <label className="text-[10px] font-black text-muted uppercase tracking-[0.2em] px-1">Toggle Status</label>
-                <div 
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Status</label>
+                <button 
+                  type="button"
                   onClick={() => setFormData({...formData, isActive: !formData.isActive})}
-                  className={`h-14 rounded-xl border-2 flex items-center justify-center gap-3 cursor-pointer transition-all ${
+                  className={`h-12 md:h-14 w-full rounded-xl border flex items-center justify-center gap-3 transition-all ${
                     formData.isActive ? 'bg-sage/5 border-sage text-sage' : 'bg-red-50 border-red-200 text-red-500'
                   }`}
                 >
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                    formData.isActive ? 'bg-sage border-sage' : 'bg-transparent border-red-200'
-                  }`}>
-                    {formData.isActive && <CheckCircle2 className="w-2.5 h-2.5 text-white" />}
-                  </div>
                   <span className="text-[10px] font-black uppercase tracking-widest">
                     {formData.isActive ? 'Active' : 'Inactive'}
                   </span>
-                </div>
+                </button>
               </div>
             </div>
 
-            <div className="pt-4 flex gap-5">
+            <div className="pt-4 flex gap-3 md:gap-5">
               <DialogClose asChild>
-                <Button type="button" variant="outline" className="flex-1 h-14 rounded-xl border-2 font-black text-muted uppercase tracking-widest text-[10px] hover:bg-red-50 hover:text-red-500 hover:border-red-200 transition-all">
-                  Discard
+                <Button type="button" variant="outline" className="flex-1 h-12 md:h-14 rounded-xl border-brown/10 font-bold uppercase tracking-widest text-[10px] text-muted">
+                  Cancel
                 </Button>
               </DialogClose>
               <Button 
                 type="submit"
-                className="flex-[2] bg-brown hover:bg-[#5a3828] text-white rounded-xl h-14 font-black text-base shadow-warm hover:shadow-lg transition-all hover:scale-[1.01]"
+                className="flex-[2] bg-brown hover:bg-[#5a3828] text-white rounded-xl h-12 md:h-14 font-bold text-base shadow-xl active:scale-95 transition-all"
               >
-                {editingCoupon ? 'Update Promotion' : 'Activate Coupon'}
+                {editingCoupon ? 'Update Coupon' : 'Activate Coupon'}
               </Button>
             </div>
           </form>

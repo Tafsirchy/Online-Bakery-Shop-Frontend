@@ -93,7 +93,7 @@ export default function Navbar() {
         )}
 
         {/* Icons / Auth */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <Link href="/wishlist" className="relative w-10 h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
             <Heart className="w-6 h-6 group-hover:scale-110 transition-transform" />
             {isMounted && wishlist?.length > 0 && (
@@ -173,7 +173,7 @@ export default function Navbar() {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" className="p-2 hover:bg-cream-highlight rounded-xl">
+                <Button variant="ghost" className="p-2 hover:bg-cream-highlight rounded-xl border border-brown/10 shadow-sm">
                   <Menu className="w-6 h-6 text-brown" />
                 </Button>
               </SheetTrigger>

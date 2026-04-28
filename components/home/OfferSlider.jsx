@@ -107,7 +107,7 @@ export default function OfferSlider() {
   const currentOffer = combinedOffers[currentIndex];
 
   return (
-    <section className="relative bg-[#FFFBF2] overflow-hidden py-12">
+    <section className="relative bg-[#FFFBF2] overflow-hidden py-8 md:py-12">
       {/* Creative Background Elements - Subtle */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-1/2 -right-1/4 w-[500px] h-[500px] bg-gradient-to-br from-caramel/5 to-transparent rounded-full blur-3xl" />
@@ -116,7 +116,7 @@ export default function OfferSlider() {
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         {/* Uniform Sized Slider Container - Ultra Wide & Compact */}
-        <div className="relative w-full h-[400px] md:h-[320px]">
+        <div className="relative w-full h-[520px] md:h-[320px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
@@ -127,14 +127,13 @@ export default function OfferSlider() {
               className="absolute inset-0 flex flex-col md:flex-row bg-white rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(74,55,40,0.08)] overflow-hidden border border-border-light/10 group"
             >
               {/* Image Side - Ultra Compact */}
-              <div className="relative w-full md:w-[35%] h-full overflow-hidden shrink-0 bg-cream-highlight/20">
+              <div className="relative w-full md:w-[35%] h-48 md:h-full overflow-hidden shrink-0 bg-cream-highlight/20">
                 <motion.img
                   whileHover={{ scale: 1.1 }}
                   src={currentOffer.image}
                   alt={currentOffer.title}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    // If image fails, try category fallback, then absolute generic fallback
                     const fallback = CATEGORY_FALLBACK_IMAGES[currentOffer.category] || 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1000';
                     if (e.target.src !== fallback) {
                       e.target.src = fallback;
@@ -145,7 +144,7 @@ export default function OfferSlider() {
 
                 {/* Creative Badge - Mini */}
                 <div className="absolute top-4 left-4 z-20">
-                  <div className="bg-caramel text-white px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.2em] shadow-lg">
+                  <div className="bg-caramel text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">
                     Featured Deal
                   </div>
                 </div>
@@ -165,11 +164,11 @@ export default function OfferSlider() {
                   animate={{ opacity: 1, x: 0 }}
                   className="relative z-10"
                 >
-                  <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-8">
+                  <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-6 md:mb-8">
                     <div className="space-y-2 max-w-xl">
                       <div className="flex items-center gap-2 mb-1">
                         <Sparkles className="w-3 h-3 text-caramel" />
-                        <span className="text-[9px] font-bold text-caramel uppercase tracking-[0.2em]">Limited Offer</span>
+                        <span className="text-[10px] font-bold text-caramel uppercase tracking-[0.2em]">Limited Offer</span>
                       </div>
                       <h3 className="text-2xl md:text-4xl font-serif text-brown font-black leading-tight tracking-tight">
                         {currentOffer.title}
@@ -187,12 +186,13 @@ export default function OfferSlider() {
                           </div>
                           <button
                             onClick={() => handleCopy(currentOffer.couponCode)}
-                            className="px-3 py-2 text-caramel hover:text-brown transition-all"
+                            className="px-4 py-2 text-caramel hover:text-brown transition-all"
+                            aria-label="Copy coupon code"
                           >
                             {copiedCode === currentOffer.couponCode ? (
-                              <CheckCircle2 className="w-4 h-4 text-sage" />
+                              <CheckCircle2 className="w-5 h-5 text-sage" />
                             ) : (
-                              <Copy className="w-4 h-4" />
+                              <Copy className="w-5 h-5" />
                             )}
                           </button>
                         </div>
@@ -210,23 +210,19 @@ export default function OfferSlider() {
                         onClick={async () => {
                           try {
                             if (currentOffer.couponCode) {
-                              // persist immediately so shop page can pick it up reliably
                               try {
                                 localStorage.setItem('appliedCoupon', currentOffer.couponCode);
-                              } catch (e) {
-                                /* ignore storage errors */
-                              }
+                              } catch (e) {}
                               setAppliedCoupon(currentOffer.couponCode);
                               handleCopy(currentOffer.couponCode);
                             }
                           } catch (err) {
                             console.error('Failed to apply coupon locally', err);
                           } finally {
-                            // allow small delay for state to settle before navigation
                             setTimeout(() => router.push(`/shop?category=${currentOffer.category || 'all'}`), 60);
                           }
                         }}
-                        className="px-8 py-3.5 bg-brown text-cream rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-caramel hover:text-white transition-all shadow-md flex items-center justify-center gap-2 group"
+                        className="px-8 py-4 bg-brown text-cream rounded-xl font-black text-[11px] md:text-xs uppercase tracking-widest hover:bg-caramel hover:text-white transition-all shadow-md flex items-center justify-center gap-2 group"
                       >
                         Grab Now
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -235,35 +231,34 @@ export default function OfferSlider() {
                   </div>
                 </motion.div>
 
-                {/* Compact Status Footer */}
-                <div className="absolute bottom-6 left-6 md:left-10 flex items-center gap-6 border-t border-border-light/30 pt-4 w-[calc(100%-80px)]">
+                {/* Status Footer - Improved Flow for Mobile */}
+                <div className="md:absolute md:bottom-6 md:left-10 flex items-center gap-4 md:gap-6 border-t border-border-light/30 pt-4 w-full md:w-[calc(100%-80px)]">
                   <div className="flex items-center gap-2 text-sage">
                     <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
-                    <span className="text-[8px] font-black uppercase tracking-widest">Live Offer</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">Live Offer</span>
                   </div>
                   <div className="h-3 w-px bg-border-light" />
                   <div className="flex items-center gap-2 text-muted/50">
                     <Tag className="w-3 h-3" />
-                    <span className="text-[8px] font-bold uppercase tracking-widest">Bakery Special</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Bakery Special</span>
                   </div>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Ultra Slim Navigation Dots */}
+          {/* Improved Touch Targets for Navigation Dots */}
           {combinedOffers.length > 1 && (
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3">
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-1">
               {combinedOffers.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
-                  className="group relative flex items-center justify-center w-6 h-6"
+                  className="group relative flex items-center justify-center w-10 h-10"
+                  aria-label={`Go to slide ${i + 1}`}
                 >
-                  <div className={`absolute inset-0 rounded-full border transition-all duration-500 ${i === currentIndex ? 'border-caramel scale-125 opacity-100' : 'border-transparent scale-50 opacity-0'
-                    }`} />
-                  <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${i === currentIndex ? 'bg-brown scale-125' : 'bg-brown/20 group-hover:bg-brown/40'
-                    }`} />
+                  <div className={`absolute w-6 h-6 rounded-full border transition-all duration-500 ${i === currentIndex ? 'border-caramel opacity-100' : 'border-transparent opacity-0'}`} />
+                  <div className={`w-2 h-2 rounded-full transition-all duration-500 ${i === currentIndex ? 'bg-brown scale-125' : 'bg-brown/20 group-hover:bg-brown/40'}`} />
                 </button>
               ))}
             </div>

@@ -225,207 +225,193 @@ export default function AdminProducts() {
     .filter(Boolean);
 
   return (
-    <div className="flex-1 p-8 overflow-y-auto">
-      <div className="max-w-6xl mx-auto space-y-8">
-        <header className="flex justify-between items-center">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-serif text-brown font-bold">Manage Products</h1>
-            <p className="text-muted">Total inventory: {products.length} types of treats</p>
+    <div className="flex-1 p-4 md:p-6 overflow-y-auto">
+      <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
+        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="space-y-0.5">
+            <h1 className="text-2xl md:text-3xl font-serif text-brown font-bold">Manage Products</h1>
+            <p className="text-muted text-xs md:text-sm">Total inventory: {products.length} types of treats</p>
           </div>
           
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-sage hover:bg-brown-hover text-white rounded-full h-12 px-6 py-2 font-bold shadow-md flex items-center gap-3" onClick={openCreateDialog}>
+              <Button className="w-full sm:w-auto bg-sage hover:bg-brown-hover text-white rounded-xl md:rounded-full h-12 px-6 py-2 font-bold shadow-md flex items-center justify-center gap-3" onClick={openCreateDialog}>
                 <Plus className="w-4 h-4 mr-1" />
                 Add New Product
               </Button>
             </DialogTrigger>
-            <DialogContent showCloseButton={false} className="bg-cream-highlight border-border-light rounded-lg !max-w-[920px] w-[80vw] p-0 overflow-hidden shadow-2xl">
-              <div className="bg-gradient-to-r from-brown to-[#5a3828] px-4 py-3 text-white border-b border-white/10">
+            <DialogContent showCloseButton={false} className="bg-cream-highlight border-brown/5 rounded-2xl w-[95vw] sm:w-[90vw] md:max-w-4xl p-0 overflow-hidden shadow-2xl">
+              <div className="bg-gradient-to-r from-brown to-[#5a3828] px-5 py-4 text-white border-b border-white/10">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
                       <Plus className="w-5 h-5 text-caramel" />
                     </div>
                     <div className="space-y-0.5">
-                      <h2 className="text-[18px] font-serif text-white font-extrabold leading-tight tracking-[0.01em]">
-                        {editingId ? 'Refine Bakery Item' : 'New Bakery Creation'}
+                      <h2 className="text-lg md:text-xl font-serif text-white font-extrabold leading-tight tracking-[0.01em]">
+                        {editingId ? 'Refine Item' : 'New Creation'}
                       </h2>
-                      <p className="text-[10px] text-caramel/95 uppercase tracking-[0.2em] font-bold">Product Management System</p>
+                      <p className="text-[10px] text-caramel/95 uppercase tracking-[0.2em] font-bold">Product Management</p>
                     </div>
                   </div>
                   <DialogClose asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors">
-                      <X className="w-5 h-5" />
+                    <Button variant="ghost" className="h-10 w-10 p-0 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+                      <X className="w-6 h-6" />
                     </Button>
                   </DialogClose>
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-2.5 space-y-2.5 bg-white/30 backdrop-blur-sm overflow-visible">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-5 bg-white/30 backdrop-blur-sm overflow-y-auto max-h-[80vh] custom-scrollbar">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 items-start">
                   {/* Left Column: Basic Details */}
                   <div className="space-y-5">
-                    <div className="space-y-3">
-                      <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Product Name</Label>
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Product Name</Label>
                         <Input 
                         required 
                         placeholder="e.g., Chocolate Lava Cake"
                         value={formData.name}
                         onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="rounded-lg border-border-light bg-white/50 focus:bg-white transition-all h-8 shadow-sm"
+                        className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage"
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-5">
-                      <div className="space-y-3">
-                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Base Price (৳)</Label>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Base Price (৳)</Label>
                         <Input 
                           required type="number" 
                           value={formData.price}
                           onChange={(e) => setFormData({...formData, price: e.target.value})}
-                          className="rounded-lg border-border-light bg-white/50 focus:bg-white h-8 shadow-sm"
+                          className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage"
                         />
                       </div>
-                      <div className="space-y-3">
-                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Offer Price (৳)</Label>
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Offer Price (৳)</Label>
                         <Input 
                           type="number" 
                           value={formData.discountPrice}
                           onChange={(e) => setFormData({...formData, discountPrice: e.target.value})}
-                          className="rounded-lg border-border-light bg-white/50 focus:bg-white h-8 shadow-sm"
+                          className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage"
                           placeholder="Optional"
                         />
                       </div>
                     </div>
 
-                    <div className="space-y-5">
-                      <div className="grid grid-cols-2 gap-5">
-                        <div className="space-y-3">
-                          <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Inventory Stock</Label>
-                          <Input 
-                            required type="number" 
-                            value={formData.stock}
-                            onChange={(e) => setFormData({...formData, stock: e.target.value})}
-                            className="rounded-lg border-border-light bg-white/50 focus:bg-white h-8 shadow-sm"
-                          />
-                        </div>
-                        <div className="space-y-3">
-                          <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Category</Label>
-                          <Select 
-                            value={formData.category} 
-                            onValueChange={(val) => setFormData({...formData, category: val})}
-                          >
-                            <SelectTrigger className="rounded-lg border-border-light bg-white/50 focus:bg-white h-8 shadow-sm">
-                                <SelectValue />
-                              </SelectTrigger>
-                            <SelectContent className="bg-cream-highlight border-border-light rounded-lg z-50">
-                              {categories.map((cat) => (
-                                <SelectItem key={cat._id} value={cat.name}>{cat.name}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Stock Level</Label>
+                        <Input 
+                          required type="number" 
+                          value={formData.stock}
+                          onChange={(e) => setFormData({...formData, stock: e.target.value})}
+                          className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Category</Label>
+                        <Select 
+                          value={formData.category} 
+                          onValueChange={(val) => setFormData({...formData, category: val})}
+                        >
+                          <SelectTrigger className="h-11 rounded-xl border-brown/5 bg-white focus:ring-sage">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-cream-highlight border-brown/5 rounded-xl z-50">
+                            {categories.map((cat) => (
+                              <SelectItem key={cat._id} value={cat.name}>{cat.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
 
-                    <div className="space-y-2 pt-1">
-                      <div className="flex items-center space-x-3 p-1.5 bg-white/40 rounded-lg border border-border-light">
+                    <div className="p-4 bg-white rounded-xl border border-brown/5 shadow-sm">
+                      <div className="flex items-center space-x-3">
                         <input
                           type="checkbox"
                           id="isFeatured"
                           checked={formData.isFeatured}
                           onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
-                          className="h-5 w-5 rounded-lg border-border-light text-sage focus:ring-sage transition-all"
+                          className="h-6 w-6 rounded-md border-brown/10 text-sage focus:ring-sage transition-all"
                         />
-                        <Label htmlFor="isFeatured" className="cursor-pointer font-bold text-brown">Feature on Home Page</Label>
+                        <Label htmlFor="isFeatured" className="cursor-pointer font-bold text-brown text-sm">Feature on Homepage</Label>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Descriptions & Assets */}
+                  {/* Right Column: Assets & Descriptions */}
                   <div className="space-y-5">
-                    <div className="space-y-3">
-                      <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Image Assets (URLs, comma-separated)</Label>
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Image URLs (comma separated)</Label>
                       <Input 
                         value={formData.imageUrl}
                         onChange={(e) => setFormData({...formData, imageUrl: e.target.value})}
-                        className="rounded-lg border-border-light bg-white/50 focus:bg-white h-8 shadow-sm"
+                        className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage"
                         placeholder="https://image1.jpg, https://image2.jpg"
                       />
-                      {imageCandidates.length > 1 && (
-                      <div className="flex items-center gap-2 mt-2 flex-wrap">
-                        {imageCandidates.map((src, idx) => (
-                          <button
-                            key={`${src}-${idx}`}
-                            type="button"
-                            onClick={() => setActiveImageIndex(idx)}
-                            className={`relative w-14 h-14 rounded-lg overflow-hidden border ${idx === activeImageIndex ? 'ring-2 ring-sage' : 'border-border-light'} bg-white flex items-center justify-center`}
-                          >
-                            <img
-                              src={src}
-                              alt=""
-                              className="object-cover w-full h-full"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                const fallback = e.currentTarget.nextElementSibling;
-                                if (fallback) {
-                                  fallback.classList.remove('hidden');
-                                }
-                              }}
-                            />
-                            <span className="hidden absolute inset-0 flex items-center justify-center text-muted">
-                              <ImageOff className="w-4 h-4" />
-                            </span>
-                          </button>
-                        ))}
-                      </div>
+                      {imageCandidates.length > 0 && (
+                        <div className="flex items-center gap-2 mt-3 overflow-x-auto pb-2 custom-scrollbar">
+                          {imageCandidates.map((src, idx) => (
+                            <button
+                              key={`${src}-${idx}`}
+                              type="button"
+                              onClick={() => setActiveImageIndex(idx)}
+                              className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 bg-white ${
+                                idx === activeImageIndex ? 'border-sage ring-2 ring-sage/20 shadow-md' : 'border-brown/5 opacity-60'
+                              }`}
+                            >
+                              <img src={src} alt="" className="object-cover w-full h-full" />
+                            </button>
+                          ))}
+                        </div>
                       )}
                     </div>
 
-                    <div className="space-y-3">
-                      <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Detailed Description</Label>
+                    <div className="space-y-2">
+                      <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Description</Label>
                       <Textarea 
                         required 
                         value={formData.description}
                         onChange={(e) => setFormData({...formData, description: e.target.value})}
-                        className="rounded-lg border-border-light bg-white/50 focus:bg-white h-18 shadow-sm resize-none"
-                        placeholder="Tell us about the texture, flavor, and story of this treat..."
+                        className="rounded-xl border-brown/5 bg-white focus-visible:ring-sage h-24 md:h-32 resize-none text-sm"
+                        placeholder="Tell the story of this treat..."
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-3">
-                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Ingredients</Label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Ingredients</Label>
                         <Textarea 
                           value={formData.ingredients}
                           onChange={(e) => setFormData({...formData, ingredients: e.target.value})}
-                          className="rounded-lg border-border-light bg-white/50 focus:bg-white h-14 shadow-sm text-xs"
-                          placeholder="Flour, Sugar, Cocoa..."
+                          className="rounded-xl border-brown/5 bg-white focus-visible:ring-sage h-20 text-xs"
+                          placeholder="List key ingredients..."
                         />
                       </div>
-                      <div className="space-y-3">
-                        <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70">Health Benefits</Label>
+                      <div className="space-y-2">
+                        <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Health Benefits</Label>
                         <Textarea 
                           value={formData.healthBenefits}
                           onChange={(e) => setFormData({...formData, healthBenefits: e.target.value})}
-                          className="rounded-lg border-border-light bg-white/50 focus:bg-white h-14 shadow-sm text-xs"
-                          placeholder="Rich in antioxidants..."
+                          className="rounded-xl border-brown/5 bg-white focus-visible:ring-sage h-20 text-xs"
+                          placeholder="Nutritional benefits..."
                         />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-border-light">
+                <div className="pt-4 border-t border-brown/5">
                   <Button 
                     type="submit" 
-                    className="w-full py-1.5 rounded-lg bg-sage hover:bg-brown text-white font-bold text-sm shadow-xl transition-all active:scale-[0.99] flex gap-3 items-center justify-center"
+                    className="w-full h-14 rounded-xl bg-sage hover:bg-brown text-white font-bold text-lg shadow-xl border-none transition-all active:scale-[0.98] flex gap-3 items-center justify-center"
                     disabled={submitting}
                   >
-                    {submitting ? <Loader2 className="animate-spin w-5 h-5" /> : (
+                    {submitting ? <Loader2 className="animate-spin w-6 h-6" /> : (
                       <>
-                        <CheckCircle2 className="w-5 h-5" />
+                        <CheckCircle2 className="w-6 h-6" />
                         {editingId ? 'Save Changes' : 'Create Product'}
                       </>
                     )}
@@ -437,27 +423,27 @@ export default function AdminProducts() {
         </header>
 
         {/* Global Offer Management Section */}
-        <div className="bg-gradient-to-r from-caramel/10 to-sage/10 rounded-2xl p-6 border border-caramel/20 mb-6">
+        <div className="bg-gradient-to-r from-caramel/10 to-sage/10 rounded-2xl p-5 md:p-6 border border-caramel/20">
           <div className="flex items-center gap-3 mb-4">
-            <Sparkles className="w-6 h-6 text-caramel" />
-            <h3 className="text-lg font-bold text-brown">Global Offer Management</h3>
+            <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-caramel" />
+            <h3 className="text-base md:text-lg font-bold text-brown">Global Offer Management</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70 mb-2 block">Select Category</Label>
+              <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70 mb-2 block">Category</Label>
               <Select value={offerCategory} onValueChange={setOfferCategory}>
-                <SelectTrigger className="rounded-lg border-2 border-caramel/30 bg-gradient-to-r from-cream-highlight to-white h-10 hover:bg-white hover:border-caramel/50 transition-all shadow-sm">
+                <SelectTrigger className="h-12 rounded-xl border-brown/10 bg-white hover:border-caramel/50 transition-all shadow-sm">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-gradient-to-b from-cream-highlight to-white border-2 border-caramel/20 rounded-lg shadow-lg">
+                <SelectContent className="bg-white border-brown/10 rounded-xl shadow-lg z-50">
                   {categories.map((cat) => (
-                    <SelectItem key={cat._id} value={cat.name} className="hover:bg-caramel/10 cursor-pointer">{cat.name}</SelectItem>
+                    <SelectItem key={cat._id} value={cat.name}>{cat.name}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label className="text-xs font-bold uppercase tracking-widest text-brown opacity-70 mb-2 block">Offer Percent (1-99)</Label>
+              <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70 mb-2 block">Discount %</Label>
               <Input
                 type="number"
                 min="1"
@@ -465,14 +451,14 @@ export default function AdminProducts() {
                 value={globalOffer}
                 onChange={(e) => setGlobalOffer(e.target.value)}
                 placeholder="e.g., 20"
-                className="rounded-lg border-border-light bg-white h-10"
+                className="h-12 rounded-xl border-brown/10 bg-white"
               />
             </div>
             <div className="flex items-end">
               <Button
                 onClick={handleGlobalOffer}
                 disabled={bulkOfferLoading}
-                className="w-full bg-caramel hover:bg-brown text-white font-bold rounded-lg h-10 flex gap-2 items-center justify-center"
+                className="w-full bg-caramel hover:bg-brown text-white font-bold rounded-xl h-12 flex gap-2 items-center justify-center border-none shadow-md active:scale-95 transition-transform"
               >
                 {bulkOfferLoading ? <Loader2 className="animate-spin w-4 h-4" /> : <Percent className="w-4 h-4" />}
                 Apply Offer
@@ -482,7 +468,7 @@ export default function AdminProducts() {
               <Button
                 onClick={handleClearGlobalOffer}
                 disabled={bulkOfferLoading}
-                className="w-full bg-red-500 hover:bg-red-600 text-white font-bold rounded-lg h-10"
+                className="w-full bg-white hover:bg-red-50 text-red-500 font-bold rounded-xl h-12 border-2 border-red-500/20 active:scale-95 transition-transform"
               >
                 {bulkOfferLoading ? <Loader2 className="animate-spin w-4 h-4" /> : 'Clear Offers'}
               </Button>
@@ -491,53 +477,48 @@ export default function AdminProducts() {
         </div>
 
         {loading ? (
-          <div className="h-64 bg-cream-highlight rounded-3xl animate-pulse" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="h-48 bg-cream-highlight rounded-2xl animate-pulse" />
+            ))}
+          </div>
         ) : (
-          <div className="bg-white rounded-3xl border border-border-light shadow-soft overflow-hidden">
-            <Table>
-              <TableHeader className="bg-cream-highlight">
-                <TableRow>
-                  <TableHead className="font-bold text-brown">Product</TableHead>
-                  <TableHead className="font-bold text-brown">Category</TableHead>
-                  <TableHead className="font-bold text-brown">Price</TableHead>
-                  <TableHead className="font-bold text-brown">Featured</TableHead>
-                  <TableHead className="font-bold text-brown">Offer</TableHead>
-                  <TableHead className="font-bold text-brown">Stock</TableHead>
-                  <TableHead className="text-right font-bold text-brown">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((product) => (
-                  <TableRow key={product._id} className="hover:bg-brown/[0.02] border-border-light/40 transition-colors">
-                    <TableCell className="font-medium font-serif text-brown">{product.name}</TableCell>
-                    <TableCell>
-                      <span className="px-3 py-1 bg-cream-highlight border border-border-light rounded-full text-xs text-muted">
-                        {product.category}
+          <>
+            {/* Mobile Card View (Visible only on SM/MD) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:hidden">
+              {products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((product) => (
+                <div key={product._id} className="bg-white rounded-2xl p-4 border border-brown/5 shadow-soft space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-brown/5">
+                      <img 
+                        src={product.images?.[0] || 'https://via.placeholder.com/150'} 
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-serif text-brown font-bold truncate">{product.name}</h4>
+                      <p className="text-[10px] text-muted font-bold uppercase tracking-widest">{product.category}</p>
+                      <p className="text-caramel font-bold">৳{Number(product.price).toFixed(0)}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center justify-between pt-2 border-t border-brown/5">
+                    <div className="flex gap-2">
+                      <span className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${
+                        product.stock > 0 ? 'bg-sage/10 text-sage' : 'bg-red-500/10 text-red-500'
+                      }`}>
+                        {product.stock} units
                       </span>
-                    </TableCell>
-                    <TableCell className="font-bold text-caramel">৳{Number(product.price).toFixed(2)}</TableCell>
-                    <TableCell>
-                      {product.isFeatured ? (
-                        <span className="px-2 py-0.5 bg-caramel/10 text-caramel rounded text-[10px] font-bold uppercase tracking-wider">Featured</span>
-                      ) : (
-                        <span className="text-muted text-[10px]">-</span>
+                      {product.isFeatured && (
+                        <span className="px-2 py-0.5 bg-caramel/10 text-caramel rounded text-[8px] font-bold uppercase tracking-wider">Featured</span>
                       )}
-                    </TableCell>
-                    <TableCell>
-                      {Number(product.discountPrice) > 0 ? (
-                        <span className="px-3 py-1 bg-sage/10 text-sage rounded-full text-xs font-semibold">
-                          ৳{Number(product.discountPrice).toFixed(2)}
-                        </span>
-                      ) : (
-                        <span className="text-muted text-xs">No offer</span>
-                      )}
-                    </TableCell>
-                    <TableCell>{product.stock} units</TableCell>
-                    <TableCell className="text-right space-x-2">
+                    </div>
+                    <div className="flex gap-2">
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-muted hover:text-sage"
+                        className="h-10 w-10 rounded-xl text-muted hover:text-sage hover:bg-sage/5"
                         onClick={() => openEditDialog(product)}
                       >
                         <Pencil className="w-4 h-4" />
@@ -545,26 +526,102 @@ export default function AdminProducts() {
                       <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="text-muted hover:text-red-500"
+                        className="h-10 w-10 rounded-xl text-muted hover:text-red-500 hover:bg-red-50"
                         onClick={() => handleDelete(product._id)}
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
-                    </TableCell>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View (Visible only on LG+) */}
+            <div className="hidden lg:block bg-white rounded-2xl md:rounded-3xl border border-brown/5 shadow-soft overflow-hidden">
+              <Table>
+                <TableHeader className="bg-cream-highlight/50">
+                  <TableRow className="border-brown/5">
+                    <TableHead className="font-bold text-brown">Product</TableHead>
+                    <TableHead className="font-bold text-brown">Category</TableHead>
+                    <TableHead className="font-bold text-brown">Price</TableHead>
+                    <TableHead className="font-bold text-brown">Status</TableHead>
+                    <TableHead className="font-bold text-brown">Offer</TableHead>
+                    <TableHead className="font-bold text-brown">Stock</TableHead>
+                    <TableHead className="text-right font-bold text-brown px-6">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                </TableHeader>
+                <TableBody>
+                  {products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((product) => (
+                    <TableRow key={product._id} className="hover:bg-brown/[0.01] border-brown/5 transition-colors">
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <img 
+                            src={product.images?.[0] || 'https://via.placeholder.com/150'} 
+                            alt={product.name}
+                            className="w-10 h-10 rounded-lg object-cover border border-brown/5"
+                          />
+                          <span className="font-serif text-brown font-bold">{product.name}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="px-3 py-1 bg-cream-highlight border border-brown/10 rounded-full text-[10px] font-bold text-muted uppercase tracking-widest">
+                          {product.category}
+                        </span>
+                      </TableCell>
+                      <TableCell className="font-bold text-caramel">৳{Number(product.price).toFixed(2)}</TableCell>
+                      <TableCell>
+                        {product.isFeatured ? (
+                          <span className="px-2 py-0.5 bg-caramel/10 text-caramel rounded text-[10px] font-bold uppercase tracking-wider">Featured</span>
+                        ) : (
+                          <span className="text-muted text-[10px] font-bold opacity-30">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {Number(product.discountPrice) > 0 ? (
+                          <span className="px-3 py-1 bg-sage/10 text-sage rounded-full text-xs font-bold">
+                            ৳{Number(product.discountPrice).toFixed(0)}
+                          </span>
+                        ) : (
+                          <span className="text-muted text-xs opacity-50">No offer</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-sm font-medium">{product.stock} units</TableCell>
+                      <TableCell className="text-right space-x-2 px-6">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-10 w-10 rounded-xl text-muted hover:text-sage hover:bg-sage/10"
+                          onClick={() => openEditDialog(product)}
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-10 w-10 rounded-xl text-muted hover:text-red-500 hover:bg-red-50"
+                          onClick={() => handleDelete(product._id)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </>
         )}
 
-        <Pagination 
-          currentPage={currentPage}
-          totalPages={Math.ceil(products.length / itemsPerPage)}
-          onPageChange={setCurrentPage}
-          itemsPerPage={itemsPerPage}
-          totalItems={products.length}
-        />
+        <div className="pt-4">
+          <Pagination 
+            currentPage={currentPage}
+            totalPages={Math.ceil(products.length / itemsPerPage)}
+            onPageChange={setCurrentPage}
+            itemsPerPage={itemsPerPage}
+            totalItems={products.length}
+          />
+        </div>
       </div>
     </div>
   );

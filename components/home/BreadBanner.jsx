@@ -6,26 +6,28 @@ import { Play } from 'lucide-react';
 
 export default function BreadBanner() {
   return (
-    <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden my-24">
-      {/* Background Image */}
+    <section className="relative h-[50vh] md:h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden my-12 md:my-24 rounded-[2rem] md:rounded-none mx-4 md:mx-0 shadow-2xl md:shadow-none">
+      {/* Background Image with Cinematic Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=1600"
+          src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=1200&q=80"
           alt="Multiple Tastes"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover scale-110"
         />
-        <div className="absolute inset-0 bg-cream-highlight/0 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
       </div>
 
-      <div className="relative z-10 text-center px-6 max-w-3xl space-y-8">
+      <div className="relative z-10 text-center px-6 max-w-3xl space-y-6 md:space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="space-y-4"
         >
-          <h2 className="text-5xl md:text-6xl font-serif leading-tight text-white">One Bread, <br /> Multiple Taste</h2>
-          <p className="text-lg text-white leading-relaxed max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-serif leading-tight text-white drop-shadow-lg">
+            One Bread, <br /> <span className="text-caramel">Multiple Taste</span>
+          </h2>
+          <p className="text-sm md:text-lg text-white/90 leading-relaxed max-w-2xl mx-auto font-medium">
             From sweet honey to rich chocolate and tangy jams—our artisanal loaves
             are the perfect canvas for your every craving. Discover the endless
             possibilities of a single slice.
@@ -37,13 +39,16 @@ export default function BreadBanner() {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
           viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-6 items-center"
+          className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6 items-center"
         >
-          <Button className="px-10 py-7 rounded-full bg-cream text-brown hover:bg-white text-lg font-bold shadow-xl transition-all">
+          <Button className="w-full sm:w-auto px-10 py-7 rounded-full bg-white text-brown hover:bg-caramel hover:text-white text-base md:text-lg font-bold shadow-2xl transition-all border-none">
             Get Our Jams
           </Button>
-          <button className="w-16 h-16 rounded-full bg-caramel text-white flex items-center justify-center hover:scale-110 transition-transform shadow-xl">
-            <Play className="w-6 h-6 fill-current" />
+          <button 
+            aria-label="Play our story video"
+            className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-caramel text-white flex items-center justify-center hover:scale-110 transition-transform shadow-2xl group"
+          >
+            <Play className="w-5 h-5 md:w-6 md:h-6 fill-current group-hover:animate-pulse" />
           </button>
         </motion.div>
       </div>
