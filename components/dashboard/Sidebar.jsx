@@ -10,7 +10,8 @@ import {
   BarChart3,
   Package,
   Users,
-  Ticket
+  Ticket,
+  Sparkles
 } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 
@@ -23,6 +24,7 @@ export default function Sidebar() {
   const managementLinks = [
     { name: 'Analytics', path: '/management', icon: BarChart3 },
     { name: 'Products', path: '/admin/products', icon: Package },
+    { name: 'Categories', path: '/admin/categories', icon: Sparkles },
     { name: 'Orders', path: '/admin/orders', icon: ShoppingBag },
     ...(user?.role === 'admin' ? [{ name: 'Users', path: '/admin/users', icon: Users }] : []),
     { name: 'Coupons', path: '/admin/coupons', icon: Ticket },
@@ -51,7 +53,7 @@ export default function Sidebar() {
         </p>
       </div>
 
-      <nav className="flex-1 px-4 space-y-1">
+      <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
         {links.map((link) => {
           const isManagement = user?.role === 'admin' || user?.role === 'manager';
           const isActive = isManagement 

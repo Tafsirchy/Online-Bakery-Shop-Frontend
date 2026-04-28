@@ -19,7 +19,11 @@ export const useCartStore = create(
   persist(
     (set, get) => ({
       items: [],
+      appliedCoupon: null,
       
+      setAppliedCoupon: (code) => set({ appliedCoupon: code }),
+      clearAppliedCoupon: () => set({ appliedCoupon: null }),
+
       addToCart: (product, quantity = 1) => {
         const productId = String(product?._id || product?.id || '').trim();
         if (!isValidObjectId(productId)) {

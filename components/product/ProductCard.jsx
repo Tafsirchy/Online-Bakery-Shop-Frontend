@@ -66,8 +66,8 @@ export default function ProductCard({ product }) {
         
         {/* Offer Badge */}
         {product.discountPrice > 0 && (
-          <div className="absolute top-3 left-3 bg-sage text-white px-2 py-0.5 rounded-full text-[9px] font-bold shadow-sm tracking-widest uppercase pointer-events-none">
-            Offer
+          <div className="absolute top-3 left-3 bg-sage text-white px-2.5 py-1 rounded-full text-[10px] font-black shadow-lg tracking-widest uppercase pointer-events-none z-10">
+            {Math.round(((product.price - product.discountPrice) / product.price) * 100)}% Off
           </div>
         )}
 
@@ -97,30 +97,37 @@ export default function ProductCard({ product }) {
           </div>
         </div>
 
-        {/* Pricing */}
-        <div className="flex items-baseline gap-1.5">
-          {product.discountPrice > 0 ? (
-            <>
-              <span className="text-base font-bold text-brown">৳{product.discountPrice}</span>
-              <span className="text-[10px] text-muted line-through opacity-50">৳{product.price}</span>
-            </>
-          ) : (
-            <span className="text-base font-bold text-brown">৳{product.price}</span>
-          )}
+        {/* Pricing & Stock */}
+        <div className="flex justify-between items-center">
+          <div className="flex items-baseline gap-1.5">
+            {product.discountPrice > 0 ? (
+              <>
+                <span className="text-base font-bold text-brown">৳{product.discountPrice}</span>
+                <span className="text-[10px] text-muted line-through opacity-50">৳{product.price}</span>
+              </>
+            ) : (
+              <span className="text-base font-bold text-brown">৳{product.price}</span>
+            )}
+          </div>
+          <div className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-surface-caramel/10 text-brown/70">
+            {product.stock > 0 ? `${product.stock} in stock` : 'Out of Stock'}
+          </div>
         </div>
 
         {/* Action Buttons */}
         <div className="flex gap-2 pt-0.5 mt-auto">
           <Button 
             onClick={handleBuyNow}
-            className="flex-grow bg-brown hover:bg-caramel text-white rounded-lg h-9 font-bold text-xs transition-all border-none"
+            disabled={product.stock <= 0}
+            className="flex-grow bg-brown hover:bg-caramel text-white rounded-lg h-9 font-bold text-xs transition-all border-none disabled:opacity-50"
           >
-            Buy Now
+            {product.stock > 0 ? 'Buy Now' : 'Sold Out'}
           </Button>
           <Button 
             onClick={handleAddToCart}
+            disabled={product.stock <= 0}
             size="icon" 
-            className="rounded-lg bg-sage hover:bg-brown text-white h-9 w-9 shrink-0 transition-all shadow-sm border-none"
+            className="rounded-lg bg-sage hover:bg-brown text-white h-9 w-9 shrink-0 transition-all shadow-sm border-none disabled:opacity-50"
           >
             <ShoppingCart className="w-4 h-4 text-white" />
           </Button>

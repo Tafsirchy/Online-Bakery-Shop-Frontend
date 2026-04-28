@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
+import { useAuthStore } from '@/store/useAuthStore';
 import { 
   BarChart, 
   Bar, 
@@ -27,6 +28,7 @@ import {
 } from 'lucide-react';
 
 export default function ManagementDashboard() {
+  const { user } = useAuthStore();
   const [stats, setStats] = useState({
     totalRevenue: 0,
     totalOrders: 0,
@@ -37,6 +39,13 @@ export default function ManagementDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const canViewAnalytics = user?.role === 'admin' || user?.role === 'manager';
+
+    if (!canViewAnalytics) {
+      setLoading(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const [statsRes, productsRes] = await Promise.all([
@@ -52,7 +61,7 @@ export default function ManagementDashboard() {
       }
     };
     fetchData();
-  }, []);
+  }, [user]);
 
   // Mock data for charts (can be expanded later with real time-series data)
   const salesData = [
@@ -75,32 +84,38 @@ export default function ManagementDashboard() {
   const COLORS = ['#8A9A5B', '#D4A373', '#4A3728', '#E0D5C1'];
 
   return (
-    <div className="flex-1 p-8 overflow-y-auto space-y-8">
+    <div className="flex-1 p-8 overflow-y-auto space-y-10">
       <header className="space-y-1">
-        <h1 className="text-3xl font-serif text-brown font-bold">Management Overview</h1>
-        <p className="text-muted">Tracking your bakery's growth and performance.</p>
+        <h1 className="text-4xl font-serif text-brown font-extrabold tracking-tight">Management Overview</h1>
+        <p className="text-muted text-lg">Tracking your bakery's growth and performance.</p>
       </header>
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[
-          { label: 'Total Revenue', value: `$${stats.totalRevenue?.toLocaleString()}`, icon: DollarSign, color: 'text-sage', bg: 'bg-sage/10' },
-          { label: 'Total Orders', value: stats.totalOrders?.toLocaleString(), icon: ShoppingBag, color: 'text-caramel', bg: 'bg-caramel/10' },
-          { label: 'Total Users', value: stats.totalUsers?.toLocaleString(), icon: Users, color: 'text-brown', bg: 'bg-brown/10' },
-          { label: 'Avg. Order', value: `$${stats.avgOrderValue}`, icon: TrendingUp, color: 'text-sage', bg: 'bg-sage/10' },
-        ].map((item, i) => (
-          <Card key={i} className="rounded-3xl border-border-light shadow-soft overflow-hidden">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className={`p-4 rounded-2xl ${item.bg}`}>
-                <item.icon className={`w-6 h-6 ${item.color}`} />
-              </div>
-              <div>
-                <p className="text-xs text-muted font-bold uppercase tracking-widest">{item.label}</p>
-                <p className="text-2xl font-serif text-brown font-bold">{item.value}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {loading ? (
+          [1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-28 bg-cream-highlight/50 rounded-[2rem] animate-pulse border border-border-light" />
+          ))
+        ) : (
+          [
+            { label: 'Total Revenue', value: `$${stats.totalRevenue?.toLocaleString()}`, icon: DollarSign, color: 'text-sage', bg: 'bg-[#F1F3E9]' },
+            { label: 'Total Orders', value: stats.totalOrders?.toLocaleString(), icon: ShoppingBag, color: 'text-caramel', bg: 'bg-[#F9F3EB]' },
+            { label: 'Total Users', value: stats.totalUsers?.toLocaleString(), icon: Users, color: 'text-brown', bg: 'bg-[#F2EFEA]' },
+            { label: 'Avg. Order', value: `$${stats.avgOrderValue}`, icon: TrendingUp, color: 'text-sage', bg: 'bg-[#F1F3E9]' },
+          ].map((item, i) => (
+            <Card key={i} className="rounded-[2rem] border-none shadow-soft bg-white group hover:shadow-warm transition-all duration-500">
+              <CardContent className="p-6 flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 duration-500 ${item.bg}`}>
+                  <item.icon className={`w-7 h-7 ${item.color}`} />
+                </div>
+                <div className="space-y-0.5">
+                  <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em]">{item.label}</p>
+                  <p className="text-3xl font-serif text-brown font-bold tracking-tight">${item.value.replace('$', '')}</p>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

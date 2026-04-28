@@ -83,8 +83,17 @@ function LoginPageContent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const emailTrim = formData.email.trim().toLowerCase();
+
+      if (!emailTrim || !formData.password) {
+        const msg = 'Please provide an email and password';
+        setFormError(msg);
+        toast.error(msg);
+        return;
+      }
+
       const payload = {
-        email: formData.email.trim().toLowerCase(),
+        email: emailTrim,
         password: formData.password,
       };
 

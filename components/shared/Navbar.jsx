@@ -34,11 +34,19 @@ export default function Navbar() {
   const safeCartCount = isMounted ? cartCount : 0;
 
   useEffect(() => {
-    if (hasHydrated) {
-      checkAuth();
-      fetchWishlist();
-    }
-  }, [hasHydrated, checkAuth, fetchWishlist]);
+    if (!hasHydrated) return;
+
+    const bootstrapAuthData = async () => {
+      const currentUser = await checkAuth();
+      if (currentUser) {
+        await fetchWishlist();
+      } else {
+        clearWishlist();
+      }
+    };
+
+    bootstrapAuthData();
+  }, [hasHydrated, checkAuth, fetchWishlist, clearWishlist]);
 
   useEffect(() => {
     setIsMounted(true);

@@ -22,7 +22,11 @@ import {
   Loader2,
   Trash2,
   Eye,
-  CreditCard
+  CreditCard,
+  ShoppingBag,
+  X,
+  User,
+  ClipboardList
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -30,9 +34,11 @@ import {
   Dialog, 
   DialogContent, 
   DialogHeader, 
-  DialogTitle 
+  DialogTitle,
+  DialogClose
 } from '@/components/ui/dialog';
 import { toast } from 'react-toastify';
+import Pagination from '@/components/shared/Pagination';
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -40,6 +46,10 @@ export default function AdminOrders() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const fetchOrders = async () => {
     try {
@@ -145,7 +155,7 @@ export default function AdminOrders() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredOrders.map((order) => (
+                {filteredOrders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((order) => (
                   <TableRow key={order._id} className="hover:bg-sage/5 transition-colors">
                     <TableCell className="font-mono text-xs text-muted font-bold">
                       {order.trackingId}
@@ -209,78 +219,144 @@ export default function AdminOrders() {
                 ))}
               </TableBody>
             </Table>
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={Math.ceil(filteredOrders.length / itemsPerPage)}
+              onPageChange={setCurrentPage}
+              itemsPerPage={itemsPerPage}
+              totalItems={filteredOrders.length}
+            />
           </div>
         )}
 
         {/* Order Details Dialog */}
         <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-          <DialogContent className="bg-cream-highlight border-border-light rounded-[2.5rem] max-w-2xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="text-2xl font-serif text-brown">Order Details</DialogTitle>
-            </DialogHeader>
-            
+          <DialogContent showCloseButton={false} className="bg-cream-highlight border-none rounded-[2rem] !max-w-4xl w-[95vw] p-0 overflow-hidden shadow-2xl">
             {selectedOrder && (
-              <div className="space-y-8 py-4">
-                <div className="grid grid-cols-2 gap-8 bg-white/60 p-6 rounded-3xl border border-border-light">
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-muted font-bold uppercase tracking-widest">Tracking ID</p>
-                    <p className="font-mono font-bold text-brown">{selectedOrder.trackingId}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-muted font-bold uppercase tracking-widest">Customer</p>
-                    <p className="font-serif font-bold text-brown">{selectedOrder.userId?.name}</p>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-muted font-bold uppercase tracking-widest">Payment Method</p>
-                    <div className="flex items-center gap-2 font-bold text-brown">
-                      <CreditCard className="w-4 h-4 text-sage" />
-                      {selectedOrder.paymentMethod}
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[10px] text-muted font-bold uppercase tracking-widest">Shipping Address</p>
-                    <p className="text-xs text-muted leading-relaxed">{selectedOrder.shippingAddress}</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="font-serif text-lg text-brown px-2">Order Items</h3>
-                  <div className="space-y-3">
-                    {selectedOrder.products.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between bg-white p-4 rounded-2xl border border-border-light shadow-xs">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-cream-highlight overflow-hidden border border-border-light">
-                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                          </div>
-                          <div>
-                            <p className="font-bold text-brown font-serif">{item.name}</p>
-                            <p className="text-xs text-muted">{item.quantity} x ৳{item.price}</p>
-                          </div>
-                        </div>
-                        <p className="font-bold text-sage">৳{(item.quantity * item.price).toFixed(2)}</p>
+              <div className="flex flex-col max-h-[90vh]">
+                {/* Refined Header - Matching AdminProducts Style */}
+                <div className="bg-gradient-to-r from-brown to-[#5a3828] px-4 py-3 text-white border-b border-white/10 shrink-0">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+                        <ShoppingBag className="w-5 h-5 text-caramel" />
                       </div>
-                    ))}
+                      <div className="space-y-0.5">
+                        <h2 className="text-[18px] font-serif text-white font-extrabold leading-tight tracking-[0.01em]">
+                          Order Details
+                        </h2>
+                        <p className="text-[10px] text-caramel/95 uppercase tracking-[0.2em] font-bold">#{selectedOrder.trackingId}</p>
+                      </div>
+                    </div>
+                    <DialogClose asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors">
+                        <X className="w-5 h-5" />
+                      </Button>
+                    </DialogClose>
                   </div>
                 </div>
 
-                <div className="bg-brown text-white p-6 rounded-3xl space-y-3">
-                  <div className="flex justify-between text-sm opacity-80">
-                    <span>Subtotal</span>
-                    <span>৳{Number(selectedOrder.totalPrice).toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm opacity-80">
-                    <span>Shipping Fee</span>
-                    <span>৳{Number(selectedOrder.shippingFee).toFixed(2)}</span>
-                  </div>
-                  {selectedOrder.discount > 0 && (
-                    <div className="flex justify-between text-sm text-caramel">
-                      <span>Discount</span>
-                      <span>-৳{Number(selectedOrder.discount).toFixed(2)}</span>
+                <div className="p-8 overflow-y-auto custom-scrollbar space-y-8 bg-white/40 backdrop-blur-md">
+                  {/* Info Grid - Now 3 Columns */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-6 rounded-3xl border border-border-light shadow-sm">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-[10px] text-muted font-bold uppercase tracking-widest">
+                        <User className="w-3 h-3 text-caramel" />
+                        Customer
+                      </div>
+                      <p className="font-serif font-bold text-brown text-lg leading-tight">{selectedOrder.userId?.name || 'Guest'}</p>
+                      <p className="text-[10px] text-muted">{new Date(selectedOrder.createdAt).toLocaleString()}</p>
                     </div>
-                  )}
-                  <div className="border-t border-white/10 pt-3 flex justify-between font-bold text-xl">
-                    <span>Total Amount</span>
-                    <span>৳{Number(selectedOrder.finalPrice).toFixed(2)}</span>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-[10px] text-muted font-bold uppercase tracking-widest">
+                        <CreditCard className="w-3 h-3 text-sage" />
+                        Payment
+                      </div>
+                      <p className="font-bold text-brown">{selectedOrder.paymentMethod}</p>
+                      <Badge variant="outline" className={`mt-1 rounded-full px-2 py-0 text-[9px] uppercase font-bold tracking-tighter ${
+                        selectedOrder.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
+                      }`}>
+                        {selectedOrder.paymentStatus}
+                      </Badge>
+                    </div>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-[10px] text-muted font-bold uppercase tracking-widest">
+                        <Truck className="w-3 h-3 text-caramel" />
+                        Shipping Address
+                      </div>
+                      <p className="text-xs text-muted leading-relaxed line-clamp-3 hover:line-clamp-none transition-all cursor-default">
+                        {typeof selectedOrder.shippingAddress === 'object' 
+                          ? `${selectedOrder.shippingAddress.street}, ${selectedOrder.shippingAddress.city}, ${selectedOrder.shippingAddress.zipCode}, ${selectedOrder.shippingAddress.country}`
+                          : selectedOrder.shippingAddress}
+                      </p>
+                      {selectedOrder.shippingAddress?.phone && (
+                        <p className="text-[10px] font-bold text-brown/70">Tel: {selectedOrder.shippingAddress.phone}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Order Items & Totals Split */}
+                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+                    {/* Items List - Takes 3/5 of width */}
+                    <div className="lg:col-span-3 space-y-4">
+                      <h3 className="font-serif text-xl text-brown flex items-center gap-2">
+                        <Box className="w-5 h-5 text-caramel" />
+                        Order Items
+                      </h3>
+                      <div className="space-y-3">
+                        {selectedOrder.products.map((item, idx) => (
+                          <div key={idx} className="flex items-center justify-between bg-white p-3 rounded-2xl border border-border-light shadow-xs hover:shadow-md transition-shadow">
+                            <div className="flex items-center gap-4">
+                              <div className="w-14 h-14 rounded-xl bg-cream-highlight overflow-hidden border border-border-light shrink-0">
+                                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                              </div>
+                              <div>
+                                <p className="font-bold text-brown font-serif">{item.name}</p>
+                                <p className="text-xs text-muted">{item.quantity} × ৳{item.price}</p>
+                              </div>
+                            </div>
+                            <p className="font-bold text-sage px-4">৳{(item.quantity * item.price).toFixed(2)}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Financial Summary - Takes 2/5 of width */}
+                    <div className="lg:col-span-2 space-y-4 sticky top-0">
+                      <h3 className="font-serif text-xl text-brown flex items-center gap-2">
+                        <ClipboardList className="w-5 h-5 text-caramel" />
+                        Summary
+                      </h3>
+                      <div className="bg-brown text-white p-6 rounded-[2rem] shadow-xl space-y-4">
+                        <div className="space-y-2 pb-4 border-b border-white/10">
+                          <div className="flex justify-between text-sm opacity-70">
+                            <span>Subtotal</span>
+                            <span>৳{Number(selectedOrder.totalPrice).toFixed(2)}</span>
+                          </div>
+                          <div className="flex justify-between text-sm opacity-70">
+                            <span>Shipping Fee</span>
+                            <span>৳{Number(selectedOrder.shippingFee || 60).toFixed(2)}</span>
+                          </div>
+                          {selectedOrder.discount > 0 && (
+                            <div className="flex justify-between text-sm text-caramel">
+                              <span>Discount</span>
+                              <span>-৳{Number(selectedOrder.discount).toFixed(2)}</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex justify-between items-center font-bold">
+                          <span className="text-lg">Total Amount</span>
+                          <span className="text-2xl text-caramel font-serif">৳{Number(selectedOrder.finalPrice).toFixed(2)}</span>
+                        </div>
+                        <div className="pt-2">
+                           <div className="w-full py-2 bg-white/10 rounded-xl text-center text-[10px] uppercase tracking-widest font-bold text-white/50 border border-white/5">
+                             Processed via {selectedOrder.paymentMethod}
+                           </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

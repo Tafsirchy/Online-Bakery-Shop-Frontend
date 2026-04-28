@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCartStore } from '@/store/useCartStore';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -22,10 +22,11 @@ const isValidObjectId = (value) => /^[a-fA-F0-9]{24}$/.test(String(value || ''))
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, getTotalPrice, clearCart, removeInvalidItems, removeFromCart } = useCartStore();
+  const { items, getTotalPrice, clearCart, removeInvalidItems, removeFromCart, appliedCoupon, clearAppliedCoupon } = useCartStore();
   const { user } = useAuthStore();
   const [isMounted, setIsMounted] = useState(false);
   const orderPlacedRef = useRef(false);
+  const couponAppliedRef = useRef(false);
   
   const [shippingInfo, setShippingInfo] = useState({
     street: '', city: '', zipCode: '', country: 'Bangladesh', phone: ''
@@ -37,14 +38,56 @@ export default function CheckoutPage() {
   const [couponLoading, setCouponLoading] = useState(false);
   const [couponMessage, setCouponMessage] = useState({ type: '', text: '' });
 
+  const searchParams = useSearchParams();
   const subtotal = getTotalPrice();
   const shippingFee = 60; // Flat fee for BD delivery
   const discountAmount = (subtotal * discount) / 100;
   const finalTotal = subtotal + shippingFee - discountAmount;
 
+  const handleApplyCoupon = useCallback(async (codeToApply) => {
+    // If called from onClick, codeToApply will be an event object.
+    const isExplicitString = typeof codeToApply === 'string';
+    const code = (isExplicitString ? codeToApply : couponCode)?.trim();
+    
+    if (!code) return;
+    
+    setCouponLoading(true);
+    setCouponMessage({ type: '', text: '' });
+    try {
+      const response = await axios.post('coupons/validate', { 
+        code: code, 
+        totalAmount: subtotal 
+      });
+      setDiscount(response.data.discount);
+      setCouponMessage({ type: 'success', text: `Coupon applied! ${response.data.discount}% off.` });
+      
+      // Only update the input state if the code was passed explicitly (e.g. from URL)
+      if (isExplicitString) {
+        setCouponCode(codeToApply);
+      }
+    } catch (err) {
+      setCouponMessage({ type: 'error', text: err.response?.data?.message || 'Invalid coupon' });
+      setDiscount(0);
+    } finally {
+      setCouponLoading(false);
+    }
+  }, [couponCode, subtotal]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (isMounted && !couponAppliedRef.current) {
+      const couponFromUrl = searchParams.get('coupon');
+      const activeCoupon = couponFromUrl || appliedCoupon;
+      
+      if (activeCoupon && subtotal > 0 && discount === 0) {
+        couponAppliedRef.current = true;
+        handleApplyCoupon(activeCoupon);
+      }
+    }
+  }, [isMounted]);
 
   useEffect(() => {
     if (isMounted && items.length === 0 && !orderPlacedRef.current) {
@@ -57,25 +100,6 @@ export default function CheckoutPage() {
       removeInvalidItems();
     }
   }, [isMounted, removeInvalidItems]);
-
-  const handleApplyCoupon = async () => {
-    if (!couponCode) return;
-    setCouponLoading(true);
-    setCouponMessage({ type: '', text: '' });
-    try {
-      const response = await axios.post('/coupons/validate', { 
-        code: couponCode, 
-        totalAmount: subtotal 
-      });
-      setDiscount(response.data.discount);
-      setCouponMessage({ type: 'success', text: `Coupon applied! ${response.data.discount}% off.` });
-    } catch (err) {
-      setCouponMessage({ type: 'error', text: err.response?.data?.message || 'Invalid coupon' });
-      setDiscount(0);
-    } finally {
-      setCouponLoading(false);
-    }
-  };
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
@@ -109,7 +133,7 @@ export default function CheckoutPage() {
           throw new Error('Stripe publishable key is missing');
         }
 
-        const sessionResponse = await axios.post('/orders/checkout-session', orderData);
+        const sessionResponse = await axios.post('orders/checkout-session', orderData);
 
         const unavailableIds = Array.isArray(sessionResponse.data?.warnings)
           ? sessionResponse.data.warnings
@@ -127,7 +151,7 @@ export default function CheckoutPage() {
         return;
       }
 
-      const response = await axios.post('/orders', orderData);
+      const response = await axios.post('orders', orderData);
 
       orderPlacedRef.current = true;
       router.push(`/shop?cod_success=true&orderId=${response.data.data._id}`);
@@ -286,19 +310,37 @@ export default function CheckoutPage() {
                     className="rounded-xl border-border-light uppercase" 
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
+                    disabled={discount > 0}
                   />
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    className="rounded-xl border-border-light px-6"
-                    onClick={handleApplyCoupon}
-                    disabled={couponLoading}
-                  >
-                    {couponLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Apply'}
-                  </Button>
+                  {discount > 0 ? (
+                    <Button 
+                      type="button" 
+                      variant="destructive" 
+                      className="rounded-xl px-6"
+                      onClick={() => {
+                        setDiscount(0);
+                        setCouponCode('');
+                        setCouponMessage({ type: '', text: '' });
+                        clearAppliedCoupon();
+                        couponAppliedRef.current = false;
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  ) : (
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      className="rounded-xl border-border-light px-6"
+                      onClick={handleApplyCoupon}
+                      disabled={couponLoading || !couponCode}
+                    >
+                      {couponLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Apply'}
+                    </Button>
+                  )}
                 </div>
                 {couponMessage.text && (
-                  <p className={`text-xs font-medium ${couponMessage.type === 'success' ? 'text-sage' : 'text-red-500'}`}>
+                  <p className={`text-xs font-medium px-2 ${couponMessage.type === 'success' ? 'text-sage' : 'text-red-500'}`}>
                     {couponMessage.text}
                   </p>
                 )}

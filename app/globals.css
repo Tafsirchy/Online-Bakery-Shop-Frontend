@@ -77,10 +77,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair), serif;
-  font-weight: 700;
-  color: var(--text-brown);
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair), serif;
+    font-weight: 700;
+    color: var(--text-brown);
+  }
 }
 
 @layer utilities {

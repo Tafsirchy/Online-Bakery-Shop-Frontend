@@ -96,25 +96,7 @@ export default function CategoriesPage() {
           ))}
         </div>
 
-        {/* Banner Section */}
-        <div className="mt-24 p-12 md:p-20 bg-sage rounded-[3rem] text-center text-cream relative overflow-hidden shadow-warm">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -ml-32 -mt-32" />
-          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-            <div className="flex justify-center gap-1 mb-4">
-              {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="w-6 h-6 fill-caramel text-caramel" />)}
-            </div>
-            <h3 className="text-4xl font-serif">Seasonal Specialities</h3>
-            <p className="text-lg opacity-80">
-              Check out our monthly limited-edition treats inspired by the seasons. 
-              Available for a short time only!
-            </p>
-            <Link href="/shop?category=Offers" className="inline-block">
-              <Button size="lg" className="px-10 py-7 rounded-2xl bg-cream text-sage hover:bg-white transition-all font-bold">
-                Explore Seasonal Offers
-              </Button>
-            </Link>
-          </div>
-        </div>
+
       </div>
     </PageWrapper>
   );

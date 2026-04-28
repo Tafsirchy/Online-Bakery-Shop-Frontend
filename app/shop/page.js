@@ -4,20 +4,12 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCartStore } from '@/store/useCartStore';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import axios from '@/lib/axios';
 import ProductCard from '@/components/product/ProductCard';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -29,6 +21,7 @@ function ShopContent() {
   const [category, setCategory] = useState('all');
   const [priceRange, setPriceRange] = useState([0, 2000]);
   const [sortBy, setSortBy] = useState('-averageRating');
+  const [categories, setCategories] = useState(['all']);
   
   const searchParams = useSearchParams();
 
@@ -44,7 +37,18 @@ function ShopContent() {
   const [totalPages, setTotalPages] = useState(1);
   const productsPerPage = 9;
 
-  const categories = ['all', 'Cakes', 'Pastries', 'Cookies', 'Bread', 'Offers'];
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('/categories');
+      setCategories(['all', ...response.data.data.map(c => c.name)]);
+    } catch (err) {
+      console.error('Failed to fetch categories', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -69,6 +73,21 @@ function ShopContent() {
     }, 500); 
     return () => clearTimeout(timer);
   }, [search, category, priceRange, sortBy, currentPage]);
+
+  // Restore applied coupon from localStorage if present (ensures coupon persists across navigation)
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('appliedCoupon');
+      if (stored) {
+        const current = useCartStore.getState().appliedCoupon;
+        if (!current) {
+          useCartStore.getState().setAppliedCoupon(stored);
+        }
+      }
+    } catch (e) {
+      // ignore storage errors
+    }
+  }, []);
 
   // Reset to page 1 when filters change
   useEffect(() => {
@@ -142,17 +161,16 @@ function ShopContent() {
             
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <Label className="hidden sm:block text-sm text-muted whitespace-nowrap">Sort by:</Label>
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-full sm:w-48 rounded-xl border-border-light bg-white/50">
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent className="bg-cream-highlight border-border-light rounded-xl">
-                  <SelectItem value="-averageRating">Top Rated</SelectItem>
-                  <SelectItem value="-createdAt">Newest Arrival</SelectItem>
-                  <SelectItem value="price">Price: Low to High</SelectItem>
-                  <SelectItem value="-price">Price: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full sm:w-48 rounded-xl border border-border-light bg-white/50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-sage/40"
+              >
+                <option value="-averageRating">Top Rated</option>
+                <option value="-createdAt">Newest Arrival</option>
+                <option value="price">Price: Low to High</option>
+                <option value="-price">Price: High to Low</option>
+              </select>
             </div>
           </div>
 
@@ -250,8 +268,6 @@ function PaymentSuccessModal() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { clearCart } = useCartStore();
-  
-  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('Finalizing your payment...');
 
@@ -259,15 +275,14 @@ function PaymentSuccessModal() {
   const isCodSuccess = searchParams.get('cod_success');
   const orderId = searchParams.get('orderId');
   const sessionId = searchParams.get('session_id');
+  const shouldShowModal = (isCodSuccess === 'true' || isSuccess === 'true') && !!orderId;
 
   useEffect(() => {
-    if (isCodSuccess === 'true' && orderId && !isOpen) {
-      setIsOpen(true);
+    if (isCodSuccess === 'true' && orderId) {
       setIsLoading(false);
       setMessage('Order placed successfully! You will pay via Cash on Delivery when it arrives.');
       clearCart();
-    } else if (isSuccess === 'true' && orderId && sessionId && !isOpen) {
-      setIsOpen(true);
+    } else if (isSuccess === 'true' && orderId && sessionId) {
       const finalizePayment = async () => {
         try {
           await axios.put(`/orders/${orderId}/mark-paid`, { sessionId });
@@ -281,24 +296,27 @@ function PaymentSuccessModal() {
       };
       finalizePayment();
     }
-  }, [isSuccess, isCodSuccess, orderId, sessionId, clearCart, isOpen]);
+  }, [isSuccess, isCodSuccess, orderId, sessionId, clearCart]);
 
   const handleClose = () => {
-    setIsOpen(false);
     router.replace('/shop', { scroll: false });
   };
 
+  if (!shouldShowModal) {
+    return null;
+  }
+
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="w-[calc(100%-2rem)] max-w-lg rounded-3xl p-8 border-none shadow-2xl bg-cream-highlight outline-none" showCloseButton={false}>
-        <DialogHeader className="text-center space-y-4">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/30 px-4">
+      <div className="w-[calc(100%-2rem)] max-w-lg rounded-3xl p-8 border border-border-light shadow-2xl bg-cream-highlight outline-none">
+        <div className="text-center space-y-4">
           <div className="mx-auto w-16 h-16 rounded-full bg-sage/10 text-sage flex items-center justify-center mb-2">
             <CheckCircle2 className="w-10 h-10" />
           </div>
-          <DialogTitle className="text-3xl font-serif text-brown text-center">
+          <h2 className="text-3xl font-serif text-brown text-center">
             {isCodSuccess === 'true' ? 'Order Confirmed' : 'Payment Status'}
-          </DialogTitle>
-        </DialogHeader>
+          </h2>
+        </div>
         <div className="space-y-8 text-center mt-4">
           <p className="text-muted/90 text-lg">
             {isLoading ? (
@@ -322,7 +340,7 @@ function PaymentSuccessModal() {
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 }

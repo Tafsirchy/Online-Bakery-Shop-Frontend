@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { toast } from 'react-toastify';
+import Pagination from '@/components/shared/Pagination';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -30,6 +31,10 @@ export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const fetchUsers = async () => {
     try {
@@ -120,7 +125,7 @@ export default function AdminUsers() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredUsers.map((user) => (
+                {filteredUsers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((user) => (
                   <TableRow key={user._id} className="hover:bg-sage/5 transition-colors">
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -176,6 +181,13 @@ export default function AdminUsers() {
                 )}
               </TableBody>
             </Table>
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={Math.ceil(filteredUsers.length / itemsPerPage)}
+              onPageChange={setCurrentPage}
+              itemsPerPage={itemsPerPage}
+              totalItems={filteredUsers.length}
+            />
           </div>
         )}
       </div>

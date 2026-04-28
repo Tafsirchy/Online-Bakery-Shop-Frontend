@@ -2,6 +2,23 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import axios from '@/lib/axios';
 
+const isTokenExpired = (token) => {
+  if (!token) return true;
+
+  try {
+    const payloadBase64 = token.split('.')[1];
+    if (!payloadBase64) return true;
+
+    const payload = JSON.parse(atob(payloadBase64));
+    if (!payload?.exp) return false;
+
+    const nowInSeconds = Math.floor(Date.now() / 1000);
+    return payload.exp <= nowInSeconds;
+  } catch {
+    return true;
+  }
+};
+
 export const useAuthStore = create(
   persist(
     (set, get) => ({
@@ -42,6 +59,12 @@ export const useAuthStore = create(
 
         if (!token) {
           set({ user: null, isLoading: false });
+          return null;
+        }
+
+        // Skip protected calls when persisted token is malformed/expired.
+        if (isTokenExpired(token)) {
+          set({ user: null, token: null, isLoading: false, error: null });
           return null;
         }
 

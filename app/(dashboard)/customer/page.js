@@ -26,6 +26,7 @@ import { Download, Package, Truck, CheckCircle2, Clock, ShoppingBag, CreditCard,
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { useAuthStore } from '@/store/useAuthStore';
+import Pagination from '@/components/shared/Pagination';
 
 export default function CustomerDashboard() {
   return (
@@ -58,6 +59,10 @@ function CustomerDashboardContent() {
   // Modal State
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [cancelLoading, setCancelLoading] = useState(false);
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   // Form Change Tracking
   const isProfileChanged = useMemo(() => {
@@ -290,7 +295,7 @@ function CustomerDashboardContent() {
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {orders.map((order) => (
+                            {orders.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((order) => (
                               <TableRow key={order._id} className="hover:bg-cream-highlight/30 transition-colors border-border-light">
                                 <TableCell className="py-6 px-10">
                                   <span className="font-mono text-xs font-bold text-brown/60 bg-cream-highlight px-3 py-1.5 rounded-lg border border-border-light">
@@ -338,6 +343,13 @@ function CustomerDashboardContent() {
                           </TableBody>
                         </Table>
                       </div>
+                      <Pagination 
+                        currentPage={currentPage}
+                        totalPages={Math.ceil(orders.length / itemsPerPage)}
+                        onPageChange={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={orders.length}
+                      />
                     </CardContent>
                   </Card>
                 ) : (
