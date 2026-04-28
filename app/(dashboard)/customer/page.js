@@ -612,8 +612,8 @@ function CustomerDashboardContent() {
                   </div>
                 ) : (
                   <div className="space-y-10">
-                     {/* Stepper (Simplified for mobile) */}
-                     <div className="relative flex flex-col gap-0">
+                     {/* Responsive Stepper: Vertical on Mobile, Horizontal on LG Desktop */}
+                     <div className="relative flex flex-col lg:flex-row gap-0 lg:gap-4 lg:justify-between lg:w-full pt-4">
                         {orderStages.map((stage, idx) => {
                           const isCompleted = getStageIndex(selectedOrder.status) >= idx;
                           const isCurrent = selectedOrder.status === stage;
@@ -625,22 +625,29 @@ function CustomerDashboardContent() {
                           if(stage === 'Delivered') Icon = Home;
 
                           return (
-                            <div key={stage} className="flex items-start gap-5 relative">
+                            <div key={stage} className="flex flex-row lg:flex-col items-start lg:items-center gap-5 lg:gap-3 relative lg:flex-1">
                                {!isLast && (
-                                 <div className="absolute left-5 top-10 w-[2px] h-full bg-brown/5 -z-0">
-                                   <div className={`w-full transition-all duration-700 bg-sage ${isCompleted ? 'h-full' : 'h-0'}`} />
-                                 </div>
+                                 <>
+                                   {/* Mobile Vertical Line */}
+                                   <div className="absolute left-5 top-10 w-[2px] h-full bg-brown/5 -z-0 lg:hidden">
+                                     <div className={`w-full transition-all duration-700 bg-sage ${isCompleted ? 'h-full' : 'h-0'}`} />
+                                   </div>
+                                   {/* Desktop Horizontal Line */}
+                                   <div className="hidden lg:block absolute left-[50%] top-5 w-full h-[2px] bg-brown/5 -z-0">
+                                     <div className={`h-full transition-all duration-700 bg-sage ${isCompleted ? 'w-full' : 'w-0'}`} />
+                                   </div>
+                                 </>
                                )}
-                               <div className={`w-10 h-10 rounded-xl z-10 flex items-center justify-center border-2 transition-all ${isCompleted ? 'bg-sage border-sage text-white' : 'bg-white border-brown/5 text-brown/20'}`}>
+                               <div className={`w-10 h-10 rounded-xl z-10 flex items-center justify-center border-2 transition-all shrink-0 ${isCompleted ? 'bg-sage border-sage text-white' : 'bg-white border-brown/5 text-brown/20'}`}>
                                   <Icon className="w-5 h-5" />
                                </div>
-                               <div className="flex-1 pb-6 min-w-0 pt-2">
+                               <div className="flex-1 pb-6 lg:pb-0 min-w-0 pt-2 lg:pt-0 lg:text-center w-full">
                                   <p className={`text-xs font-bold uppercase tracking-widest ${isCurrent ? 'text-sage' : (isCompleted ? 'text-brown' : 'text-brown/20')}`}>
                                     {stage}
                                   </p>
                                   {isCurrent && <p className="text-[9px] text-muted italic mt-0.5">In Progress...</p>}
                                </div>
-                               {isCompleted && !isCurrent && <CheckCircle2 className="w-4 h-4 text-sage mt-3 shrink-0" />}
+                               {isCompleted && !isCurrent && <CheckCircle2 className="w-4 h-4 text-sage mt-3 shrink-0 lg:hidden" />}
                             </div>
                           );
                         })}
