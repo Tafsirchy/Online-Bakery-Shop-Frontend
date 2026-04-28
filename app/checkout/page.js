@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCartStore } from '@/store/useCartStore';
@@ -21,6 +21,14 @@ const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 const isValidObjectId = (value) => /^[a-fA-F0-9]{24}$/.test(String(value || ''));
 
 export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-sage" /></div>}>
+      <CheckoutContent />
+    </Suspense>
+  );
+}
+
+function CheckoutContent() {
   const router = useRouter();
   const { items, getTotalPrice, clearCart, removeInvalidItems, removeFromCart, appliedCoupon, clearAppliedCoupon } = useCartStore();
   const { user } = useAuthStore();

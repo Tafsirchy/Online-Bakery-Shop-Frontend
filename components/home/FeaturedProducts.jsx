@@ -63,13 +63,13 @@ export default function FeaturedProducts() {
   }, []);
 
   return (
-    <section className="py-24 px-6 max-w-7xl mx-auto">
-      <div className="flex justify-between items-end mb-12">
+    <section className="py-16 md:py-24 px-6 max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-center sm:items-end mb-12 gap-4 text-center sm:text-left">
         <div className="space-y-2">
-          <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">Featured Selection</h2>
-          <p className="text-muted">Handpicked favorites from our master bakers</p>
+          <h2 className="text-4xl md:text-6xl font-serif text-brown leading-tight">Featured Selection</h2>
+          <p className="text-muted text-sm md:text-base">Handpicked favorites from our master bakers</p>
         </div>
-        <Link href="/shop" className="text-caramel font-bold hover:underline">See Menu</Link>
+        <Link href="/shop" className="text-caramel font-bold hover:underline py-2">See Menu</Link>
       </div>
 
       {/* Same grid for both loading & loaded states — eliminates CLS */}

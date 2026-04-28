@@ -54,7 +54,7 @@ export default function WhyUs() {
   const [selectedFeature, setSelectedFeature] = useState(null);
 
   return (
-    <section className="py-32 bg-cream overflow-hidden relative">
+    <section className="py-16 md:py-32 bg-cream overflow-hidden relative">
       {/* Decorative SVG Background elements */}
       <div className="absolute top-0 right-0 opacity-5 pointer-events-none">
         <svg width="400" height="400" viewBox="0 0 200 200">
@@ -63,19 +63,19 @@ export default function WhyUs() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-20 items-center mb-24">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center mb-16 lg:mb-24">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="lg:w-1/2 space-y-6"
+            className="lg:w-1/2 space-y-6 text-center lg:text-left flex flex-col items-center lg:items-start"
           >
-            <span className="text-caramel font-bold tracking-[0.3em] uppercase text-xs">Our Commitment</span>
-            <h2 className="text-5xl md:text-6xl font-serif text-brown leading-tight">
-              Why our bakery <br />
+            <span className="text-caramel font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">Our Commitment</span>
+            <h2 className="text-4xl md:text-6xl font-serif text-brown leading-tight">
+              Why our bakery <br className="hidden md:block" />
               <span className="text-caramel">feels like home</span>
             </h2>
-            <p className="text-muted text-lg max-w-md leading-relaxed">
+            <p className="text-muted text-base md:text-lg max-w-md leading-relaxed">
               We don't just bake; we craft memories. From the first spark of dawn
               to the final golden crust, quality is our only language.
             </p>
