@@ -47,8 +47,7 @@ export default function ProductCard({ product }) {
       transition={{ duration: 0.3 }}
       className="bg-cream-highlight rounded-2xl shadow-soft border border-border-light overflow-hidden group flex flex-col h-full"
     >
-      {/* Image Container */}
-      {/* Image Container */}
+      {/* Image container */}
       <div className="aspect-[4/3] bg-surface-caramel/20 relative overflow-hidden shrink-0">
         <Link href={`/product/${product._id}`} className="w-full h-full block">
           {product.images?.[0] ? (
@@ -64,14 +63,14 @@ export default function ProductCard({ product }) {
           )}
         </Link>
         
-        {/* Offer Badge - Slightly larger for SM */}
+        {/* Offer badge */}
         {product.discountPrice > 0 && (
           <div className="absolute top-2 left-2 md:top-3 md:left-3 bg-sage text-white px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[9px] md:text-[10px] font-black shadow-lg tracking-widest uppercase pointer-events-none z-10">
             {Math.round(((product.price - product.discountPrice) / product.price) * 100)}% Off
           </div>
         )}
 
-        {/* Wishlist Button - Standard 44px Touch Target for Mobile */}
+        {/* Wishlist button */}
         <button 
           onClick={handleToggleWishlist}
           className="absolute top-2 right-2 md:top-3 md:right-3 w-10 h-10 md:w-8 md:h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-brown hover:text-red-500 transition-all shadow-md z-10"
@@ -83,7 +82,7 @@ export default function ProductCard({ product }) {
       </div>
 
       <div className="p-3 md:p-4 flex flex-col flex-grow space-y-1.5 md:space-y-2">
-        {/* Title & Rating */}
+        {/* Title and rating */}
         <div className="flex justify-between items-start gap-1">
           <div className="min-w-0">
             <p className="text-[9px] md:text-[10px] text-muted font-bold uppercase tracking-[0.15em] mb-0.5 truncate">{product.category}</p>
@@ -109,13 +108,13 @@ export default function ProductCard({ product }) {
               <span className="text-sm md:text-base font-bold text-brown">৳{product.price}</span>
             )}
           </div>
-          {/* Stock - Hidden on SM to save vertical space if needed, or kept very small */}
+          {/* Stock info */}
           <div className="hidden md:block text-[9px] font-bold text-brown/50 mt-1">
             {product.stock > 0 ? `${product.stock} in stock` : 'Out of Stock'}
           </div>
         </div>
 
-        {/* Action Buttons - 44px height for mobile ergonomics */}
+        {/* Action buttons */}
         <div className="flex gap-1.5 md:gap-2 pt-1 md:pt-2 mt-auto">
           <Button 
             onClick={handleBuyNow}

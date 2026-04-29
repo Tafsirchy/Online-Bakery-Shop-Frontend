@@ -52,7 +52,7 @@ export default function FeaturedProducts() {
         let response = await axios.get('/products?isFeatured=true&limit=4');
         let fetchedProducts = Array.isArray(response.data?.data) ? response.data.data : [];
         
-        // If no featured products, fallback to regular products instead of hardcoded fake IDs
+        // Fallback to regular products if none featured
         if (fetchedProducts.length === 0) {
           response = await axios.get('/products?limit=4');
           fetchedProducts = Array.isArray(response.data?.data) ? response.data.data : [];
@@ -79,7 +79,7 @@ export default function FeaturedProducts() {
         <Link href="/shop" className="text-caramel text-sm md:text-base font-bold hover:underline py-2">See Menu</Link>
       </div>
 
-      {/* 2-Column Grid on Mobile for high density discovery */}
+      {/* Product grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
         {loading
           ? [1, 2, 3, 4].map((n) => <ProductCardSkeleton key={n} />)

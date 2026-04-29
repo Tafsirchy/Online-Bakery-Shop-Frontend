@@ -51,7 +51,7 @@ export default function DeliveryMap() {
         >
           <MapComponent />
 
-          {/* Map Overlay Guard (Visual Detail) */}
+          {/* Map overlay */}
           <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-black/5 rounded-[2rem] md:rounded-3xl" />
         </motion.div>
       </div>

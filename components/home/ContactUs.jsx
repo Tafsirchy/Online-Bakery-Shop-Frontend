@@ -32,7 +32,7 @@ export default function ContactUs() {
     <section className="py-12 md:py-24 px-6 max-w-7xl mx-auto overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
         
-        {/* Right Side (NOW TOP ON MOBILE): Form & Header */}
+        {/* Contact form */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -72,9 +72,9 @@ export default function ContactUs() {
           </form>
         </motion.div>
 
-        {/* Left Side (NOW BOTTOM ON MOBILE): Info Boxes & Small Map */}
+        {/* Contact info and map */}
         <div className="space-y-10 order-last lg:order-first">
-          {/* Horizontal Scroll on Mobile */}
+          {/* Mobile view: Horizontal scroll */}
           <div className="flex lg:grid lg:grid-cols-2 gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 scrollbar-hide lg:overflow-visible lg:pb-0 lg:mx-0 lg:px-0">
             {contactInfo.map((info, i) => (
               <motion.div

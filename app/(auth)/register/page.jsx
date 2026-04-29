@@ -24,7 +24,7 @@ function RegisterPageContent() {
 
   const searchParams = useSearchParams();
 
-  // Build a stable redirect URI from env var
+  // Stable redirect URI
   const redirectUri = process.env.NEXT_PUBLIC_SITE_URL
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/register`
     : typeof window !== 'undefined'
@@ -37,7 +37,7 @@ function RegisterPageContent() {
     redirect_uri: redirectUri,
   });
 
-  // Handle the code from the redirect
+  // Handle redirect code
   useEffect(() => {
     const code = searchParams.get('code');
     if (code) {
@@ -142,7 +142,7 @@ function RegisterPageContent() {
     }
   };
 
-  // Prevent form flash during Google Redirect exchange
+  // Prevent form flash
   if (searchParams.get('code')) {
     return (
       <div className="flex min-h-[100dvh] w-full items-center justify-center bg-[#f8efe5]">
@@ -158,7 +158,7 @@ function RegisterPageContent() {
     <div className="relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[#f8efe5] text-brown font-sans flex flex-col">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
 
-      {/* Back Button */}
+      {/* Back button */}
       <Link
         href="/"
         className="absolute top-4 left-4 z-50 flex items-center gap-2 rounded-full border border-brown/10 bg-white/40 px-4 py-1.5 text-xs font-medium text-brown backdrop-blur-md transition-all hover:bg-white/60 group"
@@ -170,7 +170,7 @@ function RegisterPageContent() {
       <div className="relative mx-auto flex flex-1 max-w-[1000px] w-full items-center justify-center p-4 sm:p-6 lg:p-4 py-20 lg:py-4">
         <main className="relative grid min-h-[580px] h-auto w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[1.1fr_0.9fr]">
 
-          {/* Left Side: Form */}
+          {/* Form */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -246,7 +246,7 @@ function RegisterPageContent() {
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
-                  {/* Strength Bar */}
+                  {/* Strength bar */}
                   {formData.password && (
                     <div className="flex gap-1 h-1.5 sm:h-1 mt-1">
                       {[1, 2, 3, 4].map((step) => (
@@ -333,7 +333,7 @@ function RegisterPageContent() {
             </div>
           </motion.div>
 
-          {/* Right Side: Visuals */}
+          {/* Visuals */}
           <div className="relative hidden h-full overflow-hidden lg:block bg-[#fdfaf7]">
             <motion.div
               initial={{ scale: 1.1, opacity: 0 }}

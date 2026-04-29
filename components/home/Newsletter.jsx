@@ -9,7 +9,7 @@ export default function Newsletter() {
   return (
     <section className="py-12 md:py-32 px-6 max-w-7xl mx-auto overflow-hidden">
       <div className="relative">
-        {/* Floating Background Elements */}
+        {/* Background elements */}
         <motion.div 
           animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }}
           transition={{ duration: 5, repeat: Infinity }}
@@ -22,7 +22,7 @@ export default function Newsletter() {
         />
 
         <div className="bg-cream-highlight rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-warm flex flex-col lg:flex-row border border-brown/5">
-          {/* Left: Atmospheric Image */}
+          {/* Left: Background image */}
           <div className="lg:w-1/2 relative min-h-[300px] md:min-h-[400px] group overflow-hidden">
             <img 
               src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=1000" 
@@ -40,7 +40,7 @@ export default function Newsletter() {
               <p className="text-xl md:text-2xl font-serif italic">Every crumb tells a story.</p>
             </div>
 
-            {/* "Stamped" Badge */}
+            {/* Stamped badge */}
             <motion.div 
               initial={{ rotate: -15 }}
               whileHover={{ rotate: 0, scale: 1.1 }}
@@ -52,7 +52,7 @@ export default function Newsletter() {
             </motion.div>
           </div>
 
-          {/* Right: Modern Form Content */}
+          {/* Right: Newsletter form */}
           <div className="lg:w-1/2 p-8 md:p-24 flex flex-col justify-center items-center lg:items-start space-y-8 md:space-y-10 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]">
             <div className="space-y-4 md:space-y-6 text-center lg:text-left">
               <div className="flex items-center justify-center lg:justify-start gap-3">

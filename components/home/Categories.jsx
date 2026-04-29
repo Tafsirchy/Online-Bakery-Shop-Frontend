@@ -71,7 +71,7 @@ export default function Categories() {
             >
               <Link href={`/shop?category=${cat.name}`}>
                 <div className={`${FALLBACK_COLORS[i % FALLBACK_COLORS.length]} rounded-3xl p-6 h-[280px] md:h-[320px] flex flex-col justify-end group cursor-pointer overflow-hidden relative shadow-soft border border-border-light/20 transition-all duration-500`}>
-                  {/* Background Image - Optimized for Mobile visibility */}
+                  {/* Background image */}
                   <img
                     src={cat.image || FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]}
                     alt={cat.name}

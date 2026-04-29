@@ -35,7 +35,7 @@ export default function OfferSlider() {
         const categoriesData = catRes.data.data || [];
         let list = [];
 
-        // Add products with active discounts as global offers
+        // Product offers
         if (productsRes.data.success) {
           // Group global offers by category to show one card per category
           const globalOffersByCategory = productsRes.data.data
@@ -108,14 +108,14 @@ export default function OfferSlider() {
 
   return (
     <section className="relative bg-[#FFFBF2] overflow-hidden py-8 md:py-12">
-      {/* Creative Background Elements - Subtle */}
+      {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-1/2 -right-1/4 w-[500px] h-[500px] bg-gradient-to-br from-caramel/5 to-transparent rounded-full blur-3xl" />
         <div className="absolute -bottom-1/2 -left-1/4 w-[400px] h-[400px] bg-gradient-to-tr from-sage/5 to-transparent rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        {/* Uniform Sized Slider Container - Ultra Wide & Compact */}
+        {/* Slider container */}
         <div className="relative w-full h-[520px] md:h-[320px]">
           <AnimatePresence mode="wait">
             <motion.div
@@ -126,7 +126,7 @@ export default function OfferSlider() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="absolute inset-0 flex flex-col md:flex-row bg-white rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(74,55,40,0.08)] overflow-hidden border border-border-light/10 group"
             >
-              {/* Image Side - Ultra Compact */}
+              {/* Image side */}
               <div className="relative w-full md:w-[35%] h-48 md:h-full overflow-hidden shrink-0 bg-cream-highlight/20">
                 <motion.img
                   whileHover={{ scale: 1.1 }}
@@ -142,7 +142,7 @@ export default function OfferSlider() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-brown/30 via-transparent to-transparent opacity-40" />
 
-                {/* Creative Badge - Mini */}
+                {/* Badge */}
                 <div className="absolute top-4 left-4 z-20">
                   <div className="bg-caramel text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">
                     Featured Deal
@@ -150,14 +150,14 @@ export default function OfferSlider() {
                 </div>
               </div>
 
-              {/* Unique Perforated Ticket Edge - Ultra Slim */}
+              {/* Perforated edge */}
               <div className="hidden md:flex absolute left-[35%] top-0 bottom-0 w-5 flex-col justify-around items-center z-20 pointer-events-none">
                 {[...Array(8)].map((_, i) => (
                   <div key={i} className="w-2.5 h-2.5 bg-[#FFFBF2] rounded-full shadow-inner border border-border-light/5" />
                 ))}
               </div>
 
-              {/* Content Side - Wide Horizontal Layout */}
+              {/* Content side */}
               <div className="relative w-full md:w-[65%] h-full flex flex-col justify-center p-6 md:p-10 bg-gradient-to-br from-white to-cream-highlight/5">
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
@@ -231,7 +231,7 @@ export default function OfferSlider() {
                   </div>
                 </motion.div>
 
-                {/* Status Footer - Improved Flow for Mobile */}
+                {/* Status footer */}
                 <div className="md:absolute md:bottom-6 md:left-10 flex items-center gap-4 md:gap-6 border-t border-border-light/30 pt-4 w-full md:w-[calc(100%-80px)]">
                   <div className="flex items-center gap-2 text-sage">
                     <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
@@ -247,7 +247,7 @@ export default function OfferSlider() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Improved Touch Targets for Navigation Dots */}
+          {/* Navigation dots */}
           {combinedOffers.length > 1 && (
             <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-1">
               {combinedOffers.map((_, i) => (

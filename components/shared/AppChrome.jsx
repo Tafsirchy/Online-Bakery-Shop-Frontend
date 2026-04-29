@@ -15,7 +15,7 @@ export default function AppChrome({ children }) {
   const isDashboardRoute = pathname.startsWith('/customer') || 
                            pathname.startsWith('/admin') || 
                            pathname.startsWith('/management');
-  const hideChrome = isAuthRoute || isDashboardRoute;
+  const hideChrome = isAuthRoute || isDashboardRoute; // Hide navbar/footer on these routes
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -1,6 +1,6 @@
 'use client';
 
-// Force Reload Stamp: 2026-04-25T21:33:00
+// Force reload
 import Link from 'next/link';
 import { Mail, MapPin, Phone, ArrowRight, Clock } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
@@ -14,16 +14,16 @@ export default function Footer() {
     { name: 'Special Offers', path: '/shop' }
   ];
 
-  // The specific cream color used in the logo "The Cozy"
+  // Colors
   const cozyColor = '#FFFBF2';
 
   return (
     <footer className="bg-brown text-cream pt-16 md:pt-24 pb-10 md:pb-12 overflow-hidden relative">
-      {/* Decorative background element */}
+      {/* Background element */}
       <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-caramel/10 rounded-full blur-[100px] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 lg:gap-16">
-        {/* Brand Section */}
+        {/* Brand section */}
         <div className="space-y-6 md:space-y-8 flex flex-col items-center md:items-start text-center md:text-left">
           <div className="space-y-4">
             <Link href="/" style={{ color: cozyColor }} className="text-3xl md:text-3xl font-serif font-bold tracking-tight inline-block">
@@ -44,7 +44,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Quick Links */}
+        {/* Quick links */}
         <div className="space-y-6 md:space-y-8 text-center md:text-left">
           <div className="relative inline-block md:block">
             <h4 style={{ color: cozyColor }} className="text-lg font-serif font-bold tracking-wide">Explore</h4>
@@ -65,7 +65,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Contact Info */}
+        {/* Contact info */}
         <div className="space-y-6 md:space-y-8 text-center md:text-left">
           <div className="relative inline-block md:block">
             <h4 style={{ color: cozyColor }} className="text-lg font-serif font-bold tracking-wide">Visit Us</h4>
@@ -102,7 +102,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Baking Hours */}
+        {/* Baking hours */}
         <div className="space-y-6 md:space-y-8 text-center md:text-left">
           <div className="relative inline-block md:block">
             <h4 style={{ color: cozyColor }} className="text-lg font-serif font-bold tracking-wide">Baking Hours</h4>
@@ -129,7 +129,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom bar */}
       <div className="max-w-7xl mx-auto px-6 mt-16 md:mt-20 pt-8 md:pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] md:text-xs text-cream/30 tracking-widest">
         <p className="uppercase text-center md:text-left">© 2024 Bakery & Co. Dhaka's Finest Artisanal Spot.</p>
         <div className="flex gap-6 md:gap-8 uppercase">

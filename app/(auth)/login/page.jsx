@@ -27,8 +27,7 @@ function LoginPageContent() {
     setIsMounted(true);
   }, []);
 
-  // Build a stable redirect URI from env var (baked at build time, same on server & client)
-  // Fallback to window.location.origin only as a last resort on the client.
+  // Stable redirect URI
   const redirectUri = process.env.NEXT_PUBLIC_SITE_URL
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/login`
     : typeof window !== 'undefined'
@@ -43,7 +42,7 @@ function LoginPageContent() {
 
   const exchangeInProgress = useRef(false);
 
-  // Handle the code from the redirect
+  // Handle redirect code
   useEffect(() => {
     const code = searchParams.get('code');
     if (code && !exchangeInProgress.current) {
@@ -119,7 +118,7 @@ function LoginPageContent() {
     }
   };
 
-  // Prevent form flash during Google Redirect exchange
+  // Prevent form flash
   if (searchParams.get('code') || (typeof exchangeInProgress !== 'undefined' && exchangeInProgress.current)) {
     return (
       <div className="flex min-h-[100dvh] w-full items-center justify-center bg-[#f8efe5]">
@@ -135,7 +134,7 @@ function LoginPageContent() {
     <div className="relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[#f8efe5] text-brown font-sans flex flex-col">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
 
-      {/* Back Button */}
+      {/* Back button */}
       <Link 
         href="/" 
         className="absolute top-4 left-4 z-50 flex items-center gap-2 rounded-full border border-brown/10 bg-white/40 px-4 py-1.5 text-xs font-medium text-brown backdrop-blur-md transition-all hover:bg-white/60 group"
@@ -146,7 +145,7 @@ function LoginPageContent() {
 
       <div className="relative mx-auto flex flex-1 max-w-[1000px] w-full items-center justify-center p-4 sm:p-6 lg:p-4 py-20 lg:py-4">
         <main className="relative grid min-h-[520px] h-auto w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[0.9fr_1.1fr]">
-          {/* Left Side: Visuals */}
+          {/* Visuals */}
           <div className="relative hidden h-full overflow-hidden lg:block bg-[#fdfaf7]">
             <motion.div 
               initial={{ scale: 1.1, opacity: 0 }}
@@ -161,7 +160,7 @@ function LoginPageContent() {
               />
             </motion.div>
             
-            {/* Artistic Overlay */}
+            {/* Artistic overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-brown/30 to-transparent opacity-40" />
             <div className="absolute bottom-6 left-6 max-w-[180px] text-white drop-shadow-md">
               <p className="font-serif text-lg leading-tight italic">Handcrafted with love.</p>

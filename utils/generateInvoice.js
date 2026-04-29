@@ -16,13 +16,13 @@ export const generateInvoice = (order) => {
   doc.text('Artisanal Breads & Pastries', 105, 26, { align: 'center' });
   doc.text('Dhaka, Bangladesh | +880 1234 567890', 105, 31, { align: 'center' });
 
-  // Invoice Title
+  // Title
   doc.setFontSize(16);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(0, 0, 0);
   doc.text('INVOICE', 20, 50);
 
-  // Order Details
+  // Details
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.text(`Invoice No: ${order.trackingId}`, 20, 60);
@@ -30,7 +30,7 @@ export const generateInvoice = (order) => {
   doc.text(`Customer: ${order.userId.name}`, 20, 70);
   doc.text(`Payment: ${order.paymentMethod} (${order.paymentStatus})`, 20, 75);
 
-  // Table
+  // Items
   const tableColumn = ["Product", "Price", "Qty", "Total"];
   const tableRows = [];
 

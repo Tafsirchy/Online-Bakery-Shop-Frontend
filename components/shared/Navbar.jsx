@@ -82,7 +82,7 @@ export default function Navbar() {
           Bakery & <span className="text-caramel">Co.</span>
         </Link>
 
-        {/* Desktop Links */}
+        {/* Desktop links */}
         {!pathname.startsWith('/customer') && !pathname.startsWith('/admin') && !pathname.startsWith('/management') && (
           <div className="hidden md:flex gap-8 items-center text-muted font-medium">
             {navLinks.map((link) => (
@@ -97,7 +97,7 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* Icons / Auth */}
+        {/* Icons and auth */}
         <div className="flex items-center gap-1 sm:gap-2 md:gap-4 shrink-0">
           <Link href="/wishlist" className="relative w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
             <Heart className="w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform" />
@@ -174,7 +174,7 @@ export default function Navbar() {
             <div className="w-16 md:w-24 h-9 md:h-11 bg-brown/5 animate-pulse rounded-full" />
           )}
 
-          {/* Mobile Menu */}
+          {/* Mobile menu */}
           <div className="md:hidden shrink-0">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>

@@ -8,25 +8,25 @@ import { ArrowRight } from 'lucide-react';
 export default function Hero() {
   return (
     <section className="relative min-h-[90vh] lg:min-h-0 flex items-center bg-cream overflow-hidden py-8 md:py-20">
-      {/* Background Decor */}
+      {/* Background decor */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-1/4 -left-20 w-[30rem] md:w-[40rem] h-[30rem] md:h-[40rem] bg-caramel/10 rounded-full blur-[80px] md:blur-[100px]" />
         <div className="absolute bottom-1/4 -right-20 w-[30rem] md:w-[40rem] h-[30rem] md:h-[40rem] bg-sage/10 rounded-full blur-[80px] md:blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-        {/* Creative Geometric Image Cluster (Less Height/Width, More Impact) */}
+        {/* Geometric image cluster */}
         <div className="relative order-1 lg:order-2 flex items-center justify-center lg:justify-end lg:pr-20">
           <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px]">
 
-            {/* Rotating Decorative Ring */}
+            {/* Rotating ring */}
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="absolute inset-0 rounded-full border-2 border-dashed border-caramel/20"
             />
 
-            {/* Main Image - Bread (Middle Circle) */}
+            {/* Main bread image */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -41,7 +41,7 @@ export default function Hero() {
               <div className="absolute inset-0 bg-brown/10 group-hover:bg-transparent transition-colors" />
             </motion.div>
 
-            {/* Top Right Circle - Croissant */}
+            {/* Croissant image */}
             <motion.div
               animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
@@ -54,7 +54,7 @@ export default function Hero() {
               />
             </motion.div>
 
-            {/* Bottom Right Circle - Cake */}
+            {/* Cake image */}
             <motion.div
               animate={{ y: [0, 15, 0], x: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 0.5 }}
@@ -67,7 +67,7 @@ export default function Hero() {
               />
             </motion.div>
 
-            {/* Artisanal Badge - Rotating */}
+            {/* Artisanal badge */}
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
@@ -78,13 +78,13 @@ export default function Hero() {
               </p>
             </motion.div>
 
-            {/* Decorative Sparkles */}
+            {/* Decorative sparkles */}
             <div className="absolute top-1/4 -left-4 w-3 h-3 bg-caramel rounded-full animate-ping" />
             <div className="absolute bottom-1/3 -right-6 w-2 h-2 bg-sage rounded-full animate-pulse" />
           </div>
         </div>
 
-        {/* Left Content - Floating Card Approach for SM */}
+        {/* Left content */}
         <div className="order-2 lg:order-1 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -105,7 +105,7 @@ export default function Hero() {
               </p>
             </div>
 
-            {/* Compact Desktop Buttons */}
+            {/* Desktop buttons */}
             <div className="hidden lg:flex gap-4">
               <Link href="/shop">
                 <Button size="lg" className="px-10 py-8 rounded-2xl bg-brown hover:bg-caramel text-white text-lg font-bold shadow-warm transition-all group">
@@ -120,7 +120,7 @@ export default function Hero() {
               </Link>
             </div>
 
-            {/* Mobile-Only CTA Grid */}
+            {/* Mobile CTA grid */}
             <div className="grid grid-cols-2 gap-3 w-full lg:hidden">
               <Link href="/shop" className="col-span-2">
                 <Button className="w-full py-7 rounded-2xl bg-brown text-white text-base font-bold shadow-soft">
@@ -139,7 +139,7 @@ export default function Hero() {
               </Link>
             </div>
 
-            {/* Trust Indicator - Optimized for SM */}
+            {/* Trust indicator */}
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-6 border-t border-brown/5 w-full">
               <div className="flex -space-x-2">
                 {[1, 2, 3].map((i) => (
@@ -158,7 +158,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Sticky Bottom CTA for Mobile */}
+      {/* Sticky bottom CTA for mobile */}
       <motion.div
         initial={{ y: 100 }}
         animate={{ y: 0 }}

@@ -13,21 +13,17 @@ export const useWishlistStore = create(
 
       fetchWishlist: async () => {
         const { user, token } = useAuthStore.getState();
-        if (!user || !token) return; // Don't fetch if not logged in
+        if (!user || !token) return; // Must be logged in
 
         try {
           const res = await axios.get('/auth/wishlist');
           set({ wishlist: res.data.data });
         } catch (err) {
-          if (err.response?.status === 401) {
-            // If token is invalid/expired, we don't clear wishlist here
-            // as it might be a guest session now, but we stop fetching.
-          } else {
-            console.error('Failed to fetch wishlist', err);
-          }
+          // Token invalid or expired
+          console.error('Failed to fetch wishlist', err);
         }
       },
- 
+
       toggleWishlist: async (product) => {
         const productId = typeof product === 'string' ? product : product._id;
         const { user, token } = useAuthStore.getState();
@@ -36,7 +32,7 @@ export const useWishlistStore = create(
           try {
             const res = await axios.post(`/auth/wishlist/${productId}`);
             set({ wishlist: res.data.data });
-            
+
             const isAdded = res.data.data.some(p => (p._id === productId || p === productId));
             if (isAdded) {
               toast.success('Added to wishlist', { icon: '❤️' });
@@ -50,7 +46,7 @@ export const useWishlistStore = create(
           // Guest logic
           const { wishlist } = get();
           const isAdded = wishlist.some(p => (p._id === productId || p === productId));
-          
+
           if (isAdded) {
             const updatedWishlist = wishlist.filter(p => (p._id !== productId && p !== productId));
             set({ wishlist: updatedWishlist });

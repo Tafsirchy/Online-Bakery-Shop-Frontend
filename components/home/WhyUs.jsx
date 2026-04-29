@@ -55,7 +55,7 @@ export default function WhyUs() {
 
   return (
     <section className="py-12 md:py-32 bg-cream overflow-hidden relative">
-      {/* Decorative SVG Background elements */}
+      {/* Decorative background elements */}
       <div className="absolute top-0 right-0 opacity-5 pointer-events-none">
         <svg width="400" height="400" viewBox="0 0 200 200">
           <path fill="currentColor" d="M45.7,-77C58.1,-69.3,66.4,-54.6,71.5,-39.7C76.6,-24.8,78.5,-9.7,77.3,5.1C76.1,19.9,71.8,34.4,63.4,46.5C55,58.6,42.5,68.3,28.6,73.4C14.7,78.5,-0.6,79,-16.1,76.5C-31.6,74,-47.4,68.5,-59.8,58.3C-72.2,48.1,-81.2,33.2,-85.1,17.2C-89,1.2,-87.8,-15.9,-81.4,-31C-75,-46.1,-63.4,-59.2,-49.4,-66.3C-35.4,-73.4,-17.7,-74.5,-0.4,-73.8C16.9,-73.1,33.3,-84.7,45.7,-77Z" transform="translate(100 100)" />
@@ -103,7 +103,7 @@ export default function WhyUs() {
                 <img src={features[3].img} className="w-full h-full object-cover" alt="Safe" />
               </div>
             </div>
-            {/* Floating Badge - Scaled for mobile */}
+            {/* Floating badge */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 md:w-32 md:h-32 bg-caramel rounded-full flex items-center justify-center text-white text-center p-3 md:p-4 shadow-2xl rotate-12">
               <p className="text-[10px] md:text-sm font-bold uppercase tracking-tighter">Premium <br /> Quality</p>
             </div>
@@ -111,7 +111,7 @@ export default function WhyUs() {
         </div>
 
         <div className="relative">
-          {/* Mobile: Horizontal Scroll with peek affordance */}
+          {/* Mobile view: Horizontal scroll */}
           <div className="flex lg:hidden overflow-x-auto snap-x snap-mandatory pb-8 gap-4 scrollbar-hide -mx-6 px-6">
             {features.map((feature, i) => (
               <motion.div
@@ -131,9 +131,9 @@ export default function WhyUs() {
             ))}
           </div>
 
-          {/* Desktop: Circular Orbital Layout */}
+          {/* Desktop view: Orbital layout */}
           <div className="hidden lg:block relative h-[700px] w-full">
-            {/* Central Decorative Circle */}
+            {/* Decorative center circle */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border-2 border-dashed border-caramel/20 flex items-center justify-center">
               <motion.div
                 animate={{ rotate: 360 }}
@@ -146,7 +146,7 @@ export default function WhyUs() {
               </div>
             </div>
 
-            {/* Orbital Items */}
+            {/* Orbital items */}
             {features.map((feature, i) => {
               const angle = (i * 360) / features.length;
               const radius = 300;
@@ -184,7 +184,7 @@ export default function WhyUs() {
         </div>
       </div>
 
-      {/* Feature Detail Modal - Fixed for Responsive Mobile View */}
+      {/* Feature detail modal */}
       <Dialog open={!!selectedFeature} onOpenChange={(open) => !open && setSelectedFeature(null)}>
         <DialogContent className="w-[85vw] max-w-[400px] aspect-square rounded-full p-0 overflow-hidden border-none shadow-2xl flex flex-col justify-center items-center bg-white text-center">
           {selectedFeature && (

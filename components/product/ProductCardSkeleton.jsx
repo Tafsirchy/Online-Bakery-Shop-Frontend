@@ -1,15 +1,6 @@
 /**
  * ProductCardSkeleton
- * Mirrors the EXACT DOM structure & dimensions of ProductCard to prevent CLS.
- *
- * Real card structure:
- *  <div rounded-2xl flex flex-col h-full>
- *    <div aspect-[4/3] shrink-0>          ← image area
- *    <div p-3.5 flex flex-col space-y-2>  ← content area
- *      row: category pill + rating badge
- *      row: product name (text-sm)
- *      row: price (text-base)
- *      row: [Buy Now flex-grow h-9] + [cart icon h-9 w-9]
+ * Mirrors ProductCard structure to prevent layout shift.
  */
 export default function ProductCardSkeleton() {
   return (
@@ -17,16 +8,16 @@ export default function ProductCardSkeleton() {
       className="bg-cream-highlight rounded-2xl border border-border-light overflow-hidden flex flex-col h-full"
       aria-hidden="true"
     >
-      {/* ── Image area ── aspect-[4/3] exactly like the real card */}
+      {/* Image area */}
       <div className="aspect-[4/3] bg-caramel/8 relative shrink-0 overflow-hidden">
-        {/* Wishlist button placeholder — top-right, same size as real */}
+        {/* Wishlist button */}
         <div className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-white/60 shimmer" />
       </div>
 
-      {/* ── Content area ── p-3.5 space-y-2 exactly like the real card */}
+      {/* Content area */}
       <div className="p-3.5 flex flex-col flex-grow space-y-2">
 
-        {/* Row 1: category label (text-[8px] leading ≈ 10px) + rating badge */}
+        {/* Category and rating */}
         <div className="flex justify-between items-start gap-2">
           <div className="min-w-0 flex-grow space-y-[5px]">
             {/* category — text-[8px] uppercase, ~60% width */}
@@ -38,10 +29,10 @@ export default function ProductCardSkeleton() {
           <div className="h-[18px] w-8 rounded-lg bg-caramel/10 shrink-0 shimmer" />
         </div>
 
-        {/* Row 2: price — text-base font-bold (≈16px / lh 24px) */}
+        {/* Price */}
         <div className="h-[18px] w-12 rounded-full bg-caramel/15 shimmer" />
 
-        {/* Row 3: action buttons — mt-auto pushes to bottom like real card */}
+        {/* Actions */}
         <div className="flex gap-2 pt-0.5 mt-auto">
           {/* "Buy Now" — flex-grow h-9 rounded-lg */}
           <div className="flex-grow h-9 rounded-lg bg-brown/20 shimmer" />

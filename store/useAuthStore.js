@@ -62,7 +62,7 @@ export const useAuthStore = create(
           return null;
         }
 
-        // Skip protected calls when persisted token is malformed/expired.
+        // Check token validity
         if (isTokenExpired(token)) {
           set({ user: null, token: null, isLoading: false, error: null });
           return null;
