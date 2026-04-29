@@ -13,6 +13,7 @@ import ContactUs from '@/components/home/ContactUs';
 import DeliveryMap from '@/components/home/DeliveryMap';
 import Newsletter from '@/components/home/Newsletter';
 import PageWrapper from '@/components/shared/PageWrapper';
+import ScrollToTop from '@/components/shared/ScrollToTop';
 
 export default function Home() {
   return (
@@ -32,6 +33,7 @@ export default function Home() {
         <DeliveryMap />
         <ContactUs />
         <Newsletter />
+        <ScrollToTop />
       </div>
     </PageWrapper>
   );

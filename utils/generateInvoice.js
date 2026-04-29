@@ -8,7 +8,7 @@ export const generateInvoice = (order) => {
   doc.setFont('playfair', 'bold');
   doc.setFontSize(22);
   doc.setTextColor(74, 55, 40); // text-brown
-  doc.text('THE COZY BAKERY', 105, 20, { align: 'center' });
+  doc.text('BAKERY & CO.', 105, 20, { align: 'center' });
 
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');

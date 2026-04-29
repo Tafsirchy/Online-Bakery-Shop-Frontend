@@ -62,7 +62,7 @@ export default function Sidebar({ isOpen, onClose }) {
       `}>
         <div className="p-6 pb-3">
           <Link href="/" className="text-2xl md:text-3xl font-serif text-brown font-bold tracking-tight block mb-4 px-0 transition-transform hover:scale-105 origin-left whitespace-nowrap">
-            The Cozy <span className="text-caramel">Bakery</span>
+            Bakery & <span className="text-caramel">Co.</span>
           </Link>
           <div className="flex items-center gap-2 mb-0.5">
             <div className="w-1 h-5 bg-sage rounded-full" />
@@ -118,7 +118,7 @@ export default function Sidebar({ isOpen, onClose }) {
             <span className="font-bold uppercase tracking-widest text-[9px]">Logout</span>
           </button>
           <div className="pt-1 text-[7px] text-muted/30 font-bold uppercase tracking-[0.2em] pl-1 text-center">
-            The Cozy Bakery © 2026
+            Bakery & Co. © 2026
           </div>
         </div>
       </aside>

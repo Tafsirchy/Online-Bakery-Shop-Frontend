@@ -145,7 +145,7 @@ function RegisterPageContent() {
   // Prevent form flash during Google Redirect exchange
   if (searchParams.get('code')) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-[#f8efe5]">
+      <div className="flex min-h-[100dvh] w-full items-center justify-center bg-[#f8efe5]">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-caramel border-t-transparent" />
           <p className="text-sm font-medium text-brown animate-pulse">Creating your account...</p>
@@ -155,7 +155,7 @@ function RegisterPageContent() {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#f8efe5] text-brown font-sans">
+    <div className="relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[#f8efe5] text-brown font-sans flex flex-col">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
 
       {/* Back Button */}
@@ -167,8 +167,8 @@ function RegisterPageContent() {
         Back
       </Link>
 
-      <div className="relative mx-auto flex h-full max-w-[1000px] w-full items-center justify-center p-2 sm:p-4">
-        <main className="relative grid h-[520px] w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="relative mx-auto flex flex-1 max-w-[1000px] w-full items-center justify-center p-4 sm:p-6 lg:p-4 py-20 lg:py-4">
+        <main className="relative grid min-h-[580px] h-auto w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[1.1fr_0.9fr]">
 
           {/* Left Side: Form */}
           <motion.div
@@ -179,8 +179,8 @@ function RegisterPageContent() {
           >
             <div className="w-full max-w-[340px] space-y-3">
               <div className="text-center space-y-1">
-                <h1 className="text-2xl font-serif text-brown sm:text-3xl">Join Us</h1>
-                <p className="text-[11px] text-muted tracking-tight">Create an account to start your cozy journey.</p>
+                <h1 className="text-3xl font-serif text-brown sm:text-3xl">Join Us</h1>
+                <p className="text-sm sm:text-xs text-muted tracking-tight">Create an account to start your cozy journey.</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-2">
@@ -192,7 +192,7 @@ function RegisterPageContent() {
 
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
-                    <Label htmlFor="name" className="text-[10px] text-brown/80 uppercase tracking-wider">Full Name</Label>
+                    <Label htmlFor="name" className="text-xs sm:text-[10px] text-brown/80 uppercase tracking-wider">Full Name</Label>
                     <Input
                       id="name"
                       name="name"
@@ -201,11 +201,11 @@ function RegisterPageContent() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="h-9 rounded-xl border-caramel/45 bg-white/50 px-3 text-xs focus-visible:ring-caramel/55"
+                      className="h-12 sm:h-10 rounded-xl border-caramel/45 bg-white/50 px-4 text-base sm:text-xs focus-visible:ring-caramel/55"
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="email" className="text-[10px] text-brown/80 uppercase tracking-wider">Email</Label>
+                    <Label htmlFor="email" className="text-xs sm:text-[10px] text-brown/80 uppercase tracking-wider">Email</Label>
                     <Input
                       id="email"
                       name="email"
@@ -214,16 +214,16 @@ function RegisterPageContent() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="h-9 rounded-xl border-caramel/45 bg-white/50 px-3 text-xs focus-visible:ring-caramel/55"
+                      className="h-12 sm:h-10 rounded-xl border-caramel/45 bg-white/50 px-4 text-base sm:text-xs focus-visible:ring-caramel/55"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password" className="text-[10px] text-brown/80 uppercase tracking-wider">Password</Label>
+                    <Label htmlFor="password" className="text-xs sm:text-[10px] text-brown/80 uppercase tracking-wider">Password</Label>
                     {formData.password && (
-                      <span className={`text-[9px] font-bold px-1.5 rounded-full text-white ${passwordStrength.color}`}>
+                      <span className={`text-[10px] sm:text-[9px] font-bold px-1.5 rounded-full text-white ${passwordStrength.color}`}>
                         {passwordStrength.label}
                       </span>
                     )}
@@ -236,19 +236,19 @@ function RegisterPageContent() {
                       required
                       value={formData.password}
                       onChange={handleChange}
-                      className="h-9 rounded-xl border-caramel/45 bg-white/50 pl-3 pr-9 text-xs focus-visible:ring-caramel/55"
+                      className="h-12 sm:h-10 rounded-xl border-caramel/45 bg-white/50 pl-4 pr-10 text-base sm:text-xs focus-visible:ring-caramel/55"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-brown/40 hover:text-brown/70 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-brown/40 hover:text-brown/70 transition-colors"
                     >
-                      {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
                   {/* Strength Bar */}
                   {formData.password && (
-                    <div className="flex gap-1 h-1 mt-1">
+                    <div className="flex gap-1 h-1.5 sm:h-1 mt-1">
                       {[1, 2, 3, 4].map((step) => (
                         <div 
                           key={step} 
@@ -263,9 +263,9 @@ function RegisterPageContent() {
 
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="confirmPassword" className="text-[10px] text-brown/80 uppercase tracking-wider">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className="text-xs sm:text-[10px] text-brown/80 uppercase tracking-wider">Confirm Password</Label>
                     {formData.confirmPassword && (
-                      <span className={`text-[9px] font-bold ${formData.password === formData.confirmPassword ? 'text-green-600' : 'text-red-500'}`}>
+                      <span className={`text-[10px] sm:text-[9px] font-bold ${formData.password === formData.confirmPassword ? 'text-green-600' : 'text-red-500'}`}>
                         {formData.password === formData.confirmPassword ? 'Match' : 'Mismatch'}
                       </span>
                     )}
@@ -278,16 +278,16 @@ function RegisterPageContent() {
                       required
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className={`h-9 rounded-xl border-caramel/45 bg-white/50 pl-3 pr-9 text-xs focus-visible:ring-caramel/55 ${
+                      className={`h-12 sm:h-10 rounded-xl border-caramel/45 bg-white/50 pl-4 pr-10 text-base sm:text-xs focus-visible:ring-caramel/55 ${
                         formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-300 bg-red-50/30' : ''
                       }`}
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-brown/40 hover:text-brown/70 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-brown/40 hover:text-brown/70 transition-colors"
                     >
-                      {showConfirmPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
                 </div>
@@ -296,17 +296,17 @@ function RegisterPageContent() {
 
                 <Button
                   type="submit"
-                  className="mt-2 h-10 w-full rounded-full bg-caramel text-white hover:bg-[#c78f61] transition-all text-xs font-semibold"
+                  className="mt-4 sm:mt-2 min-h-[48px] sm:min-h-[44px] w-full rounded-full bg-caramel text-white hover:bg-[#c78f61] transition-all text-base sm:text-sm font-bold"
                   disabled={isLoading}
                 >
                   {isLoading ? 'Creating Account...' : 'Register'}
                 </Button>
 
-                <div className="relative py-1">
+                <div className="relative py-4 sm:py-2">
                   <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t border-brown/10" />
                   </div>
-                  <div className="relative flex justify-center text-[9px] uppercase tracking-widest text-brown/40 bg-white px-2">
+                  <div className="relative flex justify-center text-xs sm:text-[10px] uppercase tracking-widest text-brown/40 bg-white px-3">
                     Or sign up with
                   </div>
                 </div>
@@ -314,15 +314,15 @@ function RegisterPageContent() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="h-10 w-full rounded-full border-brown/10 bg-white hover:bg-brown/5 transition-all text-xs flex items-center justify-center gap-2"
+                  className="min-h-[48px] sm:min-h-[44px] w-full rounded-full border-brown/10 bg-white hover:bg-brown/5 transition-all text-base sm:text-sm flex items-center justify-center gap-3 font-medium"
                   onClick={() => handleGoogleLogin()}
                 >
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-4 w-4" />
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-5 w-5 sm:h-4 w-4" />
                   Sign up with Google
                 </Button>
 
 
-                <p className="text-center text-[11px] text-brown/70 pt-1">
+                <p className="text-center text-sm sm:text-xs text-brown/70 pt-3 sm:pt-2 pb-4 sm:pb-0">
                   Already have an account?{' '}
                   <Link href="/login" className="font-bold text-caramel hover:underline">
                     Sign in

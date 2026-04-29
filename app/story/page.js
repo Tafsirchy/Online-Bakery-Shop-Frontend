@@ -53,7 +53,7 @@ export default function StoryPage() {
             <h2 className="text-3xl md:text-4xl font-serif text-brown">A Legacy of Flour and Fire</h2>
             <div className="space-y-4 md:space-y-6 text-muted text-base md:text-lg leading-relaxed">
               <p>
-                Founded in 2024, The Cozy Bakery started with a simple belief: 
+                Founded in 2024, Bakery & Co. started with a simple belief: 
                 that people deserve bread that hasn't been rushed. Sarah, our founder, 
                 spent years traveling across European countrysides, learning the 
                 secrets of long fermentation and heritage grains.

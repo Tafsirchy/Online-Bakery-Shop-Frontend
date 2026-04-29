@@ -49,8 +49,15 @@ export default function FeaturedProducts() {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const response = await axios.get('/products?isFeatured=true&limit=4');
-        const fetchedProducts = Array.isArray(response.data?.data) ? response.data.data : [];
+        let response = await axios.get('/products?isFeatured=true&limit=4');
+        let fetchedProducts = Array.isArray(response.data?.data) ? response.data.data : [];
+        
+        // If no featured products, fallback to regular products instead of hardcoded fake IDs
+        if (fetchedProducts.length === 0) {
+          response = await axios.get('/products?limit=4');
+          fetchedProducts = Array.isArray(response.data?.data) ? response.data.data : [];
+        }
+
         setProducts(fetchedProducts.length ? fetchedProducts : FALLBACK_FEATURED_PRODUCTS);
       } catch (err) {
         console.error(err);

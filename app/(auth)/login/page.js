@@ -122,7 +122,7 @@ function LoginPageContent() {
   // Prevent form flash during Google Redirect exchange
   if (searchParams.get('code') || (typeof exchangeInProgress !== 'undefined' && exchangeInProgress.current)) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-[#f8efe5]">
+      <div className="flex min-h-[100dvh] w-full items-center justify-center bg-[#f8efe5]">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-caramel border-t-transparent" />
           <p className="text-sm font-medium text-brown animate-pulse">Authenticating with Google...</p>
@@ -132,7 +132,7 @@ function LoginPageContent() {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden bg-[#f8efe5] text-brown font-sans">
+    <div className="relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[#f8efe5] text-brown font-sans flex flex-col">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
 
       {/* Back Button */}
@@ -144,8 +144,8 @@ function LoginPageContent() {
         Back
       </Link>
 
-      <div className="relative mx-auto flex h-full max-w-[1000px] w-full items-center justify-center p-2 sm:p-4">
-        <main className="relative grid h-[520px] w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="relative mx-auto flex flex-1 max-w-[1000px] w-full items-center justify-center p-4 sm:p-6 lg:p-4 py-20 lg:py-4">
+        <main className="relative grid min-h-[520px] h-auto w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[0.9fr_1.1fr]">
           {/* Left Side: Visuals */}
           <div className="relative hidden h-full overflow-hidden lg:block bg-[#fdfaf7]">
             <motion.div 
@@ -195,7 +195,7 @@ function LoginPageContent() {
                     autoComplete="username"
                     value={formData.email}
                     onChange={handleChange}
-                    className="h-10 rounded-full border-caramel/45 bg-white/50 px-4 text-sm focus-visible:ring-caramel/55"
+                    className="h-12 sm:h-11 rounded-full border-caramel/45 bg-white/50 px-5 text-base sm:text-sm focus-visible:ring-caramel/55"
                   />
                 </div>
 
@@ -216,7 +216,7 @@ function LoginPageContent() {
                       autoComplete="current-password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="h-10 rounded-full border-caramel/45 bg-white/50 pl-4 pr-10 text-sm focus-visible:ring-caramel/55"
+                      className="h-12 sm:h-11 rounded-full border-caramel/45 bg-white/50 pl-5 pr-12 text-base sm:text-sm focus-visible:ring-caramel/55"
                     />
                     <button
                       type="button"
@@ -229,28 +229,28 @@ function LoginPageContent() {
 
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-brown/70">
-                  <label className="inline-flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" className="h-3 w-3 rounded border-caramel/50" />
+                <div className="flex items-center justify-between text-sm sm:text-xs text-brown/70 py-1">
+                  <label className="inline-flex items-center gap-3 cursor-pointer py-1">
+                    <input type="checkbox" className="h-5 w-5 sm:h-4 sm:w-4 rounded border-caramel/50" />
                     Remember me
                   </label>
-                  <Link href="/forgot-password" size="sm" className="hover:text-caramel underline-offset-2 hover:underline">Forgot password?</Link>
+                  <Link href="/forgot-password" size="sm" className="hover:text-caramel underline-offset-2 hover:underline py-1">Forgot password?</Link>
                 </div>
 
                 <Button
 
                   type="submit"
-                  className="h-10 w-full rounded-full bg-caramel text-white hover:bg-[#c78f61] transition-all text-sm"
+                  className="min-h-[48px] sm:min-h-[44px] w-full rounded-full bg-caramel text-white hover:bg-[#c78f61] transition-all text-base sm:text-sm font-bold"
                   disabled={isLoading}
                 >
                   {isLoading ? 'Signing in...' : 'Sign In'}
                 </Button>
 
-                <div className="relative py-2">
+                <div className="relative py-4 sm:py-3">
                   <div className="absolute inset-0 flex items-center">
                     <span className="w-full border-t border-brown/10" />
                   </div>
-                  <div className="relative flex justify-center text-[10px] uppercase tracking-widest text-brown/40 bg-white px-2">
+                  <div className="relative flex justify-center text-xs sm:text-[10px] uppercase tracking-widest text-brown/40 bg-white px-3">
                     Or continue with
                   </div>
                 </div>
@@ -258,16 +258,16 @@ function LoginPageContent() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="h-10 w-full rounded-full border-brown/10 bg-white hover:bg-brown/5 transition-all text-sm flex items-center justify-center gap-2"
+                  className="min-h-[48px] sm:min-h-[44px] w-full rounded-full border-brown/10 bg-white hover:bg-brown/5 transition-all text-base sm:text-sm flex items-center justify-center gap-3 font-medium"
                   onClick={() => handleGoogleLogin()}
                 >
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-4 w-4" />
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-5 w-5 sm:h-4 sm:w-4" />
                   Sign in with Google
                 </Button>
 
 
-                <div className="text-center text-[11px] text-brown/70 pt-2">
-                  Don't have an account? <Link href="/register" className="font-bold text-caramel hover:underline">Create account</Link>
+                <div className="text-center text-sm sm:text-xs text-brown/70 pt-3 sm:pt-2">
+                  Don't have an account? <Link href="/register" className="font-bold text-caramel hover:underline py-2 inline-block">Create account</Link>
                 </div>
               </form>
 
@@ -283,9 +283,9 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="relative h-screen overflow-hidden bg-[#f8efe5] text-brown font-sans">
+        <div className="relative min-h-[100dvh] overflow-hidden bg-[#f8efe5] text-brown font-sans flex flex-col">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
-          <div className="relative mx-auto flex h-full max-w-[1000px] w-full items-center justify-center p-2 sm:p-4 text-sm text-brown/70">
+          <div className="relative mx-auto flex flex-1 max-w-[1000px] w-full items-center justify-center p-4 sm:p-6 lg:p-4 text-sm text-brown/70">
             Loading login page...
           </div>
         </div>

@@ -33,7 +33,7 @@ export default function MapComponent() {
         <Marker position={position}>
           <Popup>
             <div className="p-1">
-              <h4 className="font-serif font-bold text-brown">The Cozy Bakery</h4>
+              <h4 className="font-serif font-bold text-brown">Bakery & Co.</h4>
               <p className="text-xs text-muted">Freshness delivered to your door!</p>
             </div>
           </Popup>

@@ -210,12 +210,12 @@ export default function ProductDetailsPage() {
 
             {/* Thumbnails */}
             {product.images.length > 1 && (
-              <div className="flex gap-4">
+              <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2 -mx-6 px-6 lg:mx-0 lg:px-0">
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
-                    className={`w-24 h-24 rounded-2xl overflow-hidden border-2 transition-all shadow-sm ${
+                    className={`shrink-0 snap-start w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2 transition-all shadow-sm ${
                       activeImage === idx ? 'border-sage ring-4 ring-sage/10' : 'border-transparent opacity-60 hover:opacity-100'
                     }`}
                   >
@@ -237,7 +237,7 @@ export default function ProductDetailsPage() {
                 <Badge variant="outline" className="text-sage border-sage/30 bg-sage/5 rounded-lg px-3 py-1 text-xs font-bold tracking-widest uppercase mb-4">
                   {product.category}
                 </Badge>
-                <h1 className="text-5xl md:text-6xl font-serif text-brown leading-tight mb-4">{product.name}</h1>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-brown leading-tight mb-4">{product.name}</h1>
                 
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-1.5 text-brown">
@@ -266,12 +266,15 @@ export default function ProductDetailsPage() {
                 )}
               </div>
 
-              <p className="text-muted leading-relaxed text-lg max-w-xl">
-                {product.description}
-              </p>
+              <details className="group">
+                <summary className="text-muted leading-relaxed text-base md:text-lg max-w-xl cursor-pointer list-none flex items-start justify-between lg:block lg:cursor-auto lg:pointer-events-none">
+                  <span className="line-clamp-2 lg:line-clamp-none group-open:line-clamp-none transition-all">{product.description}</span>
+                  <span className="lg:hidden text-caramel text-xs font-bold tracking-widest uppercase ml-4 mt-1 shrink-0 whitespace-nowrap group-open:hidden">Read More</span>
+                </summary>
+              </details>
 
-              {/* Quantity Selector */}
-              <div className="space-y-4 pt-6">
+              {/* Quantity Selector - Desktop only, Mobile handled in sticky bar */}
+              <div className="hidden lg:block space-y-4 pt-6">
                 <label className="text-sm font-bold text-brown uppercase tracking-widest">Quantity</label>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center bg-cream-highlight rounded-2xl p-1 shadow-sm border border-border-light">
@@ -279,7 +282,7 @@ export default function ProductDetailsPage() {
                       variant="ghost" 
                       size="icon" 
                       onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                      className="rounded-xl h-10 w-10 hover:bg-white"
+                      className="rounded-xl h-11 w-11 hover:bg-white"
                     >
                       <Minus className="w-4 h-4" />
                     </Button>
@@ -288,7 +291,7 @@ export default function ProductDetailsPage() {
                       variant="ghost" 
                       size="icon" 
                       onClick={() => setQuantity(prev => prev + 1)}
-                      className="rounded-xl h-10 w-10 hover:bg-white"
+                      className="rounded-xl h-11 w-11 hover:bg-white"
                     >
                       <Plus className="w-4 h-4" />
                     </Button>
@@ -296,8 +299,8 @@ export default function ProductDetailsPage() {
                 </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-4 pt-8">
+              {/* Actions - Desktop only */}
+              <div className="hidden lg:flex gap-4 pt-8">
                 <Button 
                   onClick={handleAddToCart}
                   className="flex-1 h-14 rounded-2xl bg-sage hover:bg-brown text-white font-bold text-lg shadow-lg transition-all active:scale-[0.98] gap-3"
@@ -316,79 +319,85 @@ export default function ProductDetailsPage() {
                 </Button>
               </div>
 
-              {/* Features */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 border-t border-border-light mt-auto">
-                <div className="flex flex-col items-center text-center space-y-2">
-                  <div className="w-12 h-12 rounded-2xl bg-sage/10 text-sage flex items-center justify-center">
-                    <Truck className="w-6 h-6" />
+              {/* Features - Horizontal on Mobile */}
+              <div className="grid grid-cols-3 gap-2 md:gap-6 pt-8 md:pt-12 border-t border-border-light mt-auto">
+                <div className="flex flex-col items-center text-center space-y-1 md:space-y-2">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-sage/10 text-sage flex items-center justify-center">
+                    <Truck className="w-5 h-5 md:w-6 h-6" />
                   </div>
-                  <span className="text-xs font-bold text-brown">Fast Delivery</span>
-                  <span className="text-[10px] text-muted">Within 2-3 hours</span>
+                  <span className="text-[10px] md:text-xs font-bold text-brown leading-tight">Fast Delivery</span>
+                  <span className="hidden md:block text-[10px] text-muted">Within 2-3 hours</span>
                 </div>
-                <div className="flex flex-col items-center text-center space-y-2">
-                  <div className="w-12 h-12 rounded-2xl bg-caramel/10 text-caramel flex items-center justify-center">
-                    <ShieldCheck className="w-6 h-6" />
+                <div className="flex flex-col items-center text-center space-y-1 md:space-y-2">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-caramel/10 text-caramel flex items-center justify-center">
+                    <ShieldCheck className="w-5 h-5 md:w-6 h-6" />
                   </div>
-                  <span className="text-xs font-bold text-brown">Freshly Baked</span>
-                  <span className="text-[10px] text-muted">100% Organic</span>
+                  <span className="text-[10px] md:text-xs font-bold text-brown leading-tight">Freshly Baked</span>
+                  <span className="hidden md:block text-[10px] text-muted">100% Organic</span>
                 </div>
-                <div className="flex flex-col items-center text-center space-y-2">
-                  <div className="w-12 h-12 rounded-2xl bg-brown/10 text-brown flex items-center justify-center">
-                    <RotateCcw className="w-6 h-6" />
+                <div className="flex flex-col items-center text-center space-y-1 md:space-y-2">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-brown/10 text-brown flex items-center justify-center">
+                    <RotateCcw className="w-5 h-5 md:w-6 h-6" />
                   </div>
-                  <span className="text-xs font-bold text-brown">Easy Returns</span>
-                  <span className="text-[10px] text-muted">No questions asked</span>
+                  <span className="text-[10px] md:text-xs font-bold text-brown leading-tight">Easy Returns</span>
+                  <span className="hidden md:block text-[10px] text-muted">No questions asked</span>
                 </div>
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* Detailed Sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24">
+        {/* Detailed Sections (Accordions on Mobile) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mb-16 md:mb-24">
           {/* Ingredients */}
-          <div className="bg-cream-highlight/50 rounded-[2.5rem] p-10 border border-border-light shadow-soft">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-2xl bg-caramel/10 text-caramel flex items-center justify-center">
-                <Flame className="w-6 h-6" />
+          <details className="bg-cream-highlight/50 rounded-3xl md:rounded-[2.5rem] p-6 md:p-10 border border-border-light shadow-soft group">
+            <summary className="flex items-center justify-between cursor-pointer list-none md:pointer-events-none md:mb-8">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-caramel/10 text-caramel flex items-center justify-center shrink-0">
+                  <Flame className="w-5 h-5 md:w-6 h-6" />
+                </div>
+                <h2 className="text-xl md:text-2xl font-serif text-brown">Cooking Ingredients</h2>
               </div>
-              <h2 className="text-2xl font-serif text-brown">Cooking Ingredients</h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Plus className="w-5 h-5 text-brown/50 group-open:rotate-45 transition-transform md:hidden" />
+            </summary>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-0">
               {product.ingredients?.length > 0 ? (
                 product.ingredients.map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white/60 p-4 rounded-2xl border border-border-light shadow-xs group hover:bg-white transition-all">
-                    <div className="w-2 h-2 rounded-full bg-caramel/40 group-hover:scale-125 transition-transform" />
-                    <span className="text-sm font-medium text-brown/80">{item}</span>
+                  <div key={i} className="flex items-center gap-3 bg-white/60 p-3 md:p-4 rounded-xl md:rounded-2xl border border-border-light shadow-xs group/item hover:bg-white transition-all">
+                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-caramel/40 group-hover/item:scale-125 transition-transform" />
+                    <span className="text-xs md:text-sm font-medium text-brown/80">{item}</span>
                   </div>
                 ))
               ) : (
-                <p className="text-muted italic text-sm">Ingredients list coming soon...</p>
+                <p className="text-muted italic text-xs md:text-sm">Ingredients list coming soon...</p>
               )}
             </div>
-          </div>
+          </details>
 
           {/* Health Benefits */}
-          <div className="bg-sage/5 rounded-[2.5rem] p-10 border border-sage/10 shadow-soft">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-2xl bg-sage/10 text-sage flex items-center justify-center">
-                <Leaf className="w-6 h-6" />
+          <details className="bg-sage/5 rounded-3xl md:rounded-[2.5rem] p-6 md:p-10 border border-sage/10 shadow-soft group">
+            <summary className="flex items-center justify-between cursor-pointer list-none md:pointer-events-none md:mb-8">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-sage/10 text-sage flex items-center justify-center shrink-0">
+                  <Leaf className="w-5 h-5 md:w-6 h-6" />
+                </div>
+                <h2 className="text-xl md:text-2xl font-serif text-brown">Health Benefits</h2>
               </div>
-              <h2 className="text-2xl font-serif text-brown">Health Benefits</h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <Plus className="w-5 h-5 text-brown/50 group-open:rotate-45 transition-transform md:hidden" />
+            </summary>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-0">
               {product.healthBenefits?.length > 0 ? (
                 product.healthBenefits.map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white/60 p-4 rounded-2xl border border-sage/10 shadow-xs group hover:bg-white transition-all">
-                    <Sparkles className="w-4 h-4 text-sage/60" />
-                    <span className="text-sm font-medium text-brown/80">{item}</span>
+                  <div key={i} className="flex items-center gap-3 bg-white/60 p-3 md:p-4 rounded-xl md:rounded-2xl border border-sage/10 shadow-xs group/item hover:bg-white transition-all">
+                    <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-sage/60" />
+                    <span className="text-xs md:text-sm font-medium text-brown/80">{item}</span>
                   </div>
                 ))
               ) : (
-                <p className="text-muted italic text-sm">Health benefits information coming soon...</p>
+                <p className="text-muted italic text-xs md:text-sm">Health benefits coming soon...</p>
               )}
             </div>
-          </div>
+          </details>
         </div>
 
         {/* Reviews Section */}
@@ -563,6 +572,54 @@ export default function ProductDetailsPage() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Sticky Bottom CTA for Mobile */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-border-light shadow-[0_-10px_40px_rgba(74,55,40,0.1)] z-[100] lg:hidden flex flex-col gap-3 animate-in slide-in-from-bottom duration-500">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+             <span className="text-[10px] text-muted font-bold uppercase tracking-widest">Total Price</span>
+             <span className="text-xl font-bold text-sage">৳{currentPrice * quantity}</span>
+          </div>
+          
+          <div className="flex items-center bg-cream-highlight rounded-xl p-1 shadow-inner border border-border-light">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+              className="rounded-lg h-8 w-8 hover:bg-white"
+            >
+              <Minus className="w-3 h-3" />
+            </Button>
+            <span className="w-8 text-center font-bold text-brown text-sm">{quantity}</span>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => setQuantity(prev => prev + 1)}
+              className="rounded-lg h-8 w-8 hover:bg-white"
+            >
+              <Plus className="w-3 h-3" />
+            </Button>
+          </div>
+        </div>
+        
+        <div className="flex gap-2">
+          <Button 
+            variant="outline"
+            onClick={handleToggleWishlist}
+            className={`w-12 h-12 rounded-xl border-border-light shadow-sm shrink-0 ${
+              isInWishlist(product._id) ? 'bg-red-50 text-red-500 border-red-100' : 'bg-white'
+            }`}
+          >
+            <Heart className={`w-5 h-5 ${isInWishlist(product._id) ? 'fill-red-500' : ''}`} />
+          </Button>
+          <Button 
+            onClick={handleAddToCart}
+            className="flex-1 h-12 rounded-xl bg-sage hover:bg-brown text-white font-bold text-base shadow-lg active:scale-95 transition-all gap-2"
+          >
+            <ShoppingCart className="w-4 h-4" /> Add to Cart
+          </Button>
         </div>
       </div>
     </div>

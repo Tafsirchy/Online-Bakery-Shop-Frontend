@@ -27,7 +27,7 @@ export default function Footer() {
         <div className="space-y-6 md:space-y-8 flex flex-col items-center md:items-start text-center md:text-left">
           <div className="space-y-4">
             <Link href="/" style={{ color: cozyColor }} className="text-3xl md:text-3xl font-serif font-bold tracking-tight inline-block">
-              The Cozy <span className="text-caramel">Bakery</span>
+              Bakery & <span className="text-caramel">Co.</span>
             </Link>
             <p className="text-cream/60 leading-relaxed text-sm max-w-xs mx-auto md:mx-0">
               Crafting artisanal delights with organic ingredients and traditional techniques. 
@@ -96,7 +96,7 @@ export default function Footer() {
               </div>
               <div className="space-y-1">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-cream/40">Email</p>
-                <p className="text-sm text-cream/70">hello@cozybakery.com</p>
+                <p className="text-sm text-cream/70">hello@bakeryandco.com</p>
               </div>
             </li>
           </ul>
@@ -131,7 +131,7 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-6 mt-16 md:mt-20 pt-8 md:pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] md:text-xs text-cream/30 tracking-widest">
-        <p className="uppercase text-center md:text-left">© 2024 The Cozy Bakery. Dhaka's Finest Artisanal Spot.</p>
+        <p className="uppercase text-center md:text-left">© 2024 Bakery & Co. Dhaka's Finest Artisanal Spot.</p>
         <div className="flex gap-6 md:gap-8 uppercase">
           <a href="#" className="hover:text-caramel transition-colors">Privacy</a>
           <a href="#" className="hover:text-caramel transition-colors">Terms</a>

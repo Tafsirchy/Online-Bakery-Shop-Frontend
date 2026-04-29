@@ -31,7 +31,12 @@ export default function Navbar() {
   const { wishlist, fetchWishlist, clearWishlist } = useWishlistStore();
   const cartCount = getTotalItems();
   const [isMounted, setIsMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const safeCartCount = isMounted ? cartCount : 0;
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!hasHydrated) return;
@@ -73,8 +78,8 @@ export default function Navbar() {
     <nav className="sticky top-0 z-[1001] bg-background/80 backdrop-blur-md border-b border-border-light">
       <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-serif text-brown font-bold tracking-tight">
-          The Cozy <span className="text-caramel">Bakery</span>
+        <Link href="/" className="text-xl md:text-2xl font-serif text-brown font-bold tracking-tight whitespace-nowrap shrink-0">
+          Bakery & <span className="text-caramel">Co.</span>
         </Link>
 
         {/* Desktop Links */}
@@ -93,9 +98,9 @@ export default function Navbar() {
         )}
 
         {/* Icons / Auth */}
-        <div className="flex items-center gap-2 md:gap-4">
-          <Link href="/wishlist" className="relative w-10 h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
-            <Heart className="w-6 h-6 group-hover:scale-110 transition-transform" />
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-4 shrink-0">
+          <Link href="/wishlist" className="relative w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
+            <Heart className="w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform" />
             {isMounted && wishlist?.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-caramel text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-background animate-in fade-in zoom-in duration-300">
                 {wishlist.length}
@@ -109,8 +114,8 @@ export default function Navbar() {
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 0.3 }}
           >
-            <Link href="/cart" className="relative w-10 h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
-              <ShoppingBasket className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            <Link href="/cart" className="relative w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-brown hover:text-caramel transition-all duration-300 group active:scale-95">
+              <ShoppingBasket className="w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform" />
               {safeCartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-caramel text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-background animate-in fade-in zoom-in duration-300">
                   {safeCartCount}
@@ -125,9 +130,9 @@ export default function Navbar() {
                 <DropdownMenuTrigger
                   type="button"
                   aria-label="Open account menu"
-                  className="p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer"
+                  className="p-1.5 md:p-2 hover:bg-cream-highlight rounded-xl transition-colors outline-none cursor-pointer"
                 >
-                  <User className="w-6 h-6 text-brown" />
+                  <User className="w-5 h-5 md:w-6 md:h-6 text-brown" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent 
                   align="end" 
@@ -160,28 +165,28 @@ export default function Navbar() {
               </DropdownMenu>
             ) : (
               <Link href="/login">
-                <Button className="bg-brown hover:bg-caramel text-white rounded-full px-8 h-11 font-bold shadow-soft transition-all active:scale-95 border-none">
+                <Button className="bg-brown hover:bg-caramel text-white rounded-full px-5 md:px-8 h-9 md:h-11 text-xs md:text-sm font-bold shadow-soft transition-all active:scale-95 border-none">
                   Login
                 </Button>
               </Link>
             )
           ) : (
-            <div className="w-24 h-11 bg-brown/5 animate-pulse rounded-full" />
+            <div className="w-16 md:w-24 h-9 md:h-11 bg-brown/5 animate-pulse rounded-full" />
           )}
 
           {/* Mobile Menu */}
-          <div className="md:hidden">
-            <Sheet>
+          <div className="md:hidden shrink-0">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" className="p-2 hover:bg-cream-highlight rounded-xl border border-brown/10 shadow-sm">
-                  <Menu className="w-6 h-6 text-brown" />
+                <Button variant="ghost" className="p-1.5 hover:bg-cream-highlight rounded-xl border border-brown/10 shadow-sm h-9 w-9 flex items-center justify-center">
+                  <Menu className="w-5 h-5 text-brown" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-background border-l border-border-light p-0">
                 <div className="flex flex-col h-full">
                   <div className="p-6 border-b border-border-light">
                     <Link href="/" className="text-xl font-serif text-brown font-bold tracking-tight">
-                      The Cozy <span className="text-caramel">Bakery</span>
+                      Bakery & <span className="text-caramel">Co.</span>
                     </Link>
                   </div>
                   
