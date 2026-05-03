@@ -17,6 +17,7 @@ export const metadata = {
 };
 
 import AppChrome from "@/components/shared/AppChrome";
+import NextTopLoader from 'nextjs-toploader';
 
 export default function RootLayout({ children }) {
   return (
@@ -25,6 +26,17 @@ export default function RootLayout({ children }) {
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        <NextTopLoader 
+          color="#D4A373"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px #D4A373,0 0 5px #D4A373"
+        />
         <AppChrome>{children}</AppChrome>
       </body>
     </html>

@@ -60,14 +60,14 @@ export const generateInvoice = (order) => {
     doc.text(`Discount: -TK ${order.discount.toFixed(2)}`, 150, finalY + 5);
   }
   doc.text(`Shipping: TK 60.00`, 150, finalY + 10);
-  
+
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.text(`Final Total: TK ${order.finalPrice.toFixed(2)}`, 150, finalY + 18);
 
   // Footer
   doc.setFontSize(10);
-  doc.setFont('helvetica', 'italic');
+  doc.setFont('helvetica', '');
   doc.text('Thank you for choosing our fresh delights!', 105, finalY + 40, { align: 'center' });
 
   doc.save(`Invoice_${order.trackingId}.pdf`);

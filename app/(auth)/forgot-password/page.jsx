@@ -33,8 +33,8 @@ export default function ForgotPasswordPage() {
     <div className="relative min-h-[100dvh] overflow-x-hidden overflow-y-auto bg-[#f8efe5] text-brown font-sans flex flex-col justify-center items-center p-4 py-16 sm:py-4">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
 
-      <Link 
-        href="/login" 
+      <Link
+        href="/login"
         className="absolute top-4 left-4 z-50 flex items-center gap-2 rounded-full border border-brown/10 bg-white/40 px-4 py-1.5 text-xs font-medium text-brown backdrop-blur-md transition-all hover:bg-white/60 group"
       >
         <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
           </div>
         )}
 
-        <p className="text-xs text-brown/50 italic">
+        <p className="text-xs text-brown/50 ">
           Remember your password? <Link href="/login" className="text-caramel font-bold hover:underline">Sign In</Link>
         </p>
       </motion.div>

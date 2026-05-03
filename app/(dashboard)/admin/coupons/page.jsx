@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
-import { 
-  Ticket, 
-  Plus, 
-  Trash2, 
-  Edit, 
-  Save, 
-  X, 
-  Loader2, 
-  Calendar, 
-  DollarSign, 
+import {
+  Ticket,
+  Plus,
+  Trash2,
+  Edit,
+  Save,
+  X,
+  Loader2,
+  Calendar,
+  DollarSign,
   Percent,
   CheckCircle2,
   XCircle,
@@ -39,7 +39,7 @@ export default function CouponsManagement() {
     isActive: true,
     image: ''
   });
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -158,10 +158,10 @@ export default function CouponsManagement() {
               <Ticket className="w-8 h-8 md:w-10 md:h-10 text-caramel" />
               Coupons
             </h1>
-            <p className="text-muted text-xs md:text-sm font-medium italic">Manage your bakery's promotional strategies</p>
+            <p className="text-muted text-xs md:text-sm font-medium ">Manage your bakery's promotional strategies</p>
           </div>
 
-          <Button 
+          <Button
             onClick={() => handleOpenModal()}
             className="w-full sm:w-auto bg-brown hover:bg-[#5a3828] text-white rounded-xl md:rounded-[1.5rem] px-8 h-12 md:h-14 gap-3 shadow-warm transition-all hover:scale-[1.02]"
           >
@@ -178,7 +178,7 @@ export default function CouponsManagement() {
                 <CheckCircle2 className="w-5 h-5 text-sage" />
                 Global Controls
               </h3>
-              <p className="text-[10px] md:text-sm text-muted italic">Bulk manage activation for all coupons</p>
+              <p className="text-[10px] md:text-sm text-muted ">Bulk manage activation for all coupons</p>
             </div>
             <div className="flex items-center gap-3 md:gap-4 w-full lg:w-auto">
               <Button
@@ -212,7 +212,7 @@ export default function CouponsManagement() {
               <p className="text-lg md:text-2xl font-serif font-black text-brown">{coupons.length}</p>
             </div>
           </div>
-          
+
           <div className="bg-white p-4 md:p-6 rounded-2xl md:rounded-[2rem] shadow-soft border border-brown/5 flex flex-col sm:flex-row items-center gap-3 md:gap-5">
             <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-sage/10 flex items-center justify-center text-sage">
               <CheckCircle2 className="w-5 h-5 md:w-7 md:h-7" />
@@ -266,11 +266,10 @@ export default function CouponsManagement() {
 
                   <div className="relative h-full z-10 p-5 md:p-6 flex flex-col justify-between">
                     <div className="flex justify-between items-start">
-                      <button 
+                      <button
                         onClick={() => handleToggleStatus(coupon)}
-                        className={`backdrop-blur-md px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${
-                          coupon.isActive ? 'bg-sage/60 text-white border border-white/30' : 'bg-red-500/60 text-white border border-white/30'
-                        }`}
+                        className={`backdrop-blur-md px-3 py-1 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest transition-all ${coupon.isActive ? 'bg-sage/60 text-white border border-white/30' : 'bg-red-500/60 text-white border border-white/30'
+                          }`}
                       >
                         {coupon.isActive ? 'Active' : 'Inactive'}
                       </button>
@@ -294,7 +293,7 @@ export default function CouponsManagement() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="p-5 md:p-6 space-y-3 md:space-y-4 bg-cream-highlight/10">
                   <div className="flex items-center justify-between text-xs md:text-sm">
                     <div className="flex items-center gap-2 text-muted">
@@ -305,7 +304,7 @@ export default function CouponsManagement() {
                       {new Date(coupon.expiryDate).toLocaleDateString()}
                     </span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-xs md:text-sm">
                     <div className="flex items-center gap-2 text-muted">
                       <DollarSign className="w-4 h-4" />
@@ -333,12 +332,12 @@ export default function CouponsManagement() {
           {coupons.length === 0 && (
             <div className="col-span-full py-20 flex flex-col items-center justify-center border-2 border-dashed border-brown/10 rounded-[3rem] text-muted">
               <Ticket className="w-12 h-12 mb-4 opacity-20" />
-              <p className="font-serif italic text-sm">No coupons created yet.</p>
+              <p className="font-serif  text-sm">No coupons created yet.</p>
             </div>
           )}
         </div>
 
-        <Pagination 
+        <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(coupons.length / itemsPerPage)}
           onPageChange={setCurrentPage}
@@ -374,9 +373,9 @@ export default function CouponsManagement() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Code</label>
-                <Input 
+                <Input
                   value={formData.code}
-                  onChange={(e) => setFormData({...formData, code: e.target.value.toUpperCase()})}
+                  onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
                   placeholder="E.G. BAKE2024"
                   className="rounded-xl border-brown/5 bg-white font-mono font-black text-lg h-12 md:h-14 px-5 focus-visible:ring-sage shadow-sm"
                   required
@@ -385,10 +384,10 @@ export default function CouponsManagement() {
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Discount %</label>
-                <Input 
+                <Input
                   type="number"
                   value={formData.discount}
-                  onChange={(e) => setFormData({...formData, discount: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
                   placeholder="15"
                   className="rounded-xl border-brown/5 bg-white h-12 md:h-14 text-lg font-black px-5 focus-visible:ring-sage shadow-sm"
                   required
@@ -397,10 +396,10 @@ export default function CouponsManagement() {
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Min. Purchase</label>
-                <Input 
+                <Input
                   type="number"
                   value={formData.minPurchase}
-                  onChange={(e) => setFormData({...formData, minPurchase: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, minPurchase: e.target.value })}
                   placeholder="1000"
                   className="rounded-xl border-brown/5 bg-white h-12 md:h-14 text-lg font-black px-5 focus-visible:ring-sage shadow-sm"
                   required
@@ -409,10 +408,10 @@ export default function CouponsManagement() {
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Expiry Date</label>
-                <Input 
+                <Input
                   type="date"
                   value={formData.expiryDate}
-                  onChange={(e) => setFormData({...formData, expiryDate: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
                   className="rounded-xl border-brown/5 bg-white h-12 md:h-14 font-bold px-4 focus-visible:ring-sage shadow-sm"
                   required
                 />
@@ -420,22 +419,21 @@ export default function CouponsManagement() {
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Image URL</label>
-                <Input 
+                <Input
                   value={formData.image}
-                  onChange={(e) => setFormData({...formData, image: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                   placeholder="https://..."
-                  className="rounded-xl border-brown/5 bg-white h-12 md:h-14 px-5 text-xs italic focus-visible:ring-sage shadow-sm"
+                  className="rounded-xl border-brown/5 bg-white h-12 md:h-14 px-5 text-xs  focus-visible:ring-sage shadow-sm"
                 />
               </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-muted uppercase tracking-widest px-1">Status</label>
-                <button 
+                <button
                   type="button"
-                  onClick={() => setFormData({...formData, isActive: !formData.isActive})}
-                  className={`h-12 md:h-14 w-full rounded-xl border flex items-center justify-center gap-3 transition-all ${
-                    formData.isActive ? 'bg-sage/5 border-sage text-sage' : 'bg-red-50 border-red-200 text-red-500'
-                  }`}
+                  onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
+                  className={`h-12 md:h-14 w-full rounded-xl border flex items-center justify-center gap-3 transition-all ${formData.isActive ? 'bg-sage/5 border-sage text-sage' : 'bg-red-50 border-red-200 text-red-500'
+                    }`}
                 >
                   <span className="text-[10px] font-black uppercase tracking-widest">
                     {formData.isActive ? 'Active' : 'Inactive'}
@@ -450,7 +448,7 @@ export default function CouponsManagement() {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button 
+              <Button
                 type="submit"
                 className="flex-[2] bg-brown hover:bg-[#5a3828] text-white rounded-xl h-12 md:h-14 font-bold text-base shadow-xl active:scale-95 transition-all"
               >

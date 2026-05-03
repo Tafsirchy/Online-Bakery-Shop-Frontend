@@ -2,25 +2,29 @@
 
 import { motion } from 'framer-motion';
 import { FaFacebook, FaTwitter, FaYoutube } from 'react-icons/fa';
+import Image from 'next/image';
 
 export default function HomeSweetBakery() {
   return (
-    <section className="py-12 md:py-24 px-6 max-w-7xl mx-auto overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* Left Image */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative group max-w-md mx-auto lg:max-w-none"
-        >
-          <div className="aspect-square md:aspect-[4/5] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl border-4 md:border-8 border-white">
-            <img 
-              src="https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=800" 
-              alt="Our Baker" 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-          </div>
+    <section className="py-12 md:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative group max-w-md mx-auto lg:max-w-none w-full"
+          >
+            <div className="aspect-square md:aspect-[4/5] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl border-4 md:border-8 border-white relative">
+              <Image 
+                src="https://images.unsplash.com/photo-1608198093002-ad4e005484ec" 
+                alt="Our Baker" 
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           {/* Accent Dot - Safe for mobile */}
           <div className="absolute top-1/2 right-0 lg:-right-4 w-4 h-4 bg-sage rounded-full hidden sm:block" />
         </motion.div>
@@ -72,6 +76,7 @@ export default function HomeSweetBakery() {
           </div>
         </motion.div>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }

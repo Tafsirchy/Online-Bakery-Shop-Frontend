@@ -6,29 +6,29 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger,
   DialogClose
 } from '@/components/ui/dialog';
-import { 
-  Plus, 
-  Layers, 
-  X, 
-  Loader2, 
-  CheckCircle2, 
-  Pencil, 
+import {
+  Plus,
+  Layers,
+  X,
+  Loader2,
+  CheckCircle2,
+  Pencil,
   Trash2,
   Sparkles
 } from 'lucide-react';
@@ -41,7 +41,7 @@ export default function AdminCategories() {
   const [submitting, setSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -144,7 +144,7 @@ export default function AdminCategories() {
             <h1 className="text-2xl md:text-3xl font-serif text-brown font-bold">Manage Collections</h1>
             <p className="text-muted text-xs md:text-sm">Total collections: {categories.length}</p>
           </div>
-          
+
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button className="w-full sm:w-auto bg-sage hover:bg-brown-hover text-white rounded-xl md:rounded-full h-12 px-6 py-2 font-bold shadow-md flex items-center justify-center gap-3" onClick={openCreateDialog}>
@@ -179,31 +179,31 @@ export default function AdminCategories() {
                   <div className="space-y-5">
                     <div className="space-y-2">
                       <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Collection Name</Label>
-                      <Input 
-                        required 
+                      <Input
+                        required
                         placeholder="e.g., Seasonal Specials"
                         value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage shadow-sm"
                       />
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Image URL</Label>
-                      <Input 
+                      <Input
                         placeholder="https://..."
                         value={formData.image}
-                        onChange={(e) => setFormData({...formData, image: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                         className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage shadow-sm"
                       />
                     </div>
 
                     <div className="space-y-2">
                       <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Subtitle</Label>
-                      <Input 
+                      <Input
                         placeholder="e.g., Artisanal Treats"
                         value={formData.subtitle}
-                        onChange={(e) => setFormData({...formData, subtitle: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                         className="h-11 rounded-xl border-brown/5 bg-white focus-visible:ring-sage shadow-sm"
                       />
                     </div>
@@ -212,9 +212,9 @@ export default function AdminCategories() {
                   <div className="space-y-5">
                     <div className="space-y-2">
                       <Label className="text-[10px] font-bold uppercase tracking-widest text-brown opacity-70">Description</Label>
-                      <Textarea 
+                      <Textarea
                         value={formData.description}
-                        onChange={(e) => setFormData({...formData, description: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                         className="rounded-xl border-brown/5 bg-white focus-visible:ring-sage h-24 md:h-32 shadow-sm resize-none text-sm"
                         placeholder="A brief description..."
                       />
@@ -226,7 +226,7 @@ export default function AdminCategories() {
                           type="checkbox"
                           id="isActive"
                           checked={formData.isActive}
-                          onChange={(e) => setFormData({...formData, isActive: e.target.checked})}
+                          onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                           className="h-6 w-6 rounded-md border-brown/10 text-sage focus:ring-sage transition-all"
                         />
                         <Label htmlFor="isActive" className="cursor-pointer font-bold text-brown text-sm">Active</Label>
@@ -237,7 +237,7 @@ export default function AdminCategories() {
                           type="checkbox"
                           id="isFeatured"
                           checked={formData.isFeatured}
-                          onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
+                          onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
                           className="h-6 w-6 rounded-md border-brown/10 text-caramel focus:ring-caramel transition-all"
                         />
                         <Label htmlFor="isFeatured" className="cursor-pointer font-bold text-brown text-sm">Featured</Label>
@@ -247,8 +247,8 @@ export default function AdminCategories() {
                 </div>
 
                 <div className="pt-4 border-t border-brown/5">
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full h-14 rounded-xl bg-sage hover:bg-brown text-white font-bold text-lg shadow-xl border-none transition-all active:scale-[0.98] flex gap-3 items-center justify-center"
                     disabled={submitting}
                   >
@@ -287,15 +287,14 @@ export default function AdminCategories() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-serif text-brown font-bold truncate">{category.name}</h4>
-                      <p className="text-xs text-muted line-clamp-1 italic">{category.subtitle || 'No subtitle'}</p>
+                      <p className="text-xs text-muted line-clamp-1 ">{category.subtitle || 'No subtitle'}</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between pt-2 border-t border-brown/5">
                     <div className="flex gap-2">
-                      <span className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${
-                        category.isActive ? 'bg-sage/10 text-sage' : 'bg-red-500/10 text-red-500'
-                      }`}>
+                      <span className={`px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${category.isActive ? 'bg-sage/10 text-sage' : 'bg-red-500/10 text-red-500'
+                        }`}>
                         {category.isActive ? 'Active' : 'Inactive'}
                       </span>
                       {category.isFeatured && (
@@ -311,9 +310,9 @@ export default function AdminCategories() {
                       >
                         <Pencil className="w-4 h-4" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="h-10 w-10 rounded-xl text-muted hover:text-red-500 hover:bg-red-50"
                         onClick={() => handleDelete(category._id)}
                       >
@@ -352,7 +351,7 @@ export default function AdminCategories() {
                           <span className="font-serif text-brown font-bold">{category.name}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-sm text-muted italic">
+                      <TableCell className="text-sm text-muted ">
                         {category.subtitle || '-'}
                       </TableCell>
                       <TableCell>
@@ -378,9 +377,9 @@ export default function AdminCategories() {
                         >
                           <Pencil className="w-4 h-4" />
                         </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           className="h-10 w-10 rounded-xl text-muted hover:text-red-500 hover:bg-red-50"
                           onClick={() => handleDelete(category._id)}
                         >
@@ -392,9 +391,9 @@ export default function AdminCategories() {
                 </TableBody>
               </Table>
             </div>
-            
+
             <div className="pt-4">
-              <Pagination 
+              <Pagination
                 currentPage={currentPage}
                 totalPages={Math.ceil(categories.length / itemsPerPage)}
                 onPageChange={setCurrentPage}

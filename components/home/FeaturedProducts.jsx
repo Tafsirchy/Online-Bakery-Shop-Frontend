@@ -70,14 +70,15 @@ export default function FeaturedProducts() {
   }, []);
 
   return (
-    <section className="py-12 md:py-24 px-4 md:px-6 max-w-7xl mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-center sm:items-end mb-8 md:mb-12 gap-4 text-center sm:text-left">
-        <div className="space-y-1 md:space-y-2">
-          <h2 className="text-3xl md:text-6xl font-serif text-brown leading-tight">Featured Selection</h2>
-          <p className="text-muted text-xs md:text-base">Handpicked favorites from our master bakers</p>
+    <section className="py-12 md:py-20 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+        <div className="flex flex-col sm:flex-row justify-between items-center sm:items-end mb-8 md:mb-12 gap-4 text-center sm:text-left">
+          <div className="space-y-1 md:space-y-2">
+            <h2 className="text-3xl md:text-6xl font-serif text-brown leading-tight">Featured Selection</h2>
+            <p className="text-muted text-xs md:text-base">Handpicked favorites from our master bakers</p>
+          </div>
+          <Link href="/shop" className="text-caramel text-sm md:text-base font-bold hover:underline py-2">See Menu</Link>
         </div>
-        <Link href="/shop" className="text-caramel text-sm md:text-base font-bold hover:underline py-2">See Menu</Link>
-      </div>
 
       {/* Product grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
@@ -86,6 +87,7 @@ export default function FeaturedProducts() {
           : products.slice(0, 4).map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
+      </div>
       </div>
     </section>
   );

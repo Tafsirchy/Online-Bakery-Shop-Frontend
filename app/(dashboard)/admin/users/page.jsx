@@ -2,21 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  User, 
-  Mail, 
-  Shield, 
-  Trash2, 
+import {
+  User,
+  Mail,
+  Shield,
+  Trash2,
   Loader2,
   Search,
   UserCheck
@@ -32,7 +32,7 @@ export default function AdminUsers() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -83,7 +83,7 @@ export default function AdminUsers() {
     }
   };
 
-  const filteredUsers = users.filter(user => 
+  const filteredUsers = users.filter(user =>
     user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -94,13 +94,13 @@ export default function AdminUsers() {
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div className="space-y-0.5">
             <h1 className="text-2xl md:text-3xl font-serif text-brown font-bold tracking-tight">Community Management</h1>
-            <p className="text-muted text-xs md:text-sm italic">Manage roles and permissions for your {users.length} members</p>
+            <p className="text-muted text-xs md:text-sm ">Manage roles and permissions for your {users.length} members</p>
           </div>
-          
+
           <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-            <Input 
-              placeholder="Search members..." 
+            <Input
+              placeholder="Search members..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 h-11 rounded-xl border-brown/10 bg-white shadow-sm"
@@ -111,7 +111,7 @@ export default function AdminUsers() {
         {loading ? (
           <div className="flex flex-col items-center justify-center h-64 bg-cream-highlight/30 rounded-3xl border border-dashed border-brown/10">
             <Loader2 className="w-8 h-8 text-sage animate-spin mb-4" />
-            <p className="text-muted font-serif italic text-sm">Loading community members...</p>
+            <p className="text-muted font-serif  text-sm">Loading community members...</p>
           </div>
         ) : (
           <>
@@ -135,8 +135,8 @@ export default function AdminUsers() {
                   <div className="space-y-3 pt-2 border-t border-brown/5">
                     <div className="space-y-1.5">
                       <Label className="text-[9px] font-bold uppercase tracking-widest text-brown opacity-50">Assigned Role</Label>
-                      <Select 
-                        value={user.role} 
+                      <Select
+                        value={user.role}
                         onValueChange={(val) => handleRoleChange(user._id, val)}
                       >
                         <SelectTrigger className={`w-full h-11 rounded-xl text-xs font-bold uppercase tracking-widest border transition-all ${getRoleBadgeColor(user.role)}`}>
@@ -151,7 +151,7 @@ export default function AdminUsers() {
                     </div>
 
                     <div className="flex items-center justify-between pt-2">
-                      <span className="text-[10px] text-muted italic">Joined {new Date(user.createdAt).toLocaleDateString()}</span>
+                      <span className="text-[10px] text-muted ">Joined {new Date(user.createdAt).toLocaleDateString()}</span>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -196,8 +196,8 @@ export default function AdminUsers() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Select 
-                          value={user.role} 
+                        <Select
+                          value={user.role}
                           onValueChange={(val) => handleRoleChange(user._id, val)}
                         >
                           <SelectTrigger className={`w-32 h-9 rounded-lg text-[10px] font-bold uppercase tracking-widest border transition-all ${getRoleBadgeColor(user.role)}`}>
@@ -210,7 +210,7 @@ export default function AdminUsers() {
                           </SelectContent>
                         </Select>
                       </TableCell>
-                      <TableCell className="text-muted text-xs italic">
+                      <TableCell className="text-muted text-xs ">
                         {new Date(user.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                       </TableCell>
                       <TableCell className="text-right px-6">
@@ -230,7 +230,7 @@ export default function AdminUsers() {
             </div>
 
             <div className="pt-4">
-              <Pagination 
+              <Pagination
                 currentPage={currentPage}
                 totalPages={Math.ceil(filteredUsers.length / itemsPerPage)}
                 onPageChange={setCurrentPage}

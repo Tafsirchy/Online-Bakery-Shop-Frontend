@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Leaf, Clock, Heart, ShieldCheck } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import Image from 'next/image';
 
 const features = [
   {
@@ -11,42 +12,42 @@ const features = [
     desc: "We use only the finest locally sourced organic ingredients for our dough and fillings. Every grain is selected for its purity, ensuring that every bite you take is free from artificial preservatives and chemicals.",
     icon: Leaf,
     color: "bg-sage/10 text-sage",
-    img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800"
+    img: "https://images.unsplash.com/photo-1509440159596-0249088772ff"
   },
   {
     title: "Always Fresh",
     desc: "Our bakers start at dawn to ensure every bite you take is fresh from the oven. We believe that the true essence of bread is best enjoyed when it's warm, soft, and straight out of the bakery.",
     icon: Clock,
     color: "bg-caramel/10 text-caramel",
-    img: "https://images.unsplash.com/photo-1506459225024-1428097a7e18?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    img: "https://images.unsplash.com/photo-1506459225024-1428097a7e18"
   },
   {
     title: "Made with Love",
     desc: "Traditional family recipes passed down through generations, made with passion. Baking is our love language, and we pour our hearts into every loaf to bring joy to your family's table.",
     icon: Heart,
     color: "bg-red-50 text-red-400",
-    img: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=800"
+    img: "https://images.unsplash.com/photo-1486427944299-d1955d23e34d"
   },
   {
     title: "Safe Delivery",
     desc: "Carefully packed and delivered to your doorstep while maintaining perfect warmth. Our dedicated delivery team ensures that your treats arrive in pristine condition, ready to be devoured.",
     icon: ShieldCheck,
     color: "bg-brown/10 text-brown",
-    img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=800"
+    img: "https://images.unsplash.com/photo-1621939514649-280e2ee25f60"
   },
   {
     title: "Eco-Friendly",
     desc: "We use 100% biodegradable packaging to keep our planet as fresh as our bread. Sustainability is at the core of our operations, minimizing our carbon footprint every step of the way.",
     icon: Leaf,
     color: "bg-sage/10 text-sage",
-    img: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    img: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec"
   },
   {
     title: "Expert Bakers",
     desc: "Our team has over 20 years of combined experience in artisanal bread making. We've mastered the delicate balance of time, temperature, and technique to bring you bakery perfection.",
     icon: Heart,
     color: "bg-red-50 text-red-400",
-    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800"
+    img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a"
   }
 ];
 
@@ -62,7 +63,7 @@ export default function WhyUs() {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-20 items-center mb-12 lg:mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -88,19 +89,19 @@ export default function WhyUs() {
             className="lg:w-1/2 grid grid-cols-2 gap-3 md:gap-4 relative max-w-[400px] lg:max-w-none"
           >
             <div className="space-y-3 md:space-y-4 pt-12">
-              <div className="aspect-[3/4] rounded-full overflow-hidden border-4 md:border-8 border-white shadow-warm">
-                <img src={features[0].img} className="w-full h-full object-cover" alt="Organic" />
+              <div className="aspect-[3/4] rounded-full overflow-hidden border-4 md:border-8 border-white shadow-warm relative">
+                <Image src={features[0].img} fill className="object-cover" alt="Organic" sizes="(max-width: 768px) 50vw, 25vw" />
               </div>
-              <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-warm">
-                <img src={features[1].img} className="w-full h-full object-cover" alt="Fresh" />
+              <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-warm relative">
+                <Image src={features[1].img} fill className="object-cover" alt="Fresh" sizes="(max-width: 768px) 50vw, 25vw" />
               </div>
             </div>
             <div className="space-y-3 md:space-y-4">
-              <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-warm">
-                <img src={features[2].img} className="w-full h-full object-cover" alt="Love" />
+              <div className="aspect-square rounded-2xl md:rounded-3xl overflow-hidden border-4 md:border-8 border-white shadow-warm relative">
+                <Image src={features[2].img} fill className="object-cover" alt="Love" sizes="(max-width: 768px) 50vw, 25vw" />
               </div>
-              <div className="aspect-[3/4] rounded-full overflow-hidden border-4 md:border-8 border-white shadow-warm">
-                <img src={features[3].img} className="w-full h-full object-cover" alt="Safe" />
+              <div className="aspect-[3/4] rounded-full overflow-hidden border-4 md:border-8 border-white shadow-warm relative">
+                <Image src={features[3].img} fill className="object-cover" alt="Safe" sizes="(max-width: 768px) 50vw, 25vw" />
               </div>
             </div>
             {/* Floating badge */}
@@ -112,7 +113,7 @@ export default function WhyUs() {
 
         <div className="relative">
           {/* Mobile view: Horizontal scroll */}
-          <div className="flex lg:hidden overflow-x-auto snap-x snap-mandatory pb-8 gap-4 scrollbar-hide -mx-6 px-6">
+          <div className="flex lg:hidden overflow-x-auto snap-x snap-mandatory pb-8 gap-4 scrollbar-hide -mx-4 px-4">
             {features.map((feature, i) => (
               <motion.div
                 key={feature.title}
@@ -142,7 +143,7 @@ export default function WhyUs() {
               />
               <div className="text-center space-y-2 p-10 bg-cream z-10 rounded-full border-4 border-white shadow-warm">
                 <span className="text-caramel font-bold text-xs uppercase tracking-[0.2em]">Since 2024</span>
-                <h4 className="text-2xl font-serif text-brown italic">Truly <br /> Artisanal</h4>
+                <h4 className="text-2xl font-serif text-brown ">Truly <br /> Artisanal</h4>
               </div>
             </div>
 
@@ -190,7 +191,7 @@ export default function WhyUs() {
           {selectedFeature && (
             <div className="flex flex-col items-center justify-center p-6 md:p-8 w-full h-full relative z-10">
               <div className="absolute inset-0 opacity-10 pointer-events-none">
-                <img src={selectedFeature.img} alt={selectedFeature.title} className="w-full h-full object-cover" />
+                <Image src={selectedFeature.img} fill alt={selectedFeature.title} className="object-cover" />
               </div>
               <div className={`w-16 h-16 md:w-20 md:h-20 ${selectedFeature.color} bg-white rounded-full flex items-center justify-center shadow-warm mb-3 md:mb-4 relative z-10`}>
                 <selectedFeature.icon className="w-6 h-6 md:w-8 md:h-8" />

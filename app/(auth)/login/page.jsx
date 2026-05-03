@@ -31,8 +31,8 @@ function LoginPageContent() {
   const redirectUri = process.env.NEXT_PUBLIC_SITE_URL
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/login`
     : typeof window !== 'undefined'
-    ? `${window.location.origin}/login`
-    : 'http://localhost:3000/login';
+      ? `${window.location.origin}/login`
+      : 'http://localhost:3000/login';
 
   const handleGoogleLogin = useGoogleLogin({
     flow: 'auth-code',
@@ -45,31 +45,40 @@ function LoginPageContent() {
   // Handle redirect code
   useEffect(() => {
     const code = searchParams.get('code');
-    if (code && !exchangeInProgress.current) {
-      exchangeInProgress.current = true;
-      const exchangeCode = async () => {
-        try {
-          const { data } = await axios.post('/auth/google', { 
-            code,
-            redirectUri: redirectUri 
-          });
-          useAuthStore.setState({ 
-            user: data.user, 
-            token: data.token,
-            isLoading: false 
-          });
-          toast.success('Welcome! Logged in with Google.', { icon: '👋' });
-          router.push('/');
-        } catch (err) {
-          console.error('Google Exchange Error:', err);
-          const msg = err.response?.data?.message || 'Google Login failed during exchange';
-          toast.error(msg);
-          exchangeInProgress.current = false;
-        }
-      };
-      exchangeCode();
-    }
-  }, [searchParams, router]);
+    
+    // Exit early if no code or already processing
+    if (!code || exchangeInProgress.current) return;
+
+    exchangeInProgress.current = true;
+    
+    const exchangeCode = async () => {
+      try {
+        const { data } = await axios.post('/auth/google', {
+          code,
+          redirectUri: redirectUri
+        });
+        
+        // Success: Navigate away immediately
+        useAuthStore.setState({
+          user: data.user,
+          token: data.token,
+          isLoading: false
+        });
+        toast.success('Welcome! Logged in with Google.', { icon: '👋' });
+        router.push('/');
+      } catch (err) {
+        console.error('Google Exchange Error:', err);
+        const msg = err.response?.data?.message || 'Google Login failed during exchange';
+        toast.error(msg);
+        
+        // Failure: Reset and clean URL
+        exchangeInProgress.current = false;
+        router.replace('/login', { scroll: false });
+      }
+    };
+
+    exchangeCode();
+  }, [searchParams, router, redirectUri]);
 
 
 
@@ -135,8 +144,8 @@ function LoginPageContent() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_28%,rgba(212,163,115,0.2),transparent_34%),radial-gradient(circle_at_90%_76%,rgba(138,154,91,0.16),transparent_36%)]" />
 
       {/* Back button */}
-      <Link 
-        href="/" 
+      <Link
+        href="/"
         className="absolute top-4 left-4 z-50 flex items-center gap-2 rounded-full border border-brown/10 bg-white/40 px-4 py-1.5 text-xs font-medium text-brown backdrop-blur-md transition-all hover:bg-white/60 group"
       >
         <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-1" />
@@ -147,7 +156,7 @@ function LoginPageContent() {
         <main className="relative grid min-h-[520px] h-auto w-full overflow-hidden rounded-3xl border border-brown/10 bg-white shadow-xl lg:grid-cols-[0.9fr_1.1fr]">
           {/* Visuals */}
           <div className="relative hidden h-full overflow-hidden lg:block bg-[#fdfaf7]">
-            <motion.div 
+            <motion.div
               initial={{ scale: 1.1, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.5, ease: "easeOut" }}
@@ -159,11 +168,11 @@ function LoginPageContent() {
                 className="h-full w-full object-cover brightness-[0.98] contrast-[1.02]"
               />
             </motion.div>
-            
+
             {/* Artistic overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-brown/30 to-transparent opacity-40" />
             <div className="absolute bottom-6 left-6 max-w-[180px] text-white drop-shadow-md">
-              <p className="font-serif text-lg leading-tight italic">Handcrafted with love.</p>
+              <p className="font-serif text-lg leading-tight ">Handcrafted with love.</p>
             </div>
           </div>
 

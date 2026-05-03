@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Sparkles, Heart, Zap, Leaf, DollarSign, Utensils } from 'lucide-react';
+import Image from 'next/image';
 
 const allBenefits = [
   {
@@ -57,14 +58,14 @@ export default function BreadBenefits() {
         <span className="text-[20rem] font-serif absolute -bottom-20 -right-20">Health</span>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center md:text-left mb-12 md:mb-20">
           <span className="text-caramel font-black uppercase tracking-[0.3em] text-[10px]">The Science of Dough</span>
-          <h2 className="text-4xl md:text-6xl font-serif text-brown mt-2">Benefits Of Breads</h2>
+          <h2 className="text-4xl md:text-6xl font-serif text-brown mt-2">Benefits Of <span className=" text-caramel">Breads</span> </h2>
         </div>
 
         {/* Mobile: Interactive Horizontal Stack (Peeking Cards) */}
-        <div className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-6 px-6 scrollbar-hide">
+        <div className="flex md:hidden overflow-x-auto snap-x snap-mandatory gap-4 pb-8 -mx-4 px-4 scrollbar-hide">
           {allBenefits.map((benefit, i) => (
             <motion.div
               key={benefit.title}
@@ -103,13 +104,21 @@ export default function BreadBenefits() {
 
           <div className="relative flex justify-center">
             <div className="absolute inset-0 bg-caramel/10 rounded-full blur-[100px] animate-pulse" />
-            <motion.img
-              src="https://images.unsplash.com/photo-1695150455847-a34429ebfaca?q=80&w=800"
-              alt="Artisanal Bread"
-              animate={{ y: [0, -20, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="relative z-10 w-full max-w-[400px] aspect-square object-cover rounded-full border-[12px] border-white shadow-2xl"
-            />
+            <div className="relative z-10 w-full max-w-[400px] aspect-square rounded-full overflow-hidden border-[12px] border-white shadow-2xl">
+              <motion.div
+                animate={{ y: [0, -20, 0] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                className="w-full h-full relative"
+              >
+                <Image
+                  src="https://images.unsplash.com/photo-1695150455847-a34429ebfaca"
+                  alt="Artisanal Bread"
+                  fill
+                  className="object-cover"
+                  sizes="400px"
+                />
+              </motion.div>
+            </div>
           </div>
 
           <div className="space-y-12">

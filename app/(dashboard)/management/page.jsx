@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
 import { useAuthStore } from '@/store/useAuthStore';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
   LineChart,
   Line,
@@ -19,12 +19,12 @@ import {
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
-import { 
-  TrendingUp, 
-  ShoppingBag, 
-  Users, 
-  DollarSign, 
-  ArrowUpRight 
+import {
+  TrendingUp,
+  ShoppingBag,
+  Users,
+  DollarSign,
+  ArrowUpRight
 } from 'lucide-react';
 
 export default function ManagementDashboard() {
@@ -133,11 +133,11 @@ export default function ManagementDashboard() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={salesData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E0D5C1" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#7D6E63', fontSize: 10}} />
-                <YAxis axisLine={false} tickLine={false} tick={{fill: '#7D6E63', fontSize: 10}} />
-                <Tooltip 
-                  contentStyle={{backgroundColor: '#FFFBF2', borderRadius: '12px', border: '1px solid #E0D5C1', fontSize: '12px'}}
-                  itemStyle={{color: '#4A3728'}}
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#7D6E63', fontSize: 10 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#7D6E63', fontSize: 10 }} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: '#FFFBF2', borderRadius: '12px', border: '1px solid #E0D5C1', fontSize: '12px' }}
+                  itemStyle={{ color: '#4A3728' }}
                 />
                 <Bar dataKey="sales" fill="#8A9A5B" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -165,8 +165,8 @@ export default function ManagementDashboard() {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip 
-                    contentStyle={{backgroundColor: '#FFFBF2', borderRadius: '12px', border: '1px solid #E0D5C1', fontSize: '12px'}}
+                  <Tooltip
+                    contentStyle={{ backgroundColor: '#FFFBF2', borderRadius: '12px', border: '1px solid #E0D5C1', fontSize: '12px' }}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -174,7 +174,7 @@ export default function ManagementDashboard() {
             <div className="grid grid-cols-2 sm:flex sm:flex-col gap-3 w-full sm:w-auto sm:pr-8">
               {categoryData.map((cat, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{backgroundColor: COLORS[i]}} />
+                  <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i] }} />
                   <span className="text-[10px] md:text-xs text-muted font-medium whitespace-nowrap">{cat.name} ({cat.value})</span>
                 </div>
               ))}
@@ -195,8 +195,8 @@ export default function ManagementDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
           {recentProducts.map((product) => (
             <div key={product._id} className="group relative aspect-square rounded-xl md:rounded-2xl overflow-hidden border border-brown/5 bg-cream-highlight shadow-sm hover:shadow-md transition-all">
-              <img 
-                src={product.imageUrl?.split(',')[0] || '/placeholder-bakery.jpg'} 
+              <img
+                src={product.imageUrl?.split(',')[0] || '/placeholder-bakery.jpg'}
                 alt={product.name}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
@@ -208,7 +208,7 @@ export default function ManagementDashboard() {
           ))}
           {recentProducts.length === 0 && (
             <div className="col-span-full h-32 flex items-center justify-center border border-dashed border-brown/5 rounded-2xl">
-              <p className="text-muted italic text-sm">No recent creations found.</p>
+              <p className="text-muted  text-sm">No recent creations found.</p>
             </div>
           )}
         </div>

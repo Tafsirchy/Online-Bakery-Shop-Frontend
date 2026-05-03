@@ -99,15 +99,17 @@ export const useCartStore = create(
     {
       name: 'cart-storage',
       version: 2,
-      migrate: (persistedState) => {
-        if (!persistedState || typeof persistedState !== 'object') {
-          return { items: [] };
+      migrate: (persistedState, version) => {
+        if (version < 2) {
+          if (!persistedState || typeof persistedState !== 'object') {
+            return { items: [] };
+          }
+          return {
+            ...persistedState,
+            items: sanitizeCartItems(persistedState.items || []),
+          };
         }
-
-        return {
-          ...persistedState,
-          items: sanitizeCartItems(persistedState.items || []),
-        };
+        return persistedState;
       },
     }
   )

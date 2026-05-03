@@ -22,7 +22,7 @@ export default function Footer() {
       {/* Background element */}
       <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-caramel/10 rounded-full blur-[100px] pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 lg:gap-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 lg:gap-16">
         {/* Brand section */}
         <div className="space-y-6 md:space-y-8 flex flex-col items-center md:items-start text-center md:text-left">
           <div className="space-y-4">
@@ -130,7 +130,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="max-w-7xl mx-auto px-6 mt-16 md:mt-20 pt-8 md:pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] md:text-xs text-cream/30 tracking-widest">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 mt-16 md:mt-20 pt-8 md:pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] md:text-xs text-cream/30 tracking-widest">
         <p className="uppercase text-center md:text-left">© 2024 Bakery & Co. Dhaka's Finest Artisanal Spot.</p>
         <div className="flex gap-6 md:gap-8 uppercase">
           <a href="#" className="hover:text-caramel transition-colors">Privacy</a>

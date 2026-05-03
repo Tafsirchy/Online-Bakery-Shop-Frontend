@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { CreditCard, Truck, Tag, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
@@ -189,7 +190,7 @@ function CheckoutContent() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8 md:py-12 pb-32 md:pb-12">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 pb-32 md:pb-12">
       <h1 className="text-3xl md:text-4xl font-serif text-brown mb-8 md:mb-10">Checkout</h1>
 
       {/* Mobile Sticky Order Bar (Top) */}
@@ -355,11 +356,15 @@ function CheckoutContent() {
                 {items.map((item) => (
                   <div key={item.productId} className="flex justify-between items-center gap-4">
                     <div className="flex items-center gap-3">
-                      <img 
-                        src={item.image || item.images?.[0] || 'https://via.placeholder.com/150'} 
-                        alt={item.name}
-                        className="w-14 h-14 rounded-xl object-cover flex-shrink-0 border border-brown/5"
-                      />
+                      <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0 border border-brown/5 relative">
+                        <Image 
+                          src={item.image || item.images?.[0] || 'https://via.placeholder.com/150'} 
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="60px"
+                        />
+                      </div>
                       <div>
                         <p className="text-sm font-bold text-brown line-clamp-1">{item.name}</p>
                         <p className="text-xs text-muted font-medium tracking-tight">Qty: {item.quantity}</p>

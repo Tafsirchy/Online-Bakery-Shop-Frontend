@@ -3,16 +3,19 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Play } from 'lucide-react';
+import Image from 'next/image';
 
 export default function BreadBanner() {
   return (
-    <section className="relative h-[50vh] md:h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden my-12 md:my-24 rounded-[2rem] md:rounded-none mx-4 md:mx-0 shadow-2xl md:shadow-none">
+    <section className="relative h-[50vh] md:h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden my-12 md:py-24 rounded-[2rem] md:rounded-none mx-4 md:mx-0 shadow-2xl md:shadow-none">
       {/* Background Image with Cinematic Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2?w=1200&q=80"
+        <Image
+          src="https://images.unsplash.com/photo-1550617931-e17a7b70dce2"
           alt="Multiple Tastes"
-          className="w-full h-full object-cover scale-110"
+          fill
+          className="object-cover scale-110"
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
       </div>

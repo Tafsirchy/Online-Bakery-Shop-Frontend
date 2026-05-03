@@ -69,6 +69,8 @@ export const useWishlistStore = create(
     }),
     {
       name: 'bakery-wishlist',
+      version: 1,
+      migrate: (persistedState) => persistedState,
       onRehydrateStorage: () => (state) => {
         state.setHasHydrated(true);
       },

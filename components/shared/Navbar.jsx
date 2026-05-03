@@ -76,7 +76,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-[1001] bg-background/80 backdrop-blur-md border-b border-border-light">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 h-20 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="text-xl md:text-2xl font-serif text-brown font-bold tracking-tight whitespace-nowrap shrink-0">
           Bakery & <span className="text-caramel">Co.</span>

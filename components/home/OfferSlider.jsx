@@ -7,12 +7,13 @@ import { Tag, Sparkles, ArrowRight, Copy, CheckCircle2 } from 'lucide-react';
 import axios from '@/lib/axios';
 import { toast } from 'react-toastify';
 import { useCartStore } from '@/store/useCartStore';
+import Image from 'next/image';
 
 const CATEGORY_FALLBACK_IMAGES = {
-  'Cakes': 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=1050&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'Pastries': 'https://plus.unsplash.com/premium_photo-1661351637185-162e386528a8?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'Cookies': 'https://plus.unsplash.com/premium_photo-1670895801135-858a7d167ea4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  'Bread': 'https://plus.unsplash.com/premium_photo-1673111979369-0222c7314b82?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  'Cakes': 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b',
+  'Pastries': 'https://plus.unsplash.com/premium_photo-1661351637185-162e386528a8',
+  'Cookies': 'https://plus.unsplash.com/premium_photo-1670895801135-858a7d167ea4',
+  'Bread': 'https://plus.unsplash.com/premium_photo-1673111979369-0222c7314b82'
 };
 
 export default function OfferSlider() {
@@ -127,19 +128,20 @@ export default function OfferSlider() {
               className="absolute inset-0 flex flex-col md:flex-row bg-white rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(74,55,40,0.08)] overflow-hidden border border-border-light/10 group"
             >
               {/* Image side */}
-              <div className="relative w-full md:w-[35%] h-48 md:h-full overflow-hidden shrink-0 bg-cream-highlight/20">
-                <motion.img
+              <div className="relative w-full md:w-[35%] h-48 md:h-full overflow-hidden shrink-0 bg-cream-highlight/20 relative">
+                <motion.div
                   whileHover={{ scale: 1.1 }}
-                  src={currentOffer.image}
-                  alt={currentOffer.title}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const fallback = CATEGORY_FALLBACK_IMAGES[currentOffer.category] || 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1000';
-                    if (e.target.src !== fallback) {
-                      e.target.src = fallback;
-                    }
-                  }}
-                />
+                  className="w-full h-full relative"
+                >
+                  <Image
+                    src={currentOffer.image}
+                    alt={currentOffer.title}
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 35vw"
+                  />
+                </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-r from-brown/30 via-transparent to-transparent opacity-40" />
 
                 {/* Badge */}
@@ -173,7 +175,7 @@ export default function OfferSlider() {
                       <h3 className="text-2xl md:text-4xl font-serif text-brown font-black leading-tight tracking-tight">
                         {currentOffer.title}
                       </h3>
-                      <p className="text-sm md:text-base text-muted font-medium italic line-clamp-2">
+                      <p className="text-sm md:text-base text-muted font-medium  line-clamp-2">
                         {currentOffer.description}
                       </p>
                     </div>
@@ -212,7 +214,7 @@ export default function OfferSlider() {
                             if (currentOffer.couponCode) {
                               try {
                                 localStorage.setItem('appliedCoupon', currentOffer.couponCode);
-                              } catch (e) {}
+                              } catch (e) { }
                               setAppliedCoupon(currentOffer.couponCode);
                               handleCopy(currentOffer.couponCode);
                             }

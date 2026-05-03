@@ -2,23 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import axios from '@/lib/axios';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Box, 
-  Truck, 
-  CheckCircle2, 
-  XCircle, 
-  Clock, 
-  Search, 
+import {
+  Box,
+  Truck,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  Search,
   Loader2,
   Trash2,
   Eye,
@@ -31,10 +31,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
   DialogTitle,
   DialogClose
 } from '@/components/ui/dialog';
@@ -47,7 +47,7 @@ export default function AdminOrders() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -112,7 +112,7 @@ export default function AdminOrders() {
     }
   };
 
-  const filteredOrders = orders.filter(order => 
+  const filteredOrders = orders.filter(order =>
     order.trackingId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     order.userId?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -125,11 +125,11 @@ export default function AdminOrders() {
             <h1 className="text-2xl md:text-3xl font-serif text-brown font-bold">Orders Management</h1>
             <p className="text-muted text-xs md:text-sm">Tracking {orders.length} orders from your hungry customers</p>
           </div>
-          
+
           <div className="relative w-full sm:w-80">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-            <Input 
-              placeholder="Search ID or Customer..." 
+            <Input
+              placeholder="Search ID or Customer..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10 h-11 rounded-xl border-brown/10 bg-white"
@@ -140,7 +140,7 @@ export default function AdminOrders() {
         {loading ? (
           <div className="flex flex-col items-center justify-center h-64 bg-cream-highlight/30 rounded-3xl border border-dashed border-brown/10">
             <Loader2 className="w-8 h-8 text-sage animate-spin mb-4" />
-            <p className="text-muted font-serif italic text-sm">Gathering bake orders...</p>
+            <p className="text-muted font-serif  text-sm">Gathering bake orders...</p>
           </div>
         ) : (
           <>
@@ -159,9 +159,8 @@ export default function AdminOrders() {
                     </div>
                     <div className="text-right">
                       <p className="text-sage font-bold text-lg">৳{Number(order.finalPrice).toFixed(0)}</p>
-                      <Badge variant="outline" className={`mt-1 rounded-md px-1.5 py-0 text-[8px] uppercase font-bold tracking-widest ${
-                        order.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
-                      }`}>
+                      <Badge variant="outline" className={`mt-1 rounded-md px-1.5 py-0 text-[8px] uppercase font-bold tracking-widest ${order.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
+                        }`}>
                         {order.paymentStatus}
                       </Badge>
                     </div>
@@ -170,8 +169,8 @@ export default function AdminOrders() {
                   <div className="space-y-3 pt-2 border-t border-brown/5">
                     <div className="space-y-1.5">
                       <Label className="text-[9px] font-bold uppercase tracking-widest text-brown opacity-50">Current Status</Label>
-                      <Select 
-                        value={order.status} 
+                      <Select
+                        value={order.status}
                         onValueChange={(val) => handleStatusChange(order._id, val)}
                       >
                         <SelectTrigger className={`w-full h-11 rounded-xl text-xs font-bold uppercase tracking-wider border-none shadow-sm ${getStatusColor(order.status)}`}>
@@ -242,8 +241,8 @@ export default function AdminOrders() {
                         ৳{Number(order.finalPrice).toFixed(2)}
                       </TableCell>
                       <TableCell>
-                        <Select 
-                          value={order.status} 
+                        <Select
+                          value={order.status}
                           onValueChange={(val) => handleStatusChange(order._id, val)}
                         >
                           <SelectTrigger className={`w-32 h-9 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${getStatusColor(order.status)}`}>
@@ -262,9 +261,8 @@ export default function AdminOrders() {
                         </Select>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className={`rounded-lg px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest ${
-                          order.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
-                        }`}>
+                        <Badge variant="outline" className={`rounded-lg px-2 py-0.5 text-[9px] uppercase font-bold tracking-widest ${order.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
+                          }`}>
                           {order.paymentStatus}
                         </Badge>
                       </TableCell>
@@ -296,7 +294,7 @@ export default function AdminOrders() {
             </div>
 
             <div className="pt-4">
-              <Pagination 
+              <Pagination
                 currentPage={currentPage}
                 totalPages={Math.ceil(filteredOrders.length / itemsPerPage)}
                 onPageChange={setCurrentPage}
@@ -350,9 +348,8 @@ export default function AdminOrders() {
                         Payment
                       </div>
                       <p className="font-bold text-brown text-sm">{selectedOrder.paymentMethod}</p>
-                      <Badge variant="outline" className={`mt-1 rounded-md px-1.5 py-0 text-[8px] uppercase font-bold tracking-widest ${
-                        selectedOrder.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
-                      }`}>
+                      <Badge variant="outline" className={`mt-1 rounded-md px-1.5 py-0 text-[8px] uppercase font-bold tracking-widest ${selectedOrder.paymentStatus === 'Paid' ? 'bg-sage/10 text-sage border-sage/20' : 'bg-red-50 text-red-500 border-red-100'
+                        }`}>
                         {selectedOrder.paymentStatus}
                       </Badge>
                     </div>
@@ -363,7 +360,7 @@ export default function AdminOrders() {
                         Shipping
                       </div>
                       <p className="text-xs text-muted leading-relaxed">
-                        {typeof selectedOrder.shippingAddress === 'object' 
+                        {typeof selectedOrder.shippingAddress === 'object'
                           ? `${selectedOrder.shippingAddress.street}, ${selectedOrder.shippingAddress.city}, ${selectedOrder.shippingAddress.zipCode}`
                           : selectedOrder.shippingAddress}
                       </p>
@@ -424,9 +421,9 @@ export default function AdminOrders() {
                           <span className="text-xl md:text-2xl text-caramel font-serif">৳{Number(selectedOrder.finalPrice).toFixed(0)}</span>
                         </div>
                         <div className="pt-2">
-                           <div className="w-full py-2 bg-white/10 rounded-xl text-center text-[8px] uppercase tracking-widest font-bold text-white/40 border border-white/5">
-                             via {selectedOrder.paymentMethod}
-                           </div>
+                          <div className="w-full py-2 bg-white/10 rounded-xl text-center text-[8px] uppercase tracking-widest font-bold text-white/40 border border-white/5">
+                            via {selectedOrder.paymentMethod}
+                          </div>
                         </div>
                       </div>
                     </div>

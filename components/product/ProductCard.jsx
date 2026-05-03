@@ -8,6 +8,7 @@ import { useWishlistStore } from '@/store/useWishlistStore';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCartStore();
@@ -49,20 +50,22 @@ export default function ProductCard({ product }) {
     >
       {/* Image container */}
       <div className="aspect-[4/3] bg-surface-caramel/20 relative overflow-hidden shrink-0">
-        <Link href={`/product/${product._id}`} className="w-full h-full block">
+        <Link href={`/product/${product._id}`} className="w-full h-full block relative">
           {product.images?.[0] ? (
-            <img 
-              src={product.images[0]} 
+            <Image
+              src={product.images[0]}
               alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-brown/40 font-serif text-sm md:text-xl italic">
+            <div className="w-full h-full flex items-center justify-center text-brown/40 font-serif text-sm md:text-xl ">
               Freshly Baked
             </div>
           )}
         </Link>
-        
+
         {/* Offer badge */}
         {product.discountPrice > 0 && (
           <div className="absolute top-2 left-2 md:top-3 md:left-3 bg-sage text-white px-2 py-0.5 md:px-2.5 md:py-1 rounded-full text-[9px] md:text-[10px] font-black shadow-lg tracking-widest uppercase pointer-events-none z-10">
@@ -71,12 +74,12 @@ export default function ProductCard({ product }) {
         )}
 
         {/* Wishlist button */}
-        <button 
+        <button
           onClick={handleToggleWishlist}
           className="absolute top-2 right-2 md:top-3 md:right-3 w-10 h-10 md:w-8 md:h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-brown hover:text-red-500 transition-all shadow-md z-10"
         >
-          <Heart 
-            className={`w-4 h-4 md:w-3.5 md:h-3.5 transition-colors ${isInWishlist(product._id) ? 'fill-red-500 text-red-500' : ''}`} 
+          <Heart
+            className={`w-4 h-4 md:w-3.5 md:h-3.5 transition-colors ${isInWishlist(product._id) ? 'fill-red-500 text-red-500' : ''}`}
           />
         </button>
       </div>
@@ -116,17 +119,17 @@ export default function ProductCard({ product }) {
 
         {/* Action buttons */}
         <div className="flex gap-1.5 md:gap-2 pt-1 md:pt-2 mt-auto">
-          <Button 
+          <Button
             onClick={handleBuyNow}
             disabled={product.stock <= 0}
             className="flex-grow bg-brown hover:bg-caramel text-white rounded-xl h-10 md:h-9 font-bold text-[10px] md:text-xs transition-all border-none disabled:opacity-50"
           >
             {product.stock > 0 ? 'Buy Now' : 'Sold Out'}
           </Button>
-          <Button 
+          <Button
             onClick={handleAddToCart}
             disabled={product.stock <= 0}
-            size="icon" 
+            size="icon"
             className="rounded-xl bg-sage hover:bg-brown text-white h-10 w-10 md:h-9 md:w-9 shrink-0 transition-all shadow-sm border-none disabled:opacity-50"
           >
             <ShoppingCart className="w-4 h-4 text-white" />

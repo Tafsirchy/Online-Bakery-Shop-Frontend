@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Clock, Sunrise, Flame } from 'lucide-react';
+import Image from 'next/image';
 
 const morningRoutine = [
   { time: "03:00 AM", stage: "Hand Kneading", icon: Sunrise, desc: "Sourcing organic grains and kneading by hand." },
@@ -19,15 +20,15 @@ export default function FreshBakes() {
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-caramel/5 rounded-full blur-[100px]" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-sage/5 rounded-full blur-[100px]" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          
+
           {/* Left: Visual Timeline Storytelling */}
           <div className="space-y-12 order-last lg:order-first">
             <div className="space-y-4 text-center lg:text-left">
               <span className="text-caramel font-black uppercase tracking-[0.4em] text-[10px]">The Baker's Routine</span>
               <h2 className="text-4xl md:text-7xl font-serif text-brown leading-[1.1]">
-                Baked while <br /> <span className="italic text-caramel">you sleep.</span>
+                Baked while <br /> <span className=" text-caramel">you sleep.</span>
               </h2>
             </div>
 
@@ -62,8 +63,8 @@ export default function FreshBakes() {
               <Link href="/shop" className="inline-block w-full sm:w-auto">
                 <Button className="w-full sm:w-auto px-12 py-8 rounded-full bg-brown hover:bg-caramel text-white text-lg font-bold shadow-2xl transition-all group active:scale-95 border-none">
                   Visit the Bakery
-                  <motion.span 
-                    animate={{ x: [0, 5, 0] }} 
+                  <motion.span
+                    animate={{ x: [0, 5, 0] }}
                     transition={{ repeat: Infinity, duration: 1.5 }}
                     className="ml-2"
                   >
@@ -83,21 +84,23 @@ export default function FreshBakes() {
           >
             {/* Sunrise Glow */}
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-200/30 rounded-full blur-3xl animate-pulse" />
-            
+
             <div className="aspect-[3/4] lg:aspect-[4/5] rounded-[3rem] lg:rounded-[4rem] overflow-hidden border-[12px] border-white shadow-warm relative z-10">
-              <img 
-                src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=800&q=80" 
-                alt="Artisanal Bread" 
-                className="w-full h-full object-cover"
+              <Image
+                src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73"
+                alt="Artisanal Bread"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
               {/* Glass Info Card */}
               <div className="absolute bottom-8 left-8 right-8 p-6 bg-white/60 backdrop-blur-md rounded-3xl border border-white/40 shadow-xl">
-                <p className="text-brown font-serif italic text-lg leading-tight">
+                <p className="text-brown font-serif  text-lg leading-tight">
                   "The irresistible aroma of dawn, captured in every loaf."
                 </p>
               </div>
             </div>
-            
+
             {/* Background Shape */}
             <div className="absolute -bottom-10 -left-10 w-full h-full bg-sage/5 rounded-[4rem] -z-10 rotate-3" />
           </motion.div>

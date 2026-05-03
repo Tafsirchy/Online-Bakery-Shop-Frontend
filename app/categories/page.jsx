@@ -5,6 +5,7 @@ import Link from 'next/link';
 import PageWrapper from '@/components/shared/PageWrapper';
 import { ArrowRight, Cake, Croissant, Cookie, Wheat, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 const categories = [
   { 
@@ -13,7 +14,7 @@ const categories = [
     icon: Cake,
     count: '12 Items',
     color: 'bg-[#F9EBD7]',
-    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800'
+    image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587'
   },
   { 
     name: 'Pastries', 
@@ -21,7 +22,7 @@ const categories = [
     icon: Croissant,
     count: '18 Items',
     color: 'bg-[#E3E8D5]',
-    image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800'
+    image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a'
   },
   { 
     name: 'Cookies', 
@@ -29,7 +30,7 @@ const categories = [
     icon: Cookie,
     count: '10 Items',
     color: 'bg-[#F2E5D7]',
-    image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=800'
+    image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e'
   },
   { 
     name: 'Bread', 
@@ -37,14 +38,14 @@ const categories = [
     icon: Wheat,
     count: '8 Items',
     color: 'bg-[#EBDBCF]',
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800'
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff'
   }
 ];
 
 export default function CategoriesPage() {
   return (
     <PageWrapper>
-      <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20">
         <header className="text-center max-w-3xl mx-auto mb-12 md:mb-20 space-y-4">
           <h1 className="text-4xl md:text-6xl font-serif text-brown">Our Collections</h1>
           <p className="text-sm md:text-lg text-muted leading-relaxed">
@@ -64,10 +65,12 @@ export default function CategoriesPage() {
               className={`${cat.color} rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 flex flex-col md:flex-row gap-6 md:gap-8 items-center border border-brown/5 shadow-soft group cursor-default`}
             >
               <div className="w-full md:w-1/2 aspect-[16/9] md:aspect-square rounded-2xl md:rounded-3xl overflow-hidden shadow-warm relative">
-                <img 
+                <Image 
                   src={cat.image} 
                   alt={cat.name} 
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                  sizes="(max-width: 768px) 100vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-brown/10 group-hover:bg-transparent transition-colors duration-500" />
               </div>

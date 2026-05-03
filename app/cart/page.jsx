@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
@@ -38,7 +39,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8 md:py-12 pb-32 md:pb-12">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 pb-32 md:pb-12">
       <h1 className="text-3xl md:text-4xl font-serif text-brown mb-8 md:mb-10">Your Shopping Basket</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
@@ -55,9 +56,9 @@ export default function CartPage() {
                 className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 p-4 md:p-6 bg-cream-highlight rounded-[1.5rem] md:rounded-2xl border border-brown/5 shadow-soft"
               >
                 <div className="flex gap-4 md:gap-6 items-center flex-1">
-                  <div className="w-20 h-20 md:w-24 md:h-24 bg-surface-caramel/10 rounded-xl overflow-hidden flex-shrink-0 border border-brown/5">
+                  <div className="w-20 h-20 md:w-24 md:h-24 bg-surface-caramel/10 rounded-xl overflow-hidden flex-shrink-0 border border-brown/5 relative">
                     {item.image ? (
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                      <Image src={item.image} alt={item.name} fill className="object-cover" sizes="100px" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-brown/20"><ShoppingBag /></div>
                     )}

@@ -29,7 +29,8 @@ const contactInfo = [
 
 export default function ContactUs() {
   return (
-    <section className="py-12 md:py-24 px-6 max-w-7xl mx-auto overflow-hidden">
+    <section className="py-12 md:py-24 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
         
         {/* Contact form */}
@@ -75,7 +76,7 @@ export default function ContactUs() {
         {/* Contact info and map */}
         <div className="space-y-10 order-last lg:order-first">
           {/* Mobile view: Horizontal scroll */}
-          <div className="flex lg:grid lg:grid-cols-2 gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6 scrollbar-hide lg:overflow-visible lg:pb-0 lg:mx-0 lg:px-0">
+          <div className="flex lg:grid lg:grid-cols-2 gap-4 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 scrollbar-hide lg:overflow-visible lg:pb-0 lg:mx-0 lg:px-0">
             {contactInfo.map((info, i) => (
               <motion.div
                 key={info.title}
@@ -100,6 +101,7 @@ export default function ContactUs() {
           </div>
         </div>
 
+      </div>
       </div>
     </section>
   );

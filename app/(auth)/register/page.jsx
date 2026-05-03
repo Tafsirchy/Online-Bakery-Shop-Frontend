@@ -28,8 +28,8 @@ function RegisterPageContent() {
   const redirectUri = process.env.NEXT_PUBLIC_SITE_URL
     ? `${process.env.NEXT_PUBLIC_SITE_URL}/register`
     : typeof window !== 'undefined'
-    ? `${window.location.origin}/register`
-    : 'http://localhost:3000/register';
+      ? `${window.location.origin}/register`
+      : 'http://localhost:3000/register';
 
   const handleGoogleLogin = useGoogleLogin({
     flow: 'auth-code',
@@ -43,14 +43,14 @@ function RegisterPageContent() {
     if (code) {
       const exchangeCode = async () => {
         try {
-          const { data } = await axios.post('/auth/google', { 
+          const { data } = await axios.post('/auth/google', {
             code,
             redirectUri: redirectUri
           });
-          useAuthStore.setState({ 
-            user: data.user, 
+          useAuthStore.setState({
+            user: data.user,
             token: data.token,
-            isLoading: false 
+            isLoading: false
           });
           toast.success('Account created! Welcome to the family.', { icon: '🥖' });
           router.push('/');
@@ -87,7 +87,7 @@ function RegisterPageContent() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
+
     if (name === 'password') {
       checkPasswordStrength(value);
     }
@@ -250,11 +250,10 @@ function RegisterPageContent() {
                   {formData.password && (
                     <div className="flex gap-1 h-1.5 sm:h-1 mt-1">
                       {[1, 2, 3, 4].map((step) => (
-                        <div 
-                          key={step} 
-                          className={`flex-1 rounded-full transition-all duration-500 ${
-                            step <= passwordStrength.score ? passwordStrength.color : 'bg-gray-200'
-                          }`}
+                        <div
+                          key={step}
+                          className={`flex-1 rounded-full transition-all duration-500 ${step <= passwordStrength.score ? passwordStrength.color : 'bg-gray-200'
+                            }`}
                         />
                       ))}
                     </div>
@@ -278,9 +277,8 @@ function RegisterPageContent() {
                       required
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className={`h-12 sm:h-10 rounded-xl border-caramel/45 bg-white/50 pl-4 pr-10 text-base sm:text-xs focus-visible:ring-caramel/55 ${
-                        formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-300 bg-red-50/30' : ''
-                      }`}
+                      className={`h-12 sm:h-10 rounded-xl border-caramel/45 bg-white/50 pl-4 pr-10 text-base sm:text-xs focus-visible:ring-caramel/55 ${formData.confirmPassword && formData.password !== formData.confirmPassword ? 'border-red-300 bg-red-50/30' : ''
+                        }`}
                     />
                     <button
                       type="button"
@@ -350,7 +348,7 @@ function RegisterPageContent() {
 
             <div className="absolute inset-0 bg-gradient-to-l from-brown/30 to-transparent opacity-40" />
             <div className="absolute bottom-6 right-6 max-w-[200px] text-right text-white drop-shadow-md">
-              <p className="font-serif text-lg leading-tight italic">Freshly baked dreams.</p>
+              <p className="font-serif text-lg leading-tight ">Freshly baked dreams.</p>
               <div className="mt-2 h-0.5 w-12 bg-white/80 ml-auto" />
             </div>
           </div>

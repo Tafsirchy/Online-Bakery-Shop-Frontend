@@ -89,6 +89,8 @@ export const useAuthStore = create(
     }),
     {
       name: 'auth-storage',
+      version: 1,
+      migrate: (persistedState) => persistedState,
       partialize: (state) => ({
         user: state.user,
         token: state.token,

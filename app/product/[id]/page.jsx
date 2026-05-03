@@ -6,15 +6,15 @@ import axios from '@/lib/axios';
 import { useCartStore } from '@/store/useCartStore';
 import { useWishlistStore } from '@/store/useWishlistStore';
 import { toast } from 'react-toastify';
-import { 
-  ArrowLeft, 
-  ShoppingCart, 
-  Heart, 
-  Minus, 
-  Plus, 
-  Star, 
-  Truck, 
-  RotateCcw, 
+import {
+  ArrowLeft,
+  ShoppingCart,
+  Heart,
+  Minus,
+  Plus,
+  Star,
+  Truck,
+  RotateCcw,
   ShieldCheck,
   Loader2
 } from 'lucide-react';
@@ -24,11 +24,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Textarea } from '@/components/ui/textarea';
-import { 
-  Trash2, 
-  MessageSquare, 
-  Leaf, 
-  Flame, 
+import Image from 'next/image';
+import {
+  Trash2,
+  MessageSquare,
+  Leaf,
+  Flame,
   Sparkles,
   User,
   Quote,
@@ -39,14 +40,14 @@ export default function ProductDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
   const { user } = useAuthStore();
-  
+
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reviewsLoading, setReviewsLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
-  
+
   // Review Form State
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
@@ -93,7 +94,7 @@ export default function ProductDetailsPage() {
       toast.info('Please login to leave a review');
       return;
     }
-    
+
     setSubmittingReview(true);
     try {
       await axios.post(`/products/${id}/reviews`, { rating, comment });
@@ -140,17 +141,6 @@ export default function ProductDetailsPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-12 h-12 text-sage animate-spin" />
-          <p className="text-muted font-serif italic text-lg">Preparing your treats...</p>
-        </div>
-      </div>
-    );
-  }
-
   if (!product) return null;
 
   const currentPrice = product.discountPrice > 0 ? product.discountPrice : product.price;
@@ -158,11 +148,11 @@ export default function ProductDetailsPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-12">
         {/* Breadcrumbs & Back */}
         <div className="flex items-center justify-between mb-12">
-          <Link 
-            href="/shop" 
+          <Link
+            href="/shop"
             className="group flex items-center gap-2 text-muted hover:text-brown transition-colors"
           >
             <div className="w-10 h-10 rounded-full bg-cream-highlight flex items-center justify-center group-hover:bg-sage group-hover:text-white transition-all shadow-sm">
@@ -170,7 +160,7 @@ export default function ProductDetailsPage() {
             </div>
             <span className="font-medium">Back to Shop</span>
           </Link>
-          
+
           <div className="flex items-center gap-2 text-sm text-muted/60 font-medium">
             <Link href="/" className="hover:text-brown">Home</Link>
             <span>/</span>
@@ -183,24 +173,31 @@ export default function ProductDetailsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
           {/* Left: Image Gallery */}
           <div className="space-y-6">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="aspect-square bg-cream-highlight rounded-[3rem] overflow-hidden border border-border-light shadow-warm relative"
             >
               <AnimatePresence mode="wait">
-                <motion.img 
+                <motion.div
                   key={activeImage}
                   initial={{ opacity: 0, scale: 1.1 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4 }}
-                  src={product.images[activeImage] || 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800'} 
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
+                  className="w-full h-full relative"
+                >
+                  <Image
+                    src={product.images[activeImage] || 'https://images.unsplash.com/photo-1509440159596-0249088772ff'}
+                    alt={product.name}
+                    fill
+                    priority
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </motion.div>
               </AnimatePresence>
-              
+
               {hasDiscount && (
                 <div className="absolute top-8 left-8 bg-sage text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg tracking-[0.2em] uppercase">
                   Special Offer
@@ -210,16 +207,15 @@ export default function ProductDetailsPage() {
 
             {/* Thumbnails */}
             {product.images.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2 -mx-6 px-6 lg:mx-0 lg:px-0">
+              <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-2 -mx-4 px-4 lg:mx-0 lg:px-0">
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
-                    className={`shrink-0 snap-start w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2 transition-all shadow-sm ${
-                      activeImage === idx ? 'border-sage ring-4 ring-sage/10' : 'border-transparent opacity-60 hover:opacity-100'
-                    }`}
+                    className={`shrink-0 snap-start w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden border-2 transition-all shadow-sm relative ${activeImage === idx ? 'border-sage ring-4 ring-sage/10' : 'border-transparent opacity-60 hover:opacity-100'
+                      }`}
                   >
-                    <img src={img} alt={`${product.name} ${idx}`} className="w-full h-full object-cover" />
+                    <Image src={img} alt={`${product.name} ${idx}`} fill className="object-cover" sizes="100px" />
                   </button>
                 ))}
               </div>
@@ -227,7 +223,7 @@ export default function ProductDetailsPage() {
           </div>
 
           {/* Right: Product Info */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex flex-col h-full"
@@ -238,21 +234,21 @@ export default function ProductDetailsPage() {
                   {product.category}
                 </Badge>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-brown leading-tight mb-4">{product.name}</h1>
-                
+
                 <div className="flex items-center gap-6">
                   <div className="flex items-center gap-1.5 text-brown">
                     <div className="flex gap-0.5">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <Star 
-                          key={star} 
-                          className={`w-4 h-4 ${star <= Math.round(product.averageRating) ? 'fill-caramel text-caramel' : 'text-gray-200'}`} 
+                        <Star
+                          key={star}
+                          className={`w-4 h-4 ${star <= Math.round(product.averageRating) ? 'fill-caramel text-caramel' : 'text-gray-200'}`}
                         />
                       ))}
                     </div>
                     <span className="font-bold">{product.averageRating}</span>
                     <span className="text-muted text-sm">({product.numOfReviews} reviews)</span>
                   </div>
-                  
+
                   <div className={`text-sm font-medium ${product.stock > 0 ? 'text-sage' : 'text-red-400'}`}>
                     {product.stock > 0 ? '● In Stock' : '● Out of Stock'}
                   </div>
@@ -278,18 +274,18 @@ export default function ProductDetailsPage() {
                 <label className="text-sm font-bold text-brown uppercase tracking-widest">Quantity</label>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center bg-cream-highlight rounded-2xl p-1 shadow-sm border border-border-light">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
                       className="rounded-xl h-11 w-11 hover:bg-white"
                     >
                       <Minus className="w-4 h-4" />
                     </Button>
                     <span className="w-12 text-center font-bold text-brown">{quantity}</span>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => setQuantity(prev => prev + 1)}
                       className="rounded-xl h-11 w-11 hover:bg-white"
                     >
@@ -301,19 +297,18 @@ export default function ProductDetailsPage() {
 
               {/* Actions - Desktop only */}
               <div className="hidden lg:flex gap-4 pt-8">
-                <Button 
+                <Button
                   onClick={handleAddToCart}
                   className="flex-1 h-14 rounded-2xl bg-sage hover:bg-brown text-white font-bold text-lg shadow-lg transition-all active:scale-[0.98] gap-3"
                 >
                   <ShoppingCart className="w-5 h-5" />
                   Add to Cart
                 </Button>
-                <Button 
+                <Button
                   variant="outline"
                   onClick={handleToggleWishlist}
-                  className={`w-14 h-14 rounded-2xl border-border-light shadow-sm transition-all ${
-                    isInWishlist(product._id) ? 'bg-red-50 text-red-500 border-red-100' : 'hover:bg-cream-highlight'
-                  }`}
+                  className={`w-14 h-14 rounded-2xl border-border-light shadow-sm transition-all ${isInWishlist(product._id) ? 'bg-red-50 text-red-500 border-red-100' : 'hover:bg-cream-highlight'
+                    }`}
                 >
                   <Heart className={`w-6 h-6 ${isInWishlist(product._id) ? 'fill-red-500' : ''}`} />
                 </Button>
@@ -369,7 +364,7 @@ export default function ProductDetailsPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-muted italic text-xs md:text-sm">Ingredients list coming soon...</p>
+                <p className="text-muted  text-xs md:text-sm">Ingredients list coming soon...</p>
               )}
             </div>
           </details>
@@ -394,7 +389,7 @@ export default function ProductDetailsPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-muted italic text-xs md:text-sm">Health benefits coming soon...</p>
+                <p className="text-muted  text-xs md:text-sm">Health benefits coming soon...</p>
               )}
             </div>
           </details>
@@ -497,7 +492,7 @@ export default function ProductDetailsPage() {
                             </div>
                           </div>
 
-                          <p className="text-muted text-sm leading-relaxed italic pl-[46px]">&#8220;{review.comment}&#8221;</p>
+                          <p className="text-muted text-sm leading-relaxed  pl-[46px]">&#8220;{review.comment}&#8221;</p>
                         </>
                       )}
                     </motion.div>
@@ -505,7 +500,7 @@ export default function ProductDetailsPage() {
                 </div>
               ) : (
                 <div className="text-center py-12 bg-cream-highlight/30 rounded-2xl border border-dashed border-border-light">
-                  <p className="text-muted font-serif italic">Be the first to share your experience!</p>
+                  <p className="text-muted font-serif ">Be the first to share your experience!</p>
                 </div>
               )}
             </div>
@@ -579,23 +574,23 @@ export default function ProductDetailsPage() {
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-border-light shadow-[0_-10px_40px_rgba(74,55,40,0.1)] z-[100] lg:hidden flex flex-col gap-3 animate-in slide-in-from-bottom duration-500">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-             <span className="text-[10px] text-muted font-bold uppercase tracking-widest">Total Price</span>
-             <span className="text-xl font-bold text-sage">৳{currentPrice * quantity}</span>
+            <span className="text-[10px] text-muted font-bold uppercase tracking-widest">Total Price</span>
+            <span className="text-xl font-bold text-sage">৳{currentPrice * quantity}</span>
           </div>
-          
+
           <div className="flex items-center bg-cream-highlight rounded-xl p-1 shadow-inner border border-border-light">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
               className="rounded-lg h-8 w-8 hover:bg-white"
             >
               <Minus className="w-3 h-3" />
             </Button>
             <span className="w-8 text-center font-bold text-brown text-sm">{quantity}</span>
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setQuantity(prev => prev + 1)}
               className="rounded-lg h-8 w-8 hover:bg-white"
             >
@@ -603,18 +598,17 @@ export default function ProductDetailsPage() {
             </Button>
           </div>
         </div>
-        
+
         <div className="flex gap-2">
-          <Button 
+          <Button
             variant="outline"
             onClick={handleToggleWishlist}
-            className={`w-12 h-12 rounded-xl border-border-light shadow-sm shrink-0 ${
-              isInWishlist(product._id) ? 'bg-red-50 text-red-500 border-red-100' : 'bg-white'
-            }`}
+            className={`w-12 h-12 rounded-xl border-border-light shadow-sm shrink-0 ${isInWishlist(product._id) ? 'bg-red-50 text-red-500 border-red-100' : 'bg-white'
+              }`}
           >
             <Heart className={`w-5 h-5 ${isInWishlist(product._id) ? 'fill-red-500' : ''}`} />
           </Button>
-          <Button 
+          <Button
             onClick={handleAddToCart}
             className="flex-1 h-12 rounded-xl bg-sage hover:bg-brown text-white font-bold text-base shadow-lg active:scale-95 transition-all gap-2"
           >
